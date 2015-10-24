@@ -1,0 +1,100 @@
+﻿@model VoterManager.Models.StreetViewModel
+
+@{
+    ViewBag.Title = "Просмотр улицы: " + Model.Street.Name;
+}
+
+<h2>Просмотр улицы: @Model.Street.Name</h2>
+
+<fieldset>
+    <legend>Улица</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Street.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Street.Name)
+    </div>
+    <div class="display-label">
+        @Html.LabelFor(model => model.District.Name)
+    </div>
+    <div class="display-field">
+        @if (Model.District != null)
+        {
+            @Html.ActionLink(Model.District.Name, "Show", "District", new { Id = Model.District.Id }, new { title = "Открыть район" });
+        }
+        else
+        {
+            <text>не указано</text>
+        }
+    </div>
+    <div class="display-label">
+        @Html.LabelFor(model => model.Locality.Name)
+    </div>
+    <div class="display-field">
+        @if (Model.Locality != null)
+        {
+            @Html.ActionLink(Model.Locality.Name, "Show", "Locality", new { Id = Model.Locality.Id }, new { title = "Открыть нас. пункт" });
+        }
+        else
+        {
+            <text>не указано</text>
+        }
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Street.Id }) |
+    @Html.ActionLink("Назад", "Index")
+</p>
+<br />
+<h5>Список граждан</h5>
+@Html.ActionLink("Создать нового гражданина", "Create", "Person", new { streetId = Model.Street.Id }, null)
+@if (Model.Street.Persons.Count > 0)
+{
+    <table class="entityList">
+        <tr>
+            <th>
+            </th>
+            <th>ФИО</th>
+            <th>Д.р.</th>
+        </tr>
+        @foreach (var p in Model.Street.Persons)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Открыть", "Show", "Person", new { Id = p.Id }, null) |
+                    @Html.ActionLink("Редактировать", "Edit", "Person", new { Id = p.Id }, null) |
+                    @Html.ActionLink("Удалить", "Delete", "Person", new { Id = p.Id }, null)
+                </td>
+                <td>@p.LastName @p.FirstName @p.MiddleName</td>
+                <td>
+                    @(p.BirthDate.HasValue ? p.BirthDate.Value.ToShortDateString() : "не указано")
+                </td>
+            </tr>
+        }
+    </table>
+}
+<br />
+<h5>Список домов</h5>
+@Html.ActionLink("Создать новый дом", "Create", "House", new { streetId = Model.Street.Id }, null)
+@if (Model.Street.Houses.Count > 0)
+{
+    <table class="entityList">
+        <tr>
+            <th>
+            </th>
+            <th>Дом №</th>
+        </tr>
+        @foreach (var p in Model.Street.Houses)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Открыть", "Show", "House", new { Id = p.Id }, null) |
+                    @Html.ActionLink("Редактировать", "Edit", "House", new { Id = p.Id }, null) |
+                    @Html.ActionLink("Удалить", "Delete", "House", new { Id = p.Id }, null)
+                </td>
+                <td>@p.Name</td>
+            </tr>
+        }
+    </table>
+}

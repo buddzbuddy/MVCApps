@@ -1,0 +1,72 @@
+﻿@model IEnumerable<VoterManager.Models.HouseViewModel>
+
+@{
+    ViewBag.Title = "Список домов";
+}
+
+<h2>Список домов</h2>
+
+<p>
+    @Html.ActionLink("Создать новый", "Create")
+</p>
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.ManagerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.PrecinctId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.House.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.House.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.House.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.House.Name)
+            </td>
+            <td>
+                @if (item.Street != null)
+                {
+                    @Html.ActionLink(item.Street.Name, "Show", "Street", new { Id = item.Street.Id }, new { title = "Открыть улицу" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Manager != null)
+                {
+                    @Html.ActionLink(item.Manager.FullName, "Show", "Person", new { Id = item.Manager.Id }, new { title = "Просмотр управляющего" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Precinct != null)
+                {
+                    @Html.ActionLink(item.Precinct.Name, "Show", "Precinct", new { Id = item.Precinct.Id }, new { title = "Просмотр УИК" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+        </tr>
+    }
+</table>

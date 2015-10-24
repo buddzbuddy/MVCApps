@@ -1,0 +1,50 @@
+﻿<fieldset>
+    <legend>Населенный пункт</legend>
+    <p>Район: @(ViewBag.District != null ? ViewBag.District.Name : "не выбран")</p>
+    <div class="editor-field">
+        @Html.DropDownList("LocalityId2", ViewBag.Localities as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите нас. пункт..." })
+        @Html.ValidationMessage("LocalityId2")
+        @Ajax.ActionLink("Добавить", "CreatePartial", "Locality", ViewBag.District != null ? new { districtId = ViewBag.District.Id } : null, new AjaxOptions
+            {
+                UpdateTargetId = "create_locality",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                OnSuccess = "$('#choice_locality').dialog('close'); $('#create_locality').dialog('open')"
+            }, new
+            {
+                id = "createLocalityLinkId"@*, onclick = "GetDistrictVal()"*@
+            })
+    </div>
+</fieldset>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px" });
+    });
+    //dialog Locality
+    $(function () {
+        $("#create_locality").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogLocality").submit();
+                    $("#create_locality").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_locality").dialog("close");
+                    $("#choice_locality").dialog("open");
+                }
+            },
+            close: function () {
+                $("#create_locality").dialog("close");
+                $("#choice_locality").dialog("open");
+            }
+        });
+        $('#createLocalityLinkId').mouseover(function () {
+            var selectedItem = $('#DistrictId').chosen().val();
+            $('#createLocalityLinkId').attr('href', 'http://' + host + '/Locality/CreatePartial?districtId=' + selectedItem);
+        });
+    });
+</script>

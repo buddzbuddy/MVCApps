@@ -1,0 +1,49 @@
+﻿@model Domain.Entities.MunicipalityHouseRelation
+
+@{
+    ViewBag.Title = "Добавление связи";
+}
+
+<h2>Добавление связи</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Связь</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HouseId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.HouseId, ViewBag.Houses as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите дом..." })
+            @Html.ValidationMessageFor(model => model.HouseId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MunicipalityId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.MunicipalityId, ViewBag.Municipalities as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите МТУ..." })
+            @Html.ValidationMessageFor(model => model.MunicipalityId)
+        </div>
+
+        <p>
+            <input type="submit" value="Добавить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px" });
+    });
+</script>

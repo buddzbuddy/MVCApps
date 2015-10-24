@@ -1,0 +1,32 @@
+﻿@model VoterManager.Models.LocalityViewModel
+
+@{
+    ViewBag.Title = "Удаление нас. пункта";
+}
+
+<h2>Удаление МТУ</h2>
+
+<h3>Вы уверены что хотите удалить нас. пункт?</h3>
+<fieldset>
+    <legend>Населенный пункт</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Locality.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Locality.Name)
+    </div>
+    <div class="display-label">
+        Район
+    </div>
+    <div class="display-field">
+        @(Model.District != null ? Model.District.Name : "не указано")
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

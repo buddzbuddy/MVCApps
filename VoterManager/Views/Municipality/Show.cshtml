@@ -1,0 +1,89 @@
+﻿@model VoterManager.Models.MunicipalityViewModel
+
+@{
+    ViewBag.Title = "Просмотр МТУ: " + Model.Municipality.Name;
+}
+
+<h2>Просмотр МТУ: @Model.Municipality.Name</h2>
+
+<fieldset>
+    <legend>МТУ</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Municipality.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Municipality.Name)
+    </div>
+    <div class="display-label">
+        Район
+    </div>
+    <div class="display-field">
+        @(Model.District != null ? Model.District.Name : "не указано")
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Municipality.ManagerId)
+    </div>
+    <div class="display-field">
+        @if (Model.Manager != null)
+        {
+            @Html.ActionLink(Model.Manager.LastName + " " + Model.Manager.FirstName, "Show", "Person", new { Id = Model.Manager.Id }, new { title = "Просмотр руководителя" })
+        }
+        else
+        {
+            <text>не указан</text>
+        }
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Municipality.Id }) |
+@Html.ActionLink("Назад", "Index")
+</p>
+<br />
+<h5>Дома, относящиеся к данному МТУ</h5>
+@Html.ActionLink("Добавить дом", "AddHouseToMunicipality", "Relation", new { municipalityId = Model.Municipality.Id }, new { title = "Добавить дом" })
+@if (ViewBag.Houses != null)
+{
+    <table class="entityList">
+        <tr>
+            <th>
+                Дом
+            </th>
+            <th>
+                Улица
+            </th>
+            <th>
+                Район
+            </th>
+        </tr>
+        @foreach(dynamic item in ViewBag.Houses as IEnumerable<dynamic>)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink((string)item.House.Name, "Show", "House", new { Id = item.House.Id }, new { title = "Просмотр дома" })
+                </td>
+                <td>
+                    @if(item.Street != null)
+                    {
+                        @Html.ActionLink((string)item.Street.Name, "Show", "Street", new { Id = item.Street.Id }, new { title = "Открыть улицу" });
+                    }
+                    else
+                    {
+                        <text>не указано</text>
+                    }
+                </td>
+                <td>
+                    @if (item.District != null)
+                    {
+                        @Html.ActionLink((string)item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                    }
+                    else
+                    {
+                        <text>не указано</text>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}

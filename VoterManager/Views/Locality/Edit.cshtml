@@ -1,0 +1,50 @@
+﻿@model Domain.Entities.Locality
+
+@{
+    ViewBag.Title = "Редактирование нас. пункта";
+}
+
+<h2>Редактирование нас. пункта</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Нас. пункт</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        
+        <div class="editor-label">
+            Район
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DistrictId", ViewBag.Districts as IEnumerable<SelectListItem>)
+            @Html.ValidationMessage("DistrictId")
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px" });
+    });
+</script>

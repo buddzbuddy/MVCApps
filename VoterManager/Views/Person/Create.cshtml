@@ -1,0 +1,519 @@
+﻿@model Domain.Entities.Person
+
+@{
+    ViewBag.Title = "Создание гражданина-избирателя";
+}
+
+<h2>Создание гражданина-избирателя</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Гражданин</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MiddleName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MiddleName)
+            @Html.ValidationMessageFor(model => model.MiddleName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BirthDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BirthDate)
+            @Html.ValidationMessageFor(model => model.BirthDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Phone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Phone)
+            @Html.ValidationMessageFor(model => model.Phone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div id="create_district" title="Добавление нового района">
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DistrictId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.DistrictId, ViewBag.Districts as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.DistrictId)
+            @Ajax.ActionLink("Добавить", "CreatePartial", "District", null, new AjaxOptions
+       {
+           UpdateTargetId = "create_district",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#create_district').dialog('open')"
+       }, null)
+        </div>
+        <div id="create_locality" title="Добавление нового нас. пункта"></div>
+        <div id="choice_locality" title="Выбор нас. пункта"></div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LocalityId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.LocalityId)
+            <div id="localityName">@(ViewBag.Locality != null ? ViewBag.Locality.Name : "не указано")</div>
+            @Ajax.ActionLink("Выбрать", "ChoicePartial", "Locality", null, new AjaxOptions
+       {
+           UpdateTargetId = "choice_locality",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#choice_locality').dialog('open')"
+       }, new { id = "choiceLocalityLinkId" })
+        </div>
+        <div id="create_street" title="Добавление новой улицы"></div>
+        <div id="choice_street" title="Выбор улицы"></div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StreetId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.StreetId)
+            <div id="streetName">@(ViewBag.Street != null ? ViewBag.Street.Name : "не указано")</div>
+            @Ajax.ActionLink("Выбрать", "ChoicePartial", "Street", null, new AjaxOptions
+       {
+           UpdateTargetId = "choice_street",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#choice_street').dialog('open')"
+       }, new { id = "choiceStreetLinkId" })
+        </div>
+
+        <div id="create_house" title="Добавление нового дома"></div>
+        <div id="choice_house" title="Выбор дома"></div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HouseId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.HouseId)
+            <div id="houseName">@(ViewBag.House != null ? ViewBag.House.Name : "не указано")</div>
+            @Ajax.ActionLink("Выбрать", "ChoicePartial", "House", null, new AjaxOptions
+       {
+           UpdateTargetId = "choice_house",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#choice_house').dialog('open')"
+       }, new { id = "choiceHouseLinkId" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Apartment)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Apartment)
+            @Html.ValidationMessageFor(model => model.Apartment)
+        </div>
+
+        @*<div id="create_precinct" title="Добавление нового УИК"></div>
+        <div id="choice_precinct" title="Выбор УИК"></div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PrecinctId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.PrecinctId)
+            <div id="precinctName">@(ViewBag.Precinct != null ? ViewBag.Precinct.Name : "не указано")</div>
+            @Ajax.ActionLink("Выбрать", "ChoicePartial", "Precinct", null, new AjaxOptions
+       {
+           UpdateTargetId = "choice_precinct",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#choice_precinct').dialog('open')"
+       }, new { id = "choicePrecinctLinkId" })
+        </div>*@
+
+        <div id="create_party" title="Добавление новой партии">
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PartyId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.PartyId, ViewBag.Parties as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.PartyId)
+            @Ajax.ActionLink("Добавить", "CreatePartial", "Party", null, new AjaxOptions
+       {
+           UpdateTargetId = "create_party",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#create_party').dialog('open')"
+       }, null)
+        </div>
+
+        <div id="create_nationality" title="Добавление новой национальности">
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NationalityId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.NationalityId, ViewBag.Nationalities as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.NationalityId)
+            @Ajax.ActionLink("Добавить", "CreatePartial", "Nationality", null, new AjaxOptions
+       {
+           UpdateTargetId = "create_nationality",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#create_nationality').dialog('open')"
+       }, null)
+        </div>
+
+        <div id="create_education" title="Добавление нового образования">
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EducationId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.EducationId, ViewBag.Educations as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.EducationId)
+            @Ajax.ActionLink("Добавить", "CreatePartial", "Education", null, new AjaxOptions
+       {
+           UpdateTargetId = "create_education",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#create_education').dialog('open')"
+       }, null)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GaveBiometricData)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.GaveBiometricData)
+            @Html.ValidationMessageFor(model => model.GaveBiometricData)
+        </div>
+
+        <div id="create_organization" title="Добавление новой организации">
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrganizationId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.OrganizationId, ViewBag.Organizations as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.OrganizationId)
+            @Ajax.ActionLink("Добавить", "CreatePartial", "Organization", null, new AjaxOptions
+       {
+           UpdateTargetId = "create_organization",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#create_organization').dialog('open')"
+       }, null)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JobTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.JobTitle)
+            @Html.ValidationMessageFor(model => model.JobTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RefererId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.RefererId, ViewBag.Referers as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.RefererId)
+        </div>
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    var host = location.host == 'localhost:65275' ? location.host : location.host + '/VoterManager';
+    //var host = location.host == 'localhost:65275' ? location.host : location.host + '/VoterManager';
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "Не найдено", width: "170px", allow_single_deselect: true });
+    });
+    //dialog District
+    $(function () {
+        $("#create_district").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogDistrict").submit();
+                    $("#create_district").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_district").dialog("close");
+                }
+            },
+            close: function () {
+                $("#create_district").dialog("close");
+            }
+        });
+    });
+
+    //dialog Organization
+    $(function () {
+        $("#create_organization").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogOrganization").submit();
+                    $("#create_organization").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_organization").dialog("close");
+                }
+            },
+            close: function () {
+                $("#create_organization").dialog("close");
+            }
+        });
+    });
+
+    //dialog Nationality
+    $(function () {
+        $("#create_nationality").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogNationality").submit();
+                    $("#create_nationality").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_nationality").dialog("close");
+                }
+            },
+            close: function () {
+                $("#create_nationality").dialog("close");
+            }
+        });
+    });
+
+    //dialog Education
+    $(function () {
+        $("#create_education").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogEducation").submit();
+                    $("#create_education").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_education").dialog("close");
+                }
+            },
+            close: function () {
+                $("#create_education").dialog("close");
+            }
+        });
+    });
+
+    //dialog Party
+    $(function () {
+        $("#create_party").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogParty").submit();
+                    $("#create_party").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_party").dialog("close");
+                }
+            },
+            close: function () {
+                $("#create_party").dialog("close");
+            }
+        });
+    });
+
+    //dialog Locality choice
+    $(function () {
+        $("#choice_locality").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Выбрать": function () {
+                    var localityName = $("#LocalityId2 option:selected").text();
+                    var localityVal = $('#LocalityId2').chosen().val();
+                    $('#LocalityId').val(localityVal);
+                    $('#localityName').text(localityName);
+                    $("#choice_locality").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#choice_locality").dialog("close");
+                }
+            },
+            close: function () {
+                $("#choice_locality").dialog("close");
+            }
+        });
+        $('#choiceLocalityLinkId').mouseover(function () {
+            var selectedDistrict = $('#DistrictId').chosen().val();
+            var selectedLocality = '';
+            if ($('#LocalityId').val() != '') selectedLocality = '&Id=' + $('#LocalityId').val();
+            $('#choiceLocalityLinkId').attr('href', 'http://' + host + '/Locality/ChoicePartial?districtId=' + selectedDistrict + selectedLocality);
+        });
+    });
+
+    //dialog Precinct choice
+    @*$(function () {
+        $("#choice_precinct").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Выбрать": function () {
+                    var precinctName = $("#PrecinctId2 option:selected").text();
+                    var precinctVal = $('#PrecinctId2').chosen().val();
+                    $('#PrecinctId').val(precinctVal);
+                    $('#precinctName').text(precinctName);
+                    $("#choice_precinct").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#choice_precinct").dialog("close");
+                }
+            },
+            close: function () {
+                $("#choice_precinct").dialog("close");
+            }
+        });
+        $('#choicePrecinctLinkId').mouseover(function () {
+            var selectedDistrict = $('#DistrictId').chosen().val();
+            var selectedPrecinct = '';
+            if ($('#PrecinctId').val() != '') selectedPrecinct = '&Id=' + $('#PrecinctId').val();
+            $('#choicePrecinctLinkId').attr('href', 'http://' + host + '/Precinct/ChoicePartial?districtId=' + selectedDistrict + selectedPrecinct);
+        });
+    });*@
+
+    //dialog Street choice
+    $(function () {
+        $("#choice_street").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Выбрать": function () {
+                    var streetName = $("#StreetId2 option:selected").text();
+                    var streetVal = $('#StreetId2').chosen().val();
+                    $('#StreetId').val(streetVal);
+                    $('#streetName').text(streetName);
+                    $("#choice_street").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#choice_street").dialog("close");
+                }
+            },
+            close: function () {
+                $("#choice_street").dialog("close");
+            }
+        });
+        $('#choiceStreetLinkId').mouseover(function () {
+            var selectedDistrict = $('#DistrictId').chosen().val();
+            var selectedLocality = $('#LocalityId').val();
+            if (selectedLocality != '') selectedLocality = '&localityId=' + selectedLocality;
+            var selectedStreet = '';
+            if ($('#StreetId').val() != '') selectedStreet = '&Id=' + $('#StreetId').val();
+            $('#choiceStreetLinkId').attr('href', 'http://' + host + '/Street/ChoicePartial?districtId='
+                + selectedDistrict + selectedLocality + selectedStreet);
+        });
+    });
+
+    //dialog House choice
+    $(function () {
+        $("#choice_house").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Выбрать": function () {
+                    var streetName = $("#HouseId2 option:selected").text();
+                    var streetVal = $('#HouseId2').chosen().val();
+                    $('#HouseId').val(streetVal);
+                    $('#houseName').text(streetName);
+                    $("#choice_house").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#choice_house").dialog("close");
+                }
+            },
+            close: function () {
+                $("#choice_house").dialog("close");
+            }
+        });
+        $('#choiceHouseLinkId').mouseover(function () {
+            var selectedStreet = $('#StreetId').val();
+            var selectedHouse = '';
+            if ($('#HouseId').val() != '') selectedHouse = '&Id=' + $('#HouseId').val();
+            $('#choiceHouseLinkId').attr('href', 'http://' + host + '/House/ChoicePartial?streetId='
+                + selectedStreet + selectedHouse);
+        });
+    });
+
+    function OnSuccess(data) {
+        AppendToDropDownList(data.Name, data.Id, data.Key);
+    }
+    function AppendToDropDownList(text, value, ddlId) {
+        var newItem = $('<option/>', {
+            value: value,
+            text: text,
+            selected: true
+        });
+        $('#' + ddlId).append(newItem).trigger("chosen:updated");
+    }
+</script>

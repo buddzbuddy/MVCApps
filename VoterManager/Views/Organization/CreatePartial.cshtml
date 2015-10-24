@@ -1,0 +1,17 @@
+﻿@model Domain.Entities.Organization
+
+@using (Ajax.BeginForm("CreatePartial", "Organization", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogOrganization" }))
+{
+    <h3>Добавление организации</h3>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+}

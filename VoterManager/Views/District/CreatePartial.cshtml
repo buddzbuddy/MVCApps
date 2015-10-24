@@ -1,0 +1,17 @@
+﻿@model Domain.Entities.District
+
+@using (Ajax.BeginForm("CreatePartial", "District", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogDistrict" }))
+{
+    <h3>Добавление района</h3>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+}

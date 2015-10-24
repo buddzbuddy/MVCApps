@@ -1,0 +1,7 @@
+﻿<div class="noDataNotification">
+    <span class="message-error">информация<br /> по прописке отсутствует</span>
+    <br />
+    @Html.ActionLink("Задать прописку в ручную", "Input", "Registration", new { personId = ViewBag.PersonId }, new { title = "Указать информацию о прописке" })
+    <br />или<br />
+    @Html.ActionLink("Скопировать из места проживания", "SetRegistrationFromPerson", "Registration", new { personId = ViewBag.PersonId }, new { title = "Скопировать и места проживания" })
+</div>

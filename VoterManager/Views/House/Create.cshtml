@@ -1,0 +1,65 @@
+﻿@model Domain.Entities.House
+
+@{
+    ViewBag.Title = "Создание дома";
+}
+
+<h2>Создание дома</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Дом</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StreetId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.StreetId, ViewBag.Streets as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
+            @Html.ValidationMessageFor(model => model.StreetId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ManagerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ManagerId, ViewBag.Persons as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
+            @Html.ValidationMessageFor(model => model.ManagerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PrecinctId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.PrecinctId, ViewBag.Precincts as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
+            @Html.ValidationMessageFor(model => model.PrecinctId)
+        </div>
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px", allow_single_deselect: true });
+    });
+</script>

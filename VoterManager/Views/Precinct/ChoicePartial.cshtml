@@ -1,0 +1,50 @@
+﻿<fieldset>
+    <legend>УИК</legend>
+    <p>Район: @(ViewBag.District != null ? ViewBag.District.Name : "не выбран")</p>
+    <div class="editor-field">
+        @Html.DropDownList("PrecinctId2", ViewBag.Precincts as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
+        @Html.ValidationMessage("PrecinctId2")
+        @Ajax.ActionLink("Добавить", "CreatePartial", "Precinct", ViewBag.District != null ? new { districtId = ViewBag.District.Id } : null, new AjaxOptions
+            {
+                UpdateTargetId = "create_precinct",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                OnSuccess = "$('#choice_precinct').dialog('close'); $('#create_precinct').dialog('open')"
+            }, new
+            {
+                id = "createPrecinctLinkId"@*, onclick = "GetDistrictVal()"*@
+            })
+    </div>
+</fieldset>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "Не найдено", width: "170px" });
+    });
+    //dialog Precinct
+    $(function () {
+        $("#create_precinct").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogPrecinct").submit();
+                    $("#create_precinct").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_precinct").dialog("close");
+                    $("#choice_precinct").dialog("open");
+                }
+            },
+            close: function () {
+                $("#create_precinct").dialog("close");
+                $("#choice_precinct").dialog("open");
+            }
+        });
+        $('#createPrecinctLinkId').mouseover(function () {
+            var selectedItem = $('#DistrictId').chosen().val();
+            $('#createPrecinctLinkId').attr('href', 'http://' + host + '/Precinct/CreatePartial?districtId=' + selectedItem);
+        });
+    });
+</script>

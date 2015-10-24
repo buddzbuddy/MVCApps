@@ -1,0 +1,56 @@
+﻿@if(ViewBag.HasData)
+{
+<div class="blockInfo">
+    <span style="color:red;font-weight:bold;text-align:center;font-size: 18px;">Руководители по @ViewBag.AddressType</span>
+    @if (ViewBag.DistrictManagementInfo != null)
+    {
+        var districtManager = ViewBag.DistrictManagementInfo.Manager as Domain.Entities.Person;
+        var district = ViewBag.DistrictManagementInfo.District as Domain.Entities.District;
+        <h5>Аким района: @Html.ActionLink(district.Name, "Show", "District", new { Id = district.Id }, new { title = "Просмотр района" })</h5>
+        <b></b>
+        <b>
+            @if (districtManager != null)
+            {
+                @Html.ActionLink(districtManager.FullName, "Show", "Person", new { Id = districtManager.Id }, new { title = "Просмотр акима" })
+            }
+            else
+            {
+                <text>не указан</text>
+            }
+        </b>
+    }
+    @if (ViewBag.MunicipalityManagementInfo != null)
+    {
+        var municipality = ViewBag.MunicipalityManagementInfo.Municipality as Domain.Entities.Municipality;
+        var municipalityManager = ViewBag.MunicipalityManagementInfo.Manager;
+        <h5>Руководитель МТУ: @Html.ActionLink(municipality.Name, "Show", "Municipality", new { Id = municipality.Id }, new { title = "Просмотр МТУ" })</h5>
+        <b>
+            @if (municipalityManager != null)
+            {
+                @Html.ActionLink((string)municipalityManager.FullName, "Show", "Person", new { Id = municipalityManager.Id }, new { title = "Просмотр руководителя МТУ" })
+            }
+            else
+            {
+                <text>не указан</text>
+            }
+        </b>
+    }
+    @if (ViewBag.HouseManagementInfo != null)
+    {
+        var houseManager = ViewBag.HouseManagementInfo.Manager as Domain.Entities.Person;
+        var house = ViewBag.HouseManagementInfo.House as Domain.Entities.House;
+        var managerType = ViewBag.HouseManagementInfo.ManagerTypeName as string;
+        <h5>Управляющий дома [@managerType]: @Html.ActionLink(house.Name, "Show", "House", new { Id = house.Id }, new { title = "Просмотр дома" })</h5>
+        <b>
+            @if (houseManager != null)
+            {
+                @Html.ActionLink(houseManager.FullName, "Show", "Person", new { Id = houseManager.Id }, new { title = "Просмотр управляющего дома № " + house.Name })
+            }
+            else
+            {
+                <text>не указан</text>
+            }
+        </b>
+    }
+</div>
+}

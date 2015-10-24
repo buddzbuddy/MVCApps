@@ -1,0 +1,20 @@
+﻿@model Domain.Entities.House
+@using (Ajax.BeginForm("CreatePartial", "House", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogHouse" }))
+{
+    <fieldset>
+        <legend>Дом</legend>
+        <p>Улица: @ViewBag.StreetName</p>
+        @Html.HiddenFor(model => model.StreetId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </fieldset>
+}

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewBag.Title = "Список руководителей МТУ";
+}
+
+<h2>Список руководителей МТУ</h2>
+
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            ФИО
+        </th>
+        <th>
+            Район
+        </th>
+        <th>
+            МТУ
+        </th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Person.Id }) |
+                @Html.ActionLink("Открыть", "Show", new { id = item.Person.Id })
+            </td>
+            <td>
+                @item.Person.LastName @item.Person.FirstName @item.Person.MiddleName
+            </td>
+            <td>
+                @if (item.District != null)
+                {
+                    @Html.ActionLink((string)item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Municipality != null)
+                {
+                    @Html.ActionLink((string)item.Municipality.Name, "Show", "Municipality", new { Id = item.Municipality.Id }, new { title = "Открыть МТУ" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

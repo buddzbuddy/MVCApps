@@ -1,0 +1,59 @@
+﻿@model IEnumerable<VoterManager.Models.PrecinctViewModel>
+
+@{
+    ViewBag.Title = "Список УИК";
+}
+
+<h2>Список УИК</h2>
+
+<p>
+    @Html.ActionLink("Создать новый", "Create")
+</p>
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precinct.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precinct.WorkerId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.Precinct.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Precinct.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Precinct.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precinct.Name)
+            </td>
+            <td>
+                @if (item.District != null)
+                {
+                    @Html.ActionLink(item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Worker != null)
+                {
+                    @Html.ActionLink(item.Worker.FullName, "Show", "Worker", new { Id = item.Worker.Id }, new { title = "Просмотр ответственного" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+        </tr>
+    }
+</table>

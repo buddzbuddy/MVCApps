@@ -1,0 +1,53 @@
+﻿@model IEnumerable<VoterManager.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "Управление пользователями системы";
+}
+
+<h2>Управление пользователями системы</h2>
+
+<p>
+    @Html.ActionLink("Создать нового пользователя", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserProfile.WorkerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserProfile.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserProfile.Password)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.UserProfile.UserId }) @*|
+            @Html.ActionLink("Просмотр", "Details", new { id = item.UserProfile.UserId }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.UserProfile.UserId })*@
+        </td>
+        <td>
+            @if (item.Worker != null)
+            {
+                @Html.ActionLink(item.Worker.FullName, "Show", "Worker", new { Id = item.Worker.Id }, new { title = "Просмотр работника" })
+            }
+            else
+            {
+                <text>не указан</text>
+            }
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.UserProfile.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserProfile.Password)
+        </td>
+    </tr>
+}
+
+</table>

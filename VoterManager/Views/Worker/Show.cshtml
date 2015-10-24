@@ -1,0 +1,76 @@
+﻿@model VoterManager.Models.WorkerViewModel
+
+@{
+    ViewBag.Title = "Просмотр работника: " + Model.Person.FullName;
+}
+
+<h2>Просмотр работника: @Model.Person.FullName</h2>
+
+<fieldset>
+    <legend>Работник</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Worker.PersonId)
+    </div>
+    <div class="display-field">
+        @if(Model.Person != null)
+        {
+            @Html.ActionLink(Model.Person.FullName, "Show", "Person", new { Id = Model.Person.Id }, new { title = "Просмотр гражданина" })
+        }
+        else
+        {
+            <text>не указан</text>
+        }
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Worker.Id }) |
+@Html.ActionLink("Назад", "Index")
+</p>
+<br />
+<h5>Дома, за которые несет ответственность</h5>
+@Html.ActionLink("Добавить еще дом", "AddHouse", new { workerId = Model.Worker.Id })
+@if (Model.Worker.Houses.Count > 0)
+{
+    <table class="entityList">
+        <tr>
+            <th>
+            </th>
+            <th>Дом</th>
+        </tr>
+        @foreach (var h in Model.Worker.Houses)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Открыть", "Show", "House", new { Id = h.Id }, null) |
+                    @Html.ActionLink("Редактировать", "Edit", "House", new { Id = h.Id }, null)
+                </td>
+                <td>@h.Name</td>
+            </tr>
+        }
+    </table>
+}
+<br />
+<h5>УИКи, за которые несет ответственность</h5>
+@Html.ActionLink("Добавить еще УИК", "AddPrecinct", new { workerId = Model.Worker.Id })
+@if (Model.Worker.Precincts.Count > 0)
+{
+    <table class="entityList">
+        <tr>
+            <th>
+            </th>
+            <th>УИК</th>
+        </tr>
+        @foreach (var p in Model.Worker.Precincts)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Открыть", "Show", "Precinct", new { Id = p.Id }, null) |
+                    @Html.ActionLink("Редактировать", "Edit", "Precinct", new { Id = p.Id }, null)
+                </td>
+                <td>@p.Name</td>
+            </tr>
+        }
+    </table>
+}

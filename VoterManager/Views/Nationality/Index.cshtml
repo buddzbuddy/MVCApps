@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Domain.Entities.Nationality>
+
+@{
+    ViewBag.Title = "Список национальностей";
+}
+
+<h2>Список национальностей</h2>
+
+<p>
+    @Html.ActionLink("Создать новый", "Create")
+    <a href="javascript://" onclick="history.go(-1);" style="float:right;">Назад</a>
+</p>
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+    }
+
+</table>

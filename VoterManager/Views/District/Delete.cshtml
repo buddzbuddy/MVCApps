@@ -1,0 +1,26 @@
+﻿@model Domain.Entities.District
+
+@{
+    ViewBag.Title = "Удаление района";
+}
+
+<h2>Удаление района</h2>
+
+<h3>Вы уверены что хотите удалить район?</h3>
+<fieldset>
+    <legend>Район</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

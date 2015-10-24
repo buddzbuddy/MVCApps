@@ -1,0 +1,48 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewBag.Title = "Список квартальных/домкомов";
+}
+
+<h2>Список квартальных/домкомов</h2>
+
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            ФИО
+        </th>
+        <th>
+            Тип руководства
+        </th>
+        <th>
+            Назначенный дом(для домкома)
+        </th>
+        <th>
+            Улица(для домкома)
+        </th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Person.Id }) |
+                @Html.ActionLink("Открыть", "Show", new { id = item.Person.Id })
+            </td>
+            <td>
+                @item.Person.LastName @item.Person.FirstName @item.Person.MiddleName
+            </td>
+            <td>
+                @(item.House != null ? "Домком" : "Квартальный")
+            </td>
+            <td>
+                @(item.House != null ? item.House.Name : "...")
+            </td>
+            <td>
+                @(item.Street != null ? item.Street.Name : item.House == null ? "..." : "не найден")
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<VoterManager.Models.StreetViewModel>
+
+@{
+    ViewBag.Title = "Список улиц";
+}
+
+<h2>Список улиц</h2>
+
+<p>
+    @Html.ActionLink("Создать новый", "Create")
+    <a href="javascript://" onclick="history.go(-1);" style="float:right;">Назад</a>
+</p>
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locality.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District.Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.Street.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Street.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Street.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street.Name)
+            </td>
+            <td>
+                @if (item.Locality != null)
+                {
+                    @Html.ActionLink(item.Locality.Name, "Show", "Locality", new { Id = item.Locality.Id }, new { title = "Открыть нас. пункт" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.District != null)
+                {
+                    @Html.ActionLink(item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+        </tr>
+    }
+</table>

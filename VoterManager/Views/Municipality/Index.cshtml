@@ -1,0 +1,60 @@
+﻿@model IEnumerable<VoterManager.Models.MunicipalityViewModel>
+
+@{
+    ViewBag.Title = "Список МТУ";
+}
+
+<h2>Список МТУ</h2>
+
+<p>
+    @Html.ActionLink("Создать новый", "Create")
+    <a href="javascript://" onclick="history.go(-1);" style="float:right;">Назад</a>
+</p>
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Municipality.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Municipality.ManagerId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.Municipality.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Municipality.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Municipality.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Municipality.Name)
+            </td>
+            <td>
+                @if (item.District != null)
+                {
+                    @Html.ActionLink(item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Просмотр района" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Manager != null)
+                {
+                    @Html.ActionLink(item.Manager.LastName + " " + item.Manager.FirstName, "Show", "Person", new { Id = item.Manager.Id }, new { title = "Просмотр руководителя" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+        </tr>
+    }
+</table>

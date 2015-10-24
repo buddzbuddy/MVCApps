@@ -1,0 +1,50 @@
+﻿<fieldset>
+    <legend>Дом</legend>
+    <p>Улица: @(ViewBag.Street != null ? ViewBag.Street.Name : "не выбран")</p>
+    <div class="editor-field">
+        @Html.DropDownList("HouseId2", ViewBag.Houses as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите дом..." })
+        @Html.ValidationMessage("HouseId2")
+        @Ajax.ActionLink("Добавить", "CreatePartial", "House", ViewBag.Street != null ? new { streetId = ViewBag.Street.Id } : null, new AjaxOptions
+            {
+                UpdateTargetId = "create_house",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                OnSuccess = "$('#choice_house').dialog('close'); $('#create_house').dialog('open')"
+            }, new
+            {
+                id = "createHouseLinkId"@*, onclick = "GetDistrictVal()"*@
+            })
+    </div>
+</fieldset>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px" });
+    });
+    //dialog Locality
+    $(function () {
+        $("#create_house").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Добавить": function () {
+                    $("#dialogHouse").submit();
+                    $("#create_house").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#create_house").dialog("close");
+                    $("#choice_house").dialog("open");
+                }
+            },
+            close: function () {
+                $("#create_house").dialog("close");
+                $("#choice_house").dialog("open");
+            }
+        });
+        $('#createHouseLinkId').mouseover(function () {
+            var selectedItem = $('#StreetId').val();
+            $('#createHouseLinkId').attr('href', 'http://' + host + '/House/CreatePartial?streetId=' + selectedItem);
+        });
+    });
+</script>

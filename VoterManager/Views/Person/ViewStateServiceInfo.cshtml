@@ -1,0 +1,101 @@
+﻿@if(ViewBag.HasData)
+{
+<div class="blockInfo">
+    @if (ViewBag.Houses != null)
+    {
+        <h5>Назначен управляющим следующих домов:</h5>
+        <table class="entityList">
+            <tr>
+                <th>
+                    Дом
+                </th>
+                <th>
+                    Улица
+                </th>
+                <th>
+                    Район
+                </th>
+            </tr>
+            @foreach (dynamic item in ViewBag.Houses as IEnumerable<dynamic>)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)item.House.Name, "Show", "House", new { Id = item.House.Id }, new { title = "Просмотр дома" })
+                    </td>
+                    <td>
+                        @if (item.Street != null)
+                        {
+                            @Html.ActionLink((string)item.Street.Name, "Show", "Street", new { Id = item.Street.Id }, new { title = "Открыть улицу" });
+                        }
+                        else
+                        {
+                            <text>не указано</text>
+                        }
+                    </td>
+                    <td>
+                        @if (item.District != null)
+                        {
+                            @Html.ActionLink((string)item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                        }
+                        else
+                        {
+                            <text>не указано</text>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    @if (ViewBag.Municipalities != null)
+    {
+        <h5>Назначен руководителем МТУ:</h5>
+        <table class="entityList">
+            <tr>
+                <th>
+                    МТУ
+                </th>
+                <th>
+                    Район
+                </th>
+            </tr>
+            @foreach (dynamic item in ViewBag.Municipalities as IEnumerable<dynamic>)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)item.Municipality.Name, "Show", "Municipality", new { Id = item.Municipality.Id }, new { title = "Просмотр МТУ" })
+                    </td>
+                    <td>
+                        @if (item.District != null)
+                        {
+                            @Html.ActionLink((string)item.District.Name, "Show", "District", new { Id = item.District.Id }, new { title = "Открыть район" });
+                        }
+                        else
+                        {
+                            <text>не указано</text>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    @if (ViewBag.Districts != null)
+    {
+        <h5>Назначен акимом района:</h5>
+        <table class="entityList">
+            <tr>
+                <th>
+                    Район
+                </th>
+            </tr>
+            @foreach (var item in ViewBag.Districts as IEnumerable<Domain.Entities.District>)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)item.Name, "Show", "District", new { Id = item.Id }, new { title = "Просмотр района" })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+}

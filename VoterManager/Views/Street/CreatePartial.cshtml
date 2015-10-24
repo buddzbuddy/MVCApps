@@ -1,0 +1,22 @@
+﻿@model Domain.Entities.Street
+@using (Ajax.BeginForm("CreatePartial", "Street", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogStreet" }))
+{
+    <fieldset>
+        <legend>Нас. пункт</legend>
+        <p>Район: @ViewBag.DistrictName</p>
+        @Html.HiddenFor(model => model.DistrictId)
+        <p>Нас. пункт: @ViewBag.LocalityName</p>
+        @Html.HiddenFor(model => model.LocalityId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </fieldset>
+}

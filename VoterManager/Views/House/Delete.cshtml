@@ -1,0 +1,32 @@
+﻿@model VoterManager.Models.HouseViewModel
+
+@{
+    ViewBag.Title = "Удаление дома";
+}
+
+<h2>Удаление дома</h2>
+
+<h3>Вы уверены что хотите удалить дом?</h3>
+<fieldset>
+    <legend>Дом</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.House.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.House.Name)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Street.Name)
+    </div>
+    <div class="display-field">
+        @(Model.Street != null ? Model.Street.Name : "не указано")
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

@@ -1,0 +1,17 @@
+﻿@model Domain.Entities.Education
+
+@using (Ajax.BeginForm("CreatePartial", "Education", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogEducation" }))
+{
+    <h3>Добавление образования</h3>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+}

@@ -1,0 +1,26 @@
+﻿@model Domain.Entities.Organization
+
+@{
+    ViewBag.Title = "Удаление организации";
+}
+
+<h2>Удаление организации</h2>
+
+<h3>Вы уверены что хотите удалить организацию?</h3>
+<fieldset>
+    <legend>Организация</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

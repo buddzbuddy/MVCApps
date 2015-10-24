@@ -1,0 +1,57 @@
+﻿@model Domain.Entities.UserProfile
+
+@{
+    ViewBag.Title = "Создание пользователя";
+}
+
+<h2>Создание пользователя</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Пользователь</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WorkerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.WorkerId, ViewBag.Workers as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
+            @Html.ValidationMessageFor(model => model.WorkerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.chzn-select').chosen({ no_results_text: "Не найдено", width: "300px", allow_single_deselect: true });
+    });
+</script>

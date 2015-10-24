@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Данные";
+}
+<table>
+    <tr>
+        <th>
+            
+        </th>
+        <th>
+            Избиратели
+        </th>
+        <th>
+            Штаб
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>СПИСКИ</h3>
+        </td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Избиратели", "Index", "Person", null, null)</li>
+                <li>@Html.ActionLink("Организации", "Index", "Organization", null, null)</li>
+                <li>@Html.ActionLink("Районы", "Index", "District", null, null)</li>
+                <li>@Html.ActionLink("Нас. пункты", "Index", "Locality", null, null)</li>
+                <li>@Html.ActionLink("Улицы", "Index", "Street", null, null)</li>
+                <li>@Html.ActionLink("Дома", "Index", "House", null, null)</li>
+                <li>@Html.ActionLink("Партии", "Index", "Party", null, null)</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Список МТУ", "Index", "Municipality", null, null)</li>
+                <li>@Html.ActionLink("Руководители МТУ", "MunicipalityManagers", "Person", null, null)</li>
+                <li>@Html.ActionLink("Квартальные/Домкомы", "HouseManagers", "Person", null, null)</li>
+                <li>@Html.ActionLink("Список УИК", "Index", "Precinct", null, null)</li>
+                <li>@Html.ActionLink("Список работников", "Index", "Worker", null, null)</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3>СПРАВОЧНИКИ</h3></td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Справочник национальностей", "Index", "Nationality", null, null)</li>
+                <li>@Html.ActionLink("Категории образования", "Index", "Education", null, null)</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Связи домов с МТУ", "Index", "Relation", null, null)</li>
+            </ul>
+        </td>
+    </tr>
+</table>

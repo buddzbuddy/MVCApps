@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "ClearCache";
+    WebCache.Remove("myChartKey");
+}
+
+<p>Cache has been cleared.</p>
+<p>Return to <a href="@Url.Action("Index")">Chart->Index</a></p>

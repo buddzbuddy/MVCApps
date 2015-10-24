@@ -1,0 +1,17 @@
+﻿@model Domain.Entities.Party
+
+@using (Ajax.BeginForm("CreatePartial", "Party", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}, new { id = "dialogParty" }))
+{
+    <h3>Добавление партии</h3>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+}

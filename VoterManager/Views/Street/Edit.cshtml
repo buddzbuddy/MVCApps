@@ -1,0 +1,104 @@
+﻿@model Domain.Entities.Street
+
+@{
+    ViewBag.Title = "Редактирование улицы";
+}
+
+<h2>Редактирование улицы</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Улица</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DistrictId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.DistrictId, ViewBag.Districts as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите район..." })
+            @Html.ValidationMessageFor(model => model.DistrictId)
+        </div>
+        <div id="create_locality" title="Добавление нового нас. пункта"></div>
+        <div id="choice_locality" title="Выбор нас. пункта"></div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LocalityId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.LocalityId)
+            <div id="localityName">@(ViewBag.Locality != null ? ViewBag.Locality.Name : "не указано")</div>
+            @Ajax.ActionLink("Выбрать", "ChoicePartial", "Locality", null, new AjaxOptions
+       {
+           UpdateTargetId = "choice_locality",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET",
+           OnSuccess = "$('#choice_locality').dialog('open')"
+       }, new { id = "choiceLocalityLinkId" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "По запросу ничего не найдено", width: "200px" });
+    });
+    var host = location.host == 'localhost:65275' ? location.host : location.host + '/VoterManager';
+    //dialog Locality choice
+    $(function () {
+        $("#choice_locality").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Выбрать": function () {
+                    var localityName = $("#LocalityId2 option:selected").text();//$("#LocalityId2").chosen().text();
+                    var localityVal = $('#LocalityId2').chosen().val();//$("#LocalityId2 option :selected").val();
+                    $('#LocalityId').val(localityVal);
+                    $('#localityName').text(localityName);
+                    $("#choice_locality").dialog("close");
+                },
+                "Отмена": function () {
+                    $("#choice_locality").dialog("close");
+                }
+            },
+            close: function () {
+                $("#choice_locality").dialog("close");
+            }
+        });
+        $('#choiceLocalityLinkId').mouseover(function () {
+            var selectedDistrict = $('#DistrictId').chosen().val();
+            var selectedLocality = '';
+            if ($('#LocalityId').val() != null) selectedLocality = '&Id=' + $('#LocalityId').val();
+            $('#choiceLocalityLinkId').attr('href', 'http://' + host + '/Locality/ChoicePartial?districtId=' + selectedDistrict + selectedLocality);
+        });
+    });
+
+    function OnSuccess(data) {
+        AppendToDropDownList(data.Name, data.Id, data.Key);
+    }
+    function AppendToDropDownList(text, value, ddlId) {
+        var newItem = $('<option/>', {
+            value: value,
+            text: text,
+            selected: true
+        });
+        $('#' + ddlId).append(newItem).trigger("chosen:updated");
+    }
+</script>

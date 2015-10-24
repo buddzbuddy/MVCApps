@@ -1,0 +1,39 @@
+﻿@model Domain.Entities.Municipality
+
+@{
+    ViewBag.Title = "Создание МТУ";
+}
+
+<h2>Создание МТУ</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>МТУ</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            Район
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DistrictId", ViewBag.Districts as IEnumerable<SelectListItem>)
+            @Html.ValidationMessage("DistrictId")
+        </div>
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>

@@ -1,0 +1,58 @@
+﻿@model Domain.Entities.Precinct
+
+@{
+    ViewBag.Title = "Редактирование УИК";
+}
+
+<h2>Редактирование УИК</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>УИК</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.DistrictId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.DistrictId, ViewBag.Districts as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.DistrictId)
+        </div>
+
+        <div class="editor-label">
+            @Html.DisplayNameFor(model => model.WorkerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.WorkerId, ViewBag.Workers as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+            @Html.ValidationMessageFor(model => model.DistrictId)
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".chzn-select").chosen({ no_results_text: "Не найдено", width: "300px", allow_single_deselect: true });
+    });
+</script>

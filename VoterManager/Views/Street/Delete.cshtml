@@ -1,0 +1,37 @@
+﻿@model VoterManager.Models.StreetViewModel
+
+@{
+    ViewBag.Title = "Удаление улицы";
+}
+
+<h2>Удаление улицы</h2>
+
+<h3>Вы уверены что хотите удалить улицу?</h3>
+<fieldset>
+    <legend>Улица</legend>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Street.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Street.Name)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.District.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.District.Name)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Locality.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Locality.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Назад к списку", "Index")
+    </p>
+}

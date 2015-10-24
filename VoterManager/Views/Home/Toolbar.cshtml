@@ -1,0 +1,13 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <nav>
+        <ul id="menu">
+            <li>@Html.ActionLink("Главная страница", "Index", "Home")</li>
+            <li>@Html.ActionLink("Данные", "Index", "Entities")</li>
+            <li>@Html.ActionLink("Поиск", "Search", "VoterViewer")</li>
+            <li>@Html.ActionLink("Карта", "Index", "Map")</li>
+            <li>@Html.ActionLink("Диаграммы", "Index", "Chart")</li>
+            <li>@Html.ActionLink("Пользователи", "Index", "User")</li>
+        </ul>
+    </nav>
+}
