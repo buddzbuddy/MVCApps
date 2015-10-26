@@ -81,8 +81,15 @@ namespace VoterManager.Controllers
                 Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
                 House = dataManager.Houses.Get((int?)obj.HouseId ?? 0),
                 Organization = dataManager.Organizations.Get((int?)obj.OrganizationId ?? 0),
-                Party = dataManager.Parties.Get(obj.PartyId ?? 0)/*,
-                Precinct = dataManager.Precincts.Get(obj.PrecinctId ?? 0)*/
+                Party = dataManager.Parties.Get(obj.PartyId ?? 0),
+                PoliticalViews = (from pp in dataManager.PersonPartyRelations.GetAll()
+                                 where pp.PersonId == Id
+                                 select new PersonPartyRelationViewModel
+                                 {
+                                     PersonPartyRelation = pp,
+                                     Person = obj,
+                                     Party = dataManager.Parties.Get(pp.PartyId ?? 0)
+                                 }).ToList()
             };
             return View(model);
         }
@@ -382,20 +389,47 @@ namespace VoterManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (!dataManager.Persons.GetAll()
-                //    .Where(m => m.DistrictId == obj.DistrictId)
-                //    .Any(o => (o.LastName == obj.LastName) && (o.FirstName == obj.FirstName)))
                 {
                     dataManager.Persons.Save(obj);
                     return RedirectToAction("Show", new { Id = obj.Id });
                 }
-                //else
-                //    ModelState.AddModelError("LastName",
-                //        "Гражданин с фамилией и именем \"" + obj.LastName + "\" \"" + obj.FirstName + "\" уже существует!");
             }
             return View(obj);
         }
 
+        [HttpGet]
+        public ActionResult AddParty(int personId)
+        {
+            ViewBag.Parties = from p in dataManager.Parties.GetAll()
+                              select new SelectListItem
+                              {
+                                  Text = p.Name,
+                                  Value = p.Id.ToString()
+                              };
+            return View(new PersonPartyRelation
+            {
+                PersonId = personId
+            });
+        }
+        [HttpPost]
+        public ActionResult AddParty(PersonPartyRelation obj)
+        {
+            if(ModelState.IsValid)
+            {
+                dataManager.PersonPartyRelations.Save(obj);
+                return RedirectToAction("Show", new { Id = obj.PersonId });
+            }
+            return View(obj);
+        }
+        public ActionResult RemovePartyRelation(int relationId)
+        {
+            var rel = dataManager.PersonPartyRelations.Get(relationId);
+            if(rel != null)
+            {
+                dataManager.PersonPartyRelations.Delete(rel.Id);
+            }
+            return RedirectToAction("Show", new { Id = rel.PersonId });
+        }
         [HttpGet]
         public ActionResult Edit(int id)
         {

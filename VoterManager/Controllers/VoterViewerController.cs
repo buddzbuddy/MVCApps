@@ -57,6 +57,7 @@ namespace VoterManager.Controllers
         {
             var ageFilteredValues = GetAgeFilteredValuesByExpression(obj.AgeExpression, obj.Age);
             var housesByPrecinct = obj.PrecinctId.HasValue ? GetHousesByPrecinctId(obj.PrecinctId.Value) : new List<int>();
+            var personPartyRelations = dataManager.PersonPartyRelations.GetAll().Where(x => x.PartyId == obj.PartyId);
             var result = from p in dataManager.Persons.GetAll()
                          where (p.LastName ?? "").ToLowerInvariant().StartsWith((obj.LastName ?? "").ToLowerInvariant())
                          && (p.FirstName ?? "").ToLowerInvariant().StartsWith((obj.FirstName ?? "").ToLowerInvariant())
@@ -68,7 +69,8 @@ namespace VoterManager.Controllers
                          && (obj.StreetId.HasValue ? obj.StreetId.Value == p.StreetId : true)
                          && (obj.HouseId.HasValue ? obj.HouseId.Value == p.HouseId : true)
                          //filtering by party
-                         && (obj.PartyId.HasValue ? p.PartyId == obj.PartyId : true)
+                         //&& (obj.PartyId.HasValue ? p.PartyId == obj.PartyId : true)
+                         && (obj.PartyId.HasValue ? personPartyRelations.Select(x => x.PersonId).Contains(p.Id) : true)
                          //filtering by age
                          && (obj.Age.HasValue ? (ageFilteredValues.Contains(p.Years ?? 0)) : true)
                          //filtering by precinct point in person
@@ -138,7 +140,7 @@ namespace VoterManager.Controllers
             if (eType == VoterManagerEntityTypes.House)
                 return dataManager.Houses.Get(Id).Name;
             if (eType == VoterManagerEntityTypes.Party)
-                return dataManager.Parties.Get(Id).Name;
+                return string.Join(",", dataManager.PersonPartyRelations.GetAll().Where(x => x.PersonId == Id && x.PartyId.HasValue).Select(x => dataManager.Parties.Get(x.PartyId.Value).Name));
             if (eType == VoterManagerEntityTypes.Precinct)
                 return dataManager.Precincts.Get(Id).Name;
             return "";

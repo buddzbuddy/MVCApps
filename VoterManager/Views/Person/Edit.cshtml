@@ -136,39 +136,39 @@
         </div>
 
         @*<div id="create_precinct" title="Добавление нового УИК"></div>
-        <div id="choice_precinct" title="Выбор УИК"></div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PrecinctId)
-        </div>
-        <div class="editor-field">
-            @Html.HiddenFor(model => model.PrecinctId)
-            <div id="precinctName">@(ViewBag.Precinct != null ? ViewBag.Precinct.Name : "не указано")</div>
-            @Ajax.ActionLink("Выбрать", "ChoicePartial", "Precinct", null, new AjaxOptions
-       {
-           UpdateTargetId = "choice_precinct",
-           InsertionMode = InsertionMode.Replace,
-           HttpMethod = "GET",
-           OnSuccess = "$('#choice_precinct').dialog('open')"
-       }, new { id = "choicePrecinctLinkId" }) | <a href="#" onclick="RemoveAttrValue('PrecinctId', 'precinctName')">Убрать</a>
-        </div>*@
+     <div id="choice_precinct" title="Выбор УИК"></div>
+     <div class="editor-label">
+         @Html.LabelFor(model => model.PrecinctId)
+     </div>
+     <div class="editor-field">
+         @Html.HiddenFor(model => model.PrecinctId)
+         <div id="precinctName">@(ViewBag.Precinct != null ? ViewBag.Precinct.Name : "не указано")</div>
+         @Ajax.ActionLink("Выбрать", "ChoicePartial", "Precinct", null, new AjaxOptions
+    {
+        UpdateTargetId = "choice_precinct",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        OnSuccess = "$('#choice_precinct').dialog('open')"
+    }, new { id = "choicePrecinctLinkId" }) | <a href="#" onclick="RemoveAttrValue('PrecinctId', 'precinctName')">Убрать</a>
+     </div>
 
-        <div id="create_party" title="Добавление новой партии">
+     <div id="create_party" title="Добавление новой партии">
 
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PartyId)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.PartyId, ViewBag.Parties as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
-            @Html.ValidationMessageFor(model => model.PartyId)
-            @Ajax.ActionLink("Добавить", "CreatePartial", "Party", null, new AjaxOptions
-       {
-           UpdateTargetId = "create_party",
-           InsertionMode = InsertionMode.Replace,
-           HttpMethod = "GET",
-           OnSuccess = "$('#create_party').dialog('open')"
-       }, null)
-        </div>
+     </div>
+     <div class="editor-label">
+         @Html.LabelFor(model => model.PartyId)
+     </div>
+     <div class="editor-field">
+         @Html.DropDownListFor(model => model.PartyId, ViewBag.Parties as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+         @Html.ValidationMessageFor(model => model.PartyId)
+         @Ajax.ActionLink("Добавить", "CreatePartial", "Party", null, new AjaxOptions
+    {
+        UpdateTargetId = "create_party",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        OnSuccess = "$('#create_party').dialog('open')"
+    }, null)
+     </div>*@
 
         <div id="create_nationality" title="Добавление новой национальности">
 
@@ -355,7 +355,7 @@
     });
 
     //dialog Party
-    $(function () {
+    @*$(function () {
         $("#create_party").dialog({
             autoOpen: false,
             height: 300,
@@ -374,7 +374,7 @@
                 $("#create_party").dialog("close");
             }
         });
-    });
+    });*@
 
     //dialog Locality choice
     $(function () {

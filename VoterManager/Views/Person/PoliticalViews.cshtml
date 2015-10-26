@@ -1,0 +1,17 @@
+﻿@model IEnumerable<VoterManager.Models.PersonPartyRelationViewModel>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Party.Name)
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Party.Name) | @Html.ActionLink("убрать", "RemovePartyRelation", new { relationId = item.PersonPartyRelation.Id })
+        </td>
+    </tr>
+}
+</table>

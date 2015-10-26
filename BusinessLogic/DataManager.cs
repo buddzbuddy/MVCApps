@@ -27,6 +27,7 @@ namespace BusinessLogic
         private IPrecinctRepository precinctRepository;
         private IUserRepository userRepository;
         private IWorkerRepository workerRepository;
+        private IPersonPartyRelationRepository personPartyRelationRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -41,7 +42,8 @@ namespace BusinessLogic
             IPartyRepository partyRepository,
             IPrecinctRepository precinctRepository,
             IUserRepository userRepository,
-            IWorkerRepository workerRepository)
+            IWorkerRepository workerRepository,
+            IPersonPartyRelationRepository personPartyRelationRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -58,6 +60,7 @@ namespace BusinessLogic
             this.precinctRepository = precinctRepository;
             this.userRepository = userRepository;
             this.workerRepository = workerRepository;
+            this.personPartyRelationRepository = personPartyRelationRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -75,5 +78,6 @@ namespace BusinessLogic
         public IPrecinctRepository Precincts { get { return precinctRepository; } }
         public IUserRepository Users { get { return userRepository; } }
         public IWorkerRepository Workers { get { return workerRepository; } }
+        public IPersonPartyRelationRepository PersonPartyRelations { get { return personPartyRelationRepository; } }
     }
 }

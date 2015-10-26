@@ -1,32 +1,25 @@
-﻿@model IEnumerable<VoterManager.Models.MunicipalityHouseRelationViewModel>
-
+﻿@using VoterManager.Models;
 @{
     ViewBag.Title = "Связи объектов";
+    var municipalityHouseRelations = ViewBag.MunicipalityHouseRelations as IEnumerable<MunicipalityHouseRelationViewModel>;
+    var personPartyRelations = ViewBag.PersonPartyRelations as IEnumerable<PersonPartyRelationViewModel>;
 }
 
 <h2>Связи объектов</h2>
-
-<p>
-    @Html.ActionLink("Добавить новую связь", "Create")
-</p>
+<h3>МТУ->ДОМ</h3>
 <table class="entityList">
     <tr>
-        <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.House.Name)
+            ДОМ
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Municipality.Name)
+            МТУ
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in municipalityHouseRelations)
     {
         <tr>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.MunicipalityHouseRelation.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.MunicipalityHouseRelation.Id })
-            </td>
             <td>
                 @if (item.House != null)
                 {
@@ -41,6 +34,46 @@
                 @if (item.Municipality != null)
                 {
                     @Html.ActionLink(item.Municipality.Name, "Show", "Municipality", new { Id = item.Municipality.Id }, new { title = "Открыть МТУ" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+<h3>ГРАЖДАНИН->ПАРТИЯ</h3>
+<table class="entityList">
+    <tr>
+        <th>
+            ГРАЖДАНИН
+        </th>
+        <th>
+            ПАРТИЯ
+        </th>
+    </tr>
+
+    @foreach (var item in personPartyRelations)
+    {
+        <tr>
+            <td>
+                @if (item.Person != null)
+                {
+                    @Html.ActionLink(item.Person.FullName, "Show", "Person", new { Id = item.Person.Id }, new { title = "Открыть гражданина" });
+                }
+                else
+                {
+                    <text>не указано</text>
+                }
+            </td>
+            <td>
+                @if (item.Party != null)
+                {
+                    @Html.ActionLink(item.Party.Name, "Show", "Party", new { Id = item.Party.Id }, new { title = "Открыть партию" });
                 }
                 else
                 {

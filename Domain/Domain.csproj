@@ -60,6 +60,7 @@
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\Party.cs" />
     <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\PersonPartyRelation.cs" />
     <Compile Include="Entities\Precinct.cs" />
     <Compile Include="Entities\Street.cs" />
     <Compile Include="Entities\Registration.cs" />

@@ -160,6 +160,12 @@
             <text>не указано</text>
         }
     </div>
+    <div class="political-views" id="politicalViews">
+        @Html.ActionLink("Добавить партию", "AddParty", new { personId = Model.Person.Id })
+        @{
+            Html.RenderPartial("PoliticalViews", Model.PoliticalViews);
+        }
+    </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Nationality.Name)

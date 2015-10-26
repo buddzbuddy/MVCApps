@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManager.cs" />
+    <Compile Include="Implementations\PersonPartyRelationRepository.cs" />
     <Compile Include="Implementations\PrecinctRepository.cs" />
     <Compile Include="Implementations\PartyRepository.cs" />
     <Compile Include="Implementations\WorkerRepository.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Implementations\MunicipalityRepository.cs" />
     <Compile Include="Implementations\DistrictRepository.cs" />
     <Compile Include="Implementations\UserRepository.cs" />
+    <Compile Include="Interfaces\IPersonPartyRelationRepository.cs" />
     <Compile Include="Interfaces\IPrecinctRepository.cs" />
     <Compile Include="Interfaces\IPartyRepository.cs" />
     <Compile Include="Interfaces\IWorkerRepository.cs" />

@@ -183,7 +183,7 @@
                     <td>
                         @if (item.PartyId.HasValue)
                         {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.PartyId.Value, eType = Domain.Entities.VoterManagerEntityTypes.Party });
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Id, eType = Domain.Entities.VoterManagerEntityTypes.Party });
                         }
                     </td>
                 </tr>

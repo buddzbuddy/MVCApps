@@ -18,14 +18,21 @@ namespace VoterManager.Controllers
         }
         public ActionResult Index()
         {
-            var model = from o in dataManager.MunicipalityHouseRelations.GetAll()
+            ViewBag.MunicipalityHouseRelations = from o in dataManager.MunicipalityHouseRelations.GetAll()
                         select new MunicipalityHouseRelationViewModel
                         {
                             MunicipalityHouseRelation = o,
                             Municipality = dataManager.Municipalities.Get(o.MunicipalityId.HasValue ? o.MunicipalityId.Value : 0),
                             House = dataManager.Houses.Get(o.HouseId.HasValue ? o.HouseId.Value : 0)
                         };
-            return View(model);
+            ViewBag.PersonPartyRelations = from pp in dataManager.PersonPartyRelations.GetAll()
+                                           select new PersonPartyRelationViewModel
+                                           {
+                                               PersonPartyRelation = pp,
+                                               Person = dataManager.Persons.Get(pp.PersonId ?? 0),
+                                               Party = dataManager.Parties.Get(pp.PartyId ?? 0)
+                                           };
+            return View();
         }
 
         [HttpGet]

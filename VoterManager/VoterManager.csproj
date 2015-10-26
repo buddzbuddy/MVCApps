@@ -264,6 +264,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\PersonPartyRelationViewModel.cs" />
     <Compile Include="Models\PrecinctViewModel.cs" />
     <Compile Include="Models\RegistrationViewModel.cs" />
     <Compile Include="Models\DistrictViewModel.cs" />
@@ -523,6 +524,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Home\Toolbar.cshtml" />
+    <Content Include="Views\Person\AddParty.cshtml" />
+    <Content Include="Views\Person\PoliticalViews.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

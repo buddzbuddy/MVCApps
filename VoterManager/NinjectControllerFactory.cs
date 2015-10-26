@@ -45,6 +45,7 @@ namespace VoterManager
             ninjectKernel.Bind<IPrecinctRepository>().To<PrecinctRepository>();
             ninjectKernel.Bind<IUserRepository>().To<UserRepository>();
             ninjectKernel.Bind<IWorkerRepository>().To<WorkerRepository>();
+            ninjectKernel.Bind<IPersonPartyRelationRepository>().To<PersonPartyRelationRepository>();
         }
     }
 }

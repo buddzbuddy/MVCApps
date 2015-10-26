@@ -18,5 +18,6 @@ namespace VoterManager.Models
         public Organization Organization { get; set; }
         public Party Party { get; set; }
         public Precinct Precinct { get; set; }
+        public List<PersonPartyRelationViewModel> PoliticalViews { get; set; }
     }
 }
