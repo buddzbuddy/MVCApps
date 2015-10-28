@@ -57,27 +57,28 @@ namespace VoterManager.Controllers
         {
             var ageFilteredValues = GetAgeFilteredValuesByExpression(obj.AgeExpression, obj.Age);
             var housesByPrecinct = obj.PrecinctId.HasValue ? GetHousesByPrecinctId(obj.PrecinctId.Value) : new List<int>();
-            var personPartyRelations = dataManager.PersonPartyRelations.GetAll().Where(x => x.PartyId == obj.PartyId);
-            var result = from p in dataManager.Persons.GetAll()
-                         where (p.LastName ?? "").ToLowerInvariant().StartsWith((obj.LastName ?? "").ToLowerInvariant())
-                         && (p.FirstName ?? "").ToLowerInvariant().StartsWith((obj.FirstName ?? "").ToLowerInvariant())
-                         && (p.MiddleName ?? "").ToLowerInvariant().StartsWith((obj.MiddleName ?? "").ToLowerInvariant())
-                         && (obj.GaveBiometricData == SearchFormViewModel.GaveBiometricDataType.yes ? p.GaveBiometricData : (obj.GaveBiometricData == SearchFormViewModel.GaveBiometricDataType.no ? !p.GaveBiometricData : true))
-                         //filtering by living address
-                         && (obj.DistrictId.HasValue ? p.DistrictId == obj.DistrictId : true)
-                         && (obj.LocalityId.HasValue ? obj.LocalityId.Value == p.LocalityId : true)
-                         && (obj.StreetId.HasValue ? obj.StreetId.Value == p.StreetId : true)
-                         && (obj.HouseId.HasValue ? obj.HouseId.Value == p.HouseId : true)
-                         //filtering by party
-                         //&& (obj.PartyId.HasValue ? p.PartyId == obj.PartyId : true)
-                         && (obj.PartyId.HasValue ? personPartyRelations.Select(x => x.PersonId).Contains(p.Id) : true)
-                         //filtering by age
-                         && (obj.Age.HasValue ? (ageFilteredValues.Contains(p.Years ?? 0)) : true)
-                         //filtering by precinct point in person
-                         && (obj.PrecinctId.HasValue ? (/*p.PrecinctId == obj.PrecinctId || */housesByPrecinct.Contains(p.HouseId ?? 0)) : true)
-                         //filtering by precinct point in house
-                         //&& (obj.PrecinctId.HasValue ? housesByPrecinct.Contains(p.HouseId.Value) : true)
-                         select p;
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().Where(x => x.PartyId == obj.PartyId);
+            var result = from v in dataManager.Voters.GetAll().Select(x => new VoterViewModel
+            {
+                Voter = x,
+                Person = dataManager.Persons.Get(x.PersonId ?? 0)
+            })
+                         where (v.Person.LastName ?? "").ToLowerInvariant().StartsWith((obj.LastName ?? "").ToLowerInvariant())
+                         && (v.Person.FirstName ?? "").ToLowerInvariant().StartsWith((obj.FirstName ?? "").ToLowerInvariant())
+                         && (v.Person.MiddleName ?? "").ToLowerInvariant().StartsWith((obj.MiddleName ?? "").ToLowerInvariant())
+                         && (obj.GaveBiometricData == SearchFormViewModel.GaveBiometricDataType.yes ? v.Voter.GaveBiometricData : (obj.GaveBiometricData == SearchFormViewModel.GaveBiometricDataType.no ? !v.Voter.GaveBiometricData : true))
+                             //filtering by living address
+                         && (obj.DistrictId.HasValue ? v.Person.DistrictId == obj.DistrictId : true)
+                         && (obj.LocalityId.HasValue ? obj.LocalityId.Value == v.Person.LocalityId : true)
+                         && (obj.StreetId.HasValue ? obj.StreetId.Value == v.Person.StreetId : true)
+                         && (obj.HouseId.HasValue ? obj.HouseId.Value == v.Person.HouseId : true)
+                             //filtering by party
+                         && (obj.PartyId.HasValue ? voterPartyRelations.Select(x => x.VoterId).Contains(v.Voter != null ? v.Voter.Id : 0) : true)
+                             //filtering by age
+                         && (obj.Age.HasValue ? (ageFilteredValues.Contains(v.Person.Years ?? 0)) : true)
+                             //filtering by precinct point in house
+                         && (obj.PrecinctId.HasValue ? (housesByPrecinct.Contains(v.Person.HouseId ?? 0)) : true)
+                         select v;
             var districts = new List<SelectListItem> { new SelectListItem() };
             districts.AddRange(from d in dataManager.Districts.GetAll()
                                select new SelectListItem
@@ -140,7 +141,7 @@ namespace VoterManager.Controllers
             if (eType == VoterManagerEntityTypes.House)
                 return dataManager.Houses.Get(Id).Name;
             if (eType == VoterManagerEntityTypes.Party)
-                return string.Join(",", dataManager.PersonPartyRelations.GetAll().Where(x => x.PersonId == Id && x.PartyId.HasValue).Select(x => dataManager.Parties.Get(x.PartyId.Value).Name));
+                return string.Join(",", dataManager.VoterPartyRelations.GetAll().Where(x => x.VoterId == Id && x.PartyId.HasValue).Select(x => dataManager.Parties.Get(x.PartyId.Value).Name));
             if (eType == VoterManagerEntityTypes.Precinct)
                 return dataManager.Precincts.Get(Id).Name;
             return "";

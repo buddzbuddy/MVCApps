@@ -60,11 +60,13 @@
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\Party.cs" />
     <Compile Include="Entities\Person.cs" />
-    <Compile Include="Entities\PersonPartyRelation.cs" />
+    <Compile Include="Entities\PersonPersonRelation.cs" />
+    <Compile Include="Entities\VoterPartyRelation.cs" />
     <Compile Include="Entities\Precinct.cs" />
     <Compile Include="Entities\Street.cs" />
     <Compile Include="Entities\Registration.cs" />
     <Compile Include="Entities\UserProfile.cs" />
+    <Compile Include="Entities\Voter.cs" />
     <Compile Include="Entities\Worker.cs" />
     <Compile Include="Filters\CustomModelMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

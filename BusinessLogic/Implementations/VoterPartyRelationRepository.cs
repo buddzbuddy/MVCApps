@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Implementations
 {
-    public class PersonPartyRelationRepository : IPersonPartyRelationRepository
+    public class VoterPartyRelationRepository : IVoterPartyRelationRepository
     {
         private EFDbContext context;
-        public PersonPartyRelationRepository(EFDbContext context)
+        public VoterPartyRelationRepository(EFDbContext context)
         {
             this.context = context;
         }
-        public IEnumerable<PersonPartyRelation> GetAll()
+        public IEnumerable<VoterPartyRelation> GetAll()
         {
-            return context.PersonPartyRelations;
+            return context.VoterPartyRelations;
         }
-        public PersonPartyRelation Get(int Id)
+        public VoterPartyRelation Get(int Id)
         {
-            return context.PersonPartyRelations.Find(Id);
+            return context.VoterPartyRelations.Find(Id);
         }
-        public void Save(PersonPartyRelation obj)
+        public void Save(VoterPartyRelation obj)
         {
             if (obj.Id == 0)
                 context.Entry(obj).State = System.Data.Entity.EntityState.Added;
@@ -42,7 +42,7 @@ namespace BusinessLogic.Implementations
                 context.SaveChanges();
             }
             else
-                throw new ApplicationException("Объект связи для удаления \"Гражданин->Партия\" не найден!");
+                throw new ApplicationException("Объект связи для удаления \"Избиратель->Партия\" не найден!");
         }
     }
 }

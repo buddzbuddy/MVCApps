@@ -1,10 +1,10 @@
 ﻿@model VoterManager.Models.PersonViewModel
 
 @{
-    ViewBag.Title = "Просмотр гражданина-избирателя: " + Model.Person.LastName + " " + Model.Person.FirstName;
+    ViewBag.Title = "Просмотр физ. лица";
 }
 
-<h2>Просмотр гражданина-избирателя</h2>
+<h2>Просмотр физ. лица</h2>
 <div class="float-right">
     @{
         Html.RenderAction("ViewStateServiceInfo", new { personId = Model.Person.Id });
@@ -13,7 +13,7 @@
     }
 </div>
 <fieldset>
-    <legend>Гражданин</legend>
+    <legend>@Html.DisplayNameFor(model => model.Person)</legend>
 
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Person.LastName)
@@ -123,20 +123,6 @@
                 @Html.DisplayFor(model => model.Person.Apartment)
             </div>
 
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.Precinct.Name)
-            </div>
-            <div class="display-field">
-                @if (Model.Precinct != null)
-                {
-                    @Html.ActionLink(Model.Precinct.Name, "Show", "Precinct", new { Id = Model.Precinct.Id }, new { title = "Открыть УИК" });
-                }
-                else
-                {
-                    <text>не указано</text>
-                }
-            </div>
-
         </section>
         <section class="feature">
             <b>Прописан</b>
@@ -147,25 +133,6 @@
         <div class="clear-fix"></div>
     </div>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Party.Name)
-    </div>
-    <div class="display-field">
-        @if (Model.Party != null)
-        {
-            @Html.ActionLink(Model.Party.Name, "Show", "Party", new { Id = Model.Party.Id }, new { title = "Открыть партию" });
-        }
-        else
-        {
-            <text>не указано</text>
-        }
-    </div>
-    <div class="political-views" id="politicalViews">
-        @Html.ActionLink("Добавить партию", "AddParty", new { personId = Model.Person.Id })
-        @{
-            Html.RenderPartial("PoliticalViews", Model.PoliticalViews);
-        }
-    </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Nationality.Name)
@@ -195,65 +162,6 @@
         }
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.GaveBiometricData)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.GaveBiometricData)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Organization.Name)
-    </div>
-    <div class="display-field">
-        @if (Model.Organization != null)
-{
-    @Html.ActionLink(Model.Organization.Name, "Show", "Organization", new { Id = Model.Organization.Id }, new { title = "Открыть организацию" });
-}
-else
-{
-    <text>не указано</text>
-}
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.JobTitle)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.JobTitle)
-    </div>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Person.RefererId)
-    </div>
-    <div class="display-field">
-        @if(Model.Person.RefererId.HasValue)
-        {
-            var r = ViewBag.Referer as Domain.Entities.Person;
-            @Html.ActionLink(r.LastName + " " + r.FirstName + " " + r.MiddleName, "Show", new { id = r.Id }, new { title = "Просмотр рекомендателя" })
-        }
-        else
-        {
-            <text>не указано</text>
-        }
-    </div>
-    <div class="display-label">
-        Кого рекомендовал:
-    </div>
-    <div class="display-field">
-        @if (ViewBag.RecommendedPersons != null)
-        {
-            <ul>
-                @foreach(var p in ViewBag.RecommendedPersons as IEnumerable<Domain.Entities.Person>)
-                {
-                    <li>@Html.ActionLink(p.LastName + " " + p.FirstName + " " + p.MiddleName, "Show", new { id = p.Id }, new { title = "Просмотр рекомендуемого" })</li>
-                }
-            </ul>
-        }
-        else
-        {
-            <text>не найдено</text>
-        }
-    </div>
 </fieldset>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id=Model.Person.Id }) |

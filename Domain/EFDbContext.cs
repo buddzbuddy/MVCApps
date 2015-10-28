@@ -35,6 +35,7 @@ namespace Domain
         public DbSet<Party> Parties { get; set; }
         public DbSet<Precinct> Precincts { get; set; }
         public DbSet<Worker> Workers { get; set; }
-        public DbSet<PersonPartyRelation> PersonPartyRelations { get; set; }
+        public DbSet<VoterPartyRelation> VoterPartyRelations { get; set; }
+        public DbSet<Voter> Voters { get; set; }
     }
 }

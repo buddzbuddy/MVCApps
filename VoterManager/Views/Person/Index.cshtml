@@ -1,10 +1,10 @@
-﻿@model IEnumerable<VoterManager.Models.PersonViewModel>
+﻿@model IEnumerable<Domain.Entities.Person>
 
 @{
-    ViewBag.Title = "Список граждан-избирателей";
+    ViewBag.Title = "Список граждан";
 }
 
-<h2>Список граждан-избирателей</h2>
+<h2>Список граждан</h2>
 
 <p>
     @Html.ActionLink("Создать нового гражданина", "Create")
@@ -13,13 +13,10 @@
     <tr>
         <th></th>
         <th>
-            ФИО
+            @Html.DisplayNameFor(model => model.FullName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Party.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Organization.Name)
+            @Html.DisplayNameFor(model => model.Years)
         </th>
     </tr>
     
@@ -27,32 +24,15 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Person.Id }) |
-                @Html.ActionLink("Открыть", "Show", new { id = item.Person.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Person.Id })
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Открыть", "Show", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Person.LastName) @Html.DisplayFor(modelItem => item.Person.FirstName) @Html.DisplayFor(modelItem => item.Person.MiddleName)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @if (item.Party != null)
-                {
-                    @Html.ActionLink(item.Party.Name, "Show", "Party", new { Id = item.Party.Id }, new { title = "Открыть партию" });
-                }
-                else
-                {
-                    <text>не указано</text>
-                }
-            </td>
-            <td>
-                @if (item.Organization != null)
-                {
-                    @Html.ActionLink(item.Organization.Name, "Show", "Organization", new { Id = item.Organization.Id }, new { title = "Открыть организацию" });
-                }
-                else
-                {
-                    <text>не указано</text>
-                }
+                @Html.DisplayFor(modelItem => item.Years)
             </td>
         </tr>
     }

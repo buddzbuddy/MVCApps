@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -31,6 +27,7 @@ namespace Domain.Entities
             }
         }
 
+        [Display(Name = "Возраст")]
         public virtual int? Years
         {
             get
@@ -42,7 +39,6 @@ namespace Domain.Entities
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
-        //[RegularExpression(@"^(0[1-9]|1[012])[.](0[1-9]|[12][0-9]|3[01])[.]\d{4}$", ErrorMessage = "End Date should be in MM/dd/yyyy format")]
         public DateTime? BirthDate { get; set; }
 
         #region Contacts
@@ -75,27 +71,5 @@ namespace Domain.Entities
 
         [Display(Name = "Образование")]
         public int? EducationId { get; set; }
-
-        [Display(Name = "Сдал биометрические данные?")]
-        public bool GaveBiometricData { get; set; }
-
-        #region Organization info
-        [Display(Name = "Организация")]
-        public int? OrganizationId { get; set; }
-
-        [Display(Name = "Должность")]
-        public string JobTitle { get; set; }
-        #endregion
-
-        [Display(Name = "Кто рекомендовал:")]
-        public int? RefererId { get; set; }
-
-        public virtual List<House> Houses { get; set; }
-
-        [Display(Name = "Политический взгляд")]
-        public int? PartyId { get; set; }
-
-        /*[Display(Name = "УИК")]
-        public int? PrecinctId { get; set; }*/
     }
 }

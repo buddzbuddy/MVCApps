@@ -9,67 +9,63 @@ using VoterManager.Models;
 
 namespace VoterManager.Controllers
 {
-    public class PersonController : Controller
+    public class VoterController : Controller
     {
         private DataManager dataManager;
-        public PersonController(DataManager dataManager)
+        public VoterController(DataManager dataManager)
         {
             this.dataManager = dataManager;
         }
         public ActionResult Index()
         {
-            return View(dataManager.Persons.GetAll());
-        }
-
-        public ActionResult MunicipalityManagers()
-        {
-            var managers = dataManager.Municipalities.GetAll().Where(m => m.ManagerId.HasValue);
-            Person personObj;
-            return View(from m in managers
-                        select new
-                        {
-                            Person = personObj = dataManager.Persons.Get(m.ManagerId.Value),
-                            District = dataManager.Districts.Get((int?)personObj.DistrictId ?? 0),
-                            Municipality = m
-                        }.ToSafeDynamic());
-        }
-        public ActionResult HouseManagers()
-        {
-            var managers = dataManager.Houses.GetAll().Where(h => h.ManagerId.HasValue).Select(h => h.ManagerId.Value).Distinct();
-            Person personObj;
-            House houseObj;
-            return View(from m in managers
-                        select new
-                        {
-                            Person = personObj = dataManager.Persons.Get(m),
-                            House = houseObj = GetHouseByManagerId(personObj.Id),
-                            Street = houseObj != null ? dataManager.Streets.Get((int?)houseObj.StreetId ?? 0) : null
-                        }.ToSafeDynamic());
-        }
-
-        private House GetHouseByManagerId(int Id)
-        {
-            var houses = dataManager.Houses.GetAll().Where(h => h.ManagerId == Id);
-            if (houses.Count() > 1) return null;
-            return houses.First();
+            return View(dataManager.Voters.GetAll());
         }
 
         public ActionResult Show(int Id)
         {
-            var obj = dataManager.Persons.Get(Id);
-            var model = new PersonViewModel
+            var obj = dataManager.Voters.Get(Id);
+            var person = dataManager.Persons.Get(obj.PersonId ?? 0);
+            var model = new VoterViewModel
             {
-                Person = obj,
-                District = dataManager.Districts.Get((int?)obj.DistrictId ?? 0),
-                Nationality = dataManager.Nationalities.Get((int?)obj.NationalityId ?? 0),
-                Education = dataManager.Educations.Get((int?)obj.EducationId ?? 0),
-                Locality = dataManager.Localities.Get((int?)obj.LocalityId ?? 0),
-                Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
-                House = dataManager.Houses.Get((int?)obj.HouseId ?? 0)
+                PersonView = new PersonViewModel
+                {
+                    Person = person,
+                    District = dataManager.Districts.Get((int?)person.DistrictId ?? 0),
+                    Nationality = dataManager.Nationalities.Get((int?)person.NationalityId ?? 0),
+                    Education = dataManager.Educations.Get((int?)person.EducationId ?? 0),
+                    Locality = dataManager.Localities.Get((int?)person.LocalityId ?? 0),
+                    Street = dataManager.Streets.Get((int?)person.StreetId ?? 0),
+                    House = dataManager.Houses.Get((int?)person.HouseId ?? 0)
+                },
+                PoliticalViews = (from vp in dataManager.VoterPartyRelations.GetAll()
+                                  where vp.VoterId == Id
+                                  select new VoterPartyRelationViewModel
+                                  {
+                                      VoterPartyRelation = vp,
+                                      Voter = obj,
+                                      Party = dataManager.Parties.Get(vp.PartyId ?? 0)
+                                  }).ToList()
             };
             return View(model);
         }
-        
+
+        public ActionResult AsyncChange(int Id)
+        {
+            var task = Execute(Id);
+            return RedirectToAction("Show", new { Id = Id });
+        }
+
+        private async System.Threading.Tasks.Task Execute(int id)
+        {
+            await System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                System.Threading.Thread.Sleep(15000);
+                var obj = dataManager.Persons.Get(id);
+                obj.FirstName = obj.FirstName + " changed by async";
+                dataManager.Persons.Save(obj);
+            });
+        }
+
         public ActionResult ViewStateServiceInfo(int personId)
         {
             var hasData = false;

@@ -25,11 +25,11 @@ namespace VoterManager.Controllers
                             Municipality = dataManager.Municipalities.Get(o.MunicipalityId.HasValue ? o.MunicipalityId.Value : 0),
                             House = dataManager.Houses.Get(o.HouseId.HasValue ? o.HouseId.Value : 0)
                         };
-            ViewBag.PersonPartyRelations = from pp in dataManager.PersonPartyRelations.GetAll()
-                                           select new PersonPartyRelationViewModel
+            ViewBag.PersonPartyRelations = from pp in dataManager.VoterPartyRelations.GetAll()
+                                           select new VoterPartyRelationViewModel
                                            {
-                                               PersonPartyRelation = pp,
-                                               Person = dataManager.Persons.Get(pp.PersonId ?? 0),
+                                               VoterPartyRelation = pp,
+                                               Voter = dataManager.Voters.Get(pp.VoterId ?? 0),
                                                Party = dataManager.Parties.Get(pp.PartyId ?? 0)
                                            };
             return View();

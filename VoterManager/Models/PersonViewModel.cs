@@ -15,9 +15,5 @@ namespace VoterManager.Models
         public House House { get; set; }
         public Nationality Nationality { get; set; }
         public Education Education { get; set; }
-        public Organization Organization { get; set; }
-        public Party Party { get; set; }
-        public Precinct Precinct { get; set; }
-        public List<PersonPartyRelationViewModel> PoliticalViews { get; set; }
     }
 }

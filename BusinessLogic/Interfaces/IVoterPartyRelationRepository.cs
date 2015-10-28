@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IPersonPartyRelationRepository
+    public interface IVoterPartyRelationRepository
     {
-        IEnumerable<PersonPartyRelation> GetAll();
-        PersonPartyRelation Get(int Id);
-        void Save(PersonPartyRelation obj);
+        IEnumerable<VoterPartyRelation> GetAll();
+        VoterPartyRelation Get(int Id);
+        void Save(VoterPartyRelation obj);
         void Delete(int Id);
     }
 }

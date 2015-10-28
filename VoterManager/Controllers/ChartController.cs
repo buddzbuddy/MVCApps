@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using VoterManager.Models;
 
 namespace VoterManager.Controllers
 {
@@ -36,11 +37,16 @@ namespace VoterManager.Controllers
         {
             var parties = new List<KeyValuePair<string, int>>();
             var itemHouses = dataManager.Houses.GetAll().Where(h => h.PrecinctId == Id);
-            var voters = dataManager.Persons.GetAll().Where(p => itemHouses.Select(ih => ih.Id).Contains(p.HouseId ?? 0));
+            var persons = dataManager.Persons.GetAll().Where(p => itemHouses.Select(ih => ih.Id).Contains(p.HouseId ?? 0)).Select(p => p.Id);
+            var voters = from v in dataManager.Voters.GetAll()
+                         select new VoterViewModel
+                         {
+                             PersonView = new PersonViewModel { Person = dataManager.Persons.Get(v.PersonId ?? 0) }
+                         };
 
-            foreach (var v in voters.GroupBy(v => v.PartyId))
+            foreach (var v in voters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))
             {
-                var party = dataManager.Parties.GetAll().FirstOrDefault(p => p.Id == (v.Key ?? 0));
+                var party = dataManager.Parties.Get(v.Key);
                 parties.Add(new KeyValuePair<string, int>(party != null ? party.Name : "не указано", v.Count()));
             }
 

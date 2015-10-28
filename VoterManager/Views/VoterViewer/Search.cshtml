@@ -133,9 +133,6 @@
                 <th>
                     Дом
                 </th>
-                @*<th>
-                    УИК
-                </th>*@
                 <th>
                     Политический взгляд
                 </th>
@@ -144,45 +141,44 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink("Открыть", "Show", "Person", new { Id = item.Id }, new { title = "Просмотр гражданина" })
+                        @Html.ActionLink("Открыть", "Show", "Voter", new { Id = item.Voter.Id }, new { title = "Просмотр избирателя" })
                     </td>
                     <td>
-                        @item.FullName
+                        @item.Person.FullName
                     </td>
                     <td>
-                        @item.Years
+                        @item.Person.Years
                     </td>
                     <td>
-                        @Html.CheckBox("GaveBiometricDataItem", item.GaveBiometricData, new { disabled = true })
+                        @Html.CheckBox("GaveBiometricDataItem", item.Voter.GaveBiometricData, new { disabled = true })
                     </td>
                     <td>
-                        @if (item.DistrictId.HasValue)
+                        @if (item.Person.DistrictId.HasValue)
                         {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.DistrictId.Value, eType = Domain.Entities.VoterManagerEntityTypes.District });
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Person.DistrictId.Value, eType = Domain.Entities.VoterManagerEntityTypes.District });
                         }
                     </td>
                     <td>
-                        @if (item.LocalityId.HasValue)
+                        @if (item.Person.LocalityId.HasValue)
                         {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.LocalityId.Value, eType = Domain.Entities.VoterManagerEntityTypes.Locality });
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Person.LocalityId.Value, eType = Domain.Entities.VoterManagerEntityTypes.Locality });
                         }
                     </td>
                     <td>
-                        @if (item.StreetId.HasValue)
+                        @if (item.Person.StreetId.HasValue)
                         {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.StreetId.Value, eType = Domain.Entities.VoterManagerEntityTypes.Street });
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Person.StreetId.Value, eType = Domain.Entities.VoterManagerEntityTypes.Street });
                         }
                     </td>
                     <td>
-                        @if (item.HouseId.HasValue)
+                        @if (item.Person.HouseId.HasValue)
                         {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.HouseId.Value, eType = Domain.Entities.VoterManagerEntityTypes.House });
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Person.HouseId.Value, eType = Domain.Entities.VoterManagerEntityTypes.House });
                         }
                     </td>
                     <td>
-                        @if (item.PartyId.HasValue)
-                        {
-                            Html.RenderAction("GetNameByEntityId", new { Id = item.Id, eType = Domain.Entities.VoterManagerEntityTypes.Party });
+                        @{
+                            Html.RenderAction("GetNameByEntityId", new { Id = item.Voter.Id, eType = Domain.Entities.VoterManagerEntityTypes.Party });
                         }
                     </td>
                 </tr>

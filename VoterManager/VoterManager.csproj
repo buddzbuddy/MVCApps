@@ -240,6 +240,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\VoterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Controllers\PrecinctController.cs" />
@@ -264,7 +265,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\PersonPartyRelationViewModel.cs" />
+    <Compile Include="Models\VoterPartyRelationViewModel.cs" />
+    <Compile Include="Models\VoterViewModel.cs" />
     <Compile Include="Models\PrecinctViewModel.cs" />
     <Compile Include="Models\RegistrationViewModel.cs" />
     <Compile Include="Models\DistrictViewModel.cs" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VoterManager.Models;
 
 namespace VoterManager.Controllers
 {
@@ -44,14 +45,19 @@ namespace VoterManager.Controllers
 
             var parties = dataManager.Parties.GetAll();
             var houses = dataManager.Houses.GetAll();
-            var persons = dataManager.Persons.GetAll();
+            //var persons = dataManager.Persons.GetAll();
+            var voters = from v in dataManager.Voters.GetAll()
+                         select new VoterViewModel
+                         {
+                             PersonView = new PersonViewModel { Person = dataManager.Persons.Get(v.PersonId ?? 0) }
+                         };
             var precincts = dataManager.Precincts.GetAll().Where(p => p.Latitude.HasValue && p.Longitude.HasValue);
 
             foreach(var precinct in precincts)
             {
                 var itemHouses = houses.Where(h => h.PrecinctId == precinct.Id);
-                var voters = persons.Where(p => itemHouses.Select(ih => ih.Id).Contains(p.HouseId ?? 0));
-                var worker = persons.FirstOrDefault(p => p.Id == (precinct.WorkerId ?? 0));
+                var precinctVoters = voters.Where(v => itemHouses.Select(ih => ih.Id).Contains(v.PersonView.Person.HouseId ?? 0));
+                var worker = voters.FirstOrDefault(p => p.PersonView.Person.Id == (precinct.WorkerId ?? 0));
 
                 var item = new CustomData();
                 
@@ -68,15 +74,15 @@ namespace VoterManager.Controllers
 
                 item.Parties = new List<KeyValuePair<string, int>>();
 
-                foreach(var v in voters.GroupBy(v => v.PartyId))
+                foreach(var v in voters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))
                 {
-                    var party = parties.FirstOrDefault(p => p.Id == (v.Key ?? 0));
+                    var party = parties.FirstOrDefault(p => p.Id == v.Key);
                     item.Parties.Add(new KeyValuePair<string, int>(party != null ? party.Name : "не указано", v.Count()));
                 }
 
                 item.VoterCount = item.Parties.Sum(x => x.Value);
 
-                item.Worker = worker != null ? worker.FullName : "Не указано";
+                item.Worker = worker != null ? worker.PersonView.Person.FullName : "Не указано";
 
                 model.Add(item);
             }

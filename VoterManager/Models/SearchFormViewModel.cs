@@ -84,7 +84,7 @@ namespace VoterManager.Models
         [Display(Name = "Политический взгляд")]
         public int? PartyId { get; set; }
 
-        public List<Person> SearchResult { get; set; }
+        public List<VoterViewModel> SearchResult { get; set; }
         public int SearchResultCount
         {
             get { return SearchResult != null ? SearchResult.Count : 0; }

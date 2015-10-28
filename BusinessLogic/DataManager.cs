@@ -27,7 +27,8 @@ namespace BusinessLogic
         private IPrecinctRepository precinctRepository;
         private IUserRepository userRepository;
         private IWorkerRepository workerRepository;
-        private IPersonPartyRelationRepository personPartyRelationRepository;
+        private IVoterPartyRelationRepository voterPartyRelationRepository;
+        private IVoterRepository voterRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -43,7 +44,8 @@ namespace BusinessLogic
             IPrecinctRepository precinctRepository,
             IUserRepository userRepository,
             IWorkerRepository workerRepository,
-            IPersonPartyRelationRepository personPartyRelationRepository)
+            IVoterPartyRelationRepository voterPartyRelationRepository,
+            IVoterRepository voterRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -60,7 +62,8 @@ namespace BusinessLogic
             this.precinctRepository = precinctRepository;
             this.userRepository = userRepository;
             this.workerRepository = workerRepository;
-            this.personPartyRelationRepository = personPartyRelationRepository;
+            this.voterPartyRelationRepository = voterPartyRelationRepository;
+            this.voterRepository = voterRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -78,6 +81,7 @@ namespace BusinessLogic
         public IPrecinctRepository Precincts { get { return precinctRepository; } }
         public IUserRepository Users { get { return userRepository; } }
         public IWorkerRepository Workers { get { return workerRepository; } }
-        public IPersonPartyRelationRepository PersonPartyRelations { get { return personPartyRelationRepository; } }
+        public IVoterPartyRelationRepository VoterPartyRelations { get { return voterPartyRelationRepository; } }
+        public IVoterRepository Voters { get { return voterRepository; } }
     }
 }

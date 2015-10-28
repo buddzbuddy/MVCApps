@@ -11,24 +11,10 @@
     <legend>Гражданин</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.LastName)
+         @Html.DisplayNameFor(model => model.Person.FullName)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Person.LastName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.FirstName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.MiddleName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.MiddleName)
+        @Html.DisplayFor(model => model.Person.FullName)
     </div>
 
     <div class="display-label">
@@ -101,26 +87,6 @@
         @Html.DisplayFor(model => model.Education.Name)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.GaveBiometricData)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.GaveBiometricData)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Organization.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Organization.Name)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.JobTitle)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.JobTitle)
-    </div>
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
