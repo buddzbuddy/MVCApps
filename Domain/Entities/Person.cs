@@ -38,7 +38,8 @@ namespace Domain.Entities
 
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{yyyy'-'MM'-'0:dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BirthDate { get; set; }
 
         #region Contacts

@@ -1,4 +1,5 @@
-﻿@model Domain.Entities.Person
+﻿@using Telerik.Web.Mvc.UI;
+@model Domain.Entities.Person
 
 @{
     ViewBag.Title = "Редактирование физ. лица";
@@ -42,7 +43,7 @@
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.BirthDate)
-            @Html.ValidationMessageFor(model => model.BirthDate)
+    @Html.ValidationMessageFor(model => model.BirthDate)
         </div>
 
         <div class="editor-label">
