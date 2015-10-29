@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="DataManager.cs" />
     <Compile Include="Implementations\VoterPartyRelationRepository.cs" />
+    <Compile Include="Implementations\UserLogRepository.cs" />
     <Compile Include="Implementations\VoterRepository.cs" />
     <Compile Include="Implementations\PrecinctRepository.cs" />
     <Compile Include="Implementations\PartyRepository.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Interfaces\IVoterPartyRelationRepository.cs" />
     <Compile Include="Interfaces\IPrecinctRepository.cs" />
     <Compile Include="Interfaces\IPartyRepository.cs" />
+    <Compile Include="Interfaces\IUserLogRepository.cs" />
     <Compile Include="Interfaces\IVoterRepository.cs" />
     <Compile Include="Interfaces\IWorkerRepository.cs" />
     <Compile Include="Interfaces\IRegistrationRepository.cs" />

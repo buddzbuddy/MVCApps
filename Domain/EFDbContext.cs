@@ -37,5 +37,6 @@ namespace Domain
         public DbSet<Worker> Workers { get; set; }
         public DbSet<VoterPartyRelation> VoterPartyRelations { get; set; }
         public DbSet<Voter> Voters { get; set; }
+        public DbSet<UserLog> UserLogs { get; set; }
     }
 }

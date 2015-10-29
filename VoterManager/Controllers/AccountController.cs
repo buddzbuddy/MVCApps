@@ -42,6 +42,7 @@ namespace VoterManager.Controllers
         {
             if (ModelState.IsValid && dataManager.Users.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                dataManager.UserLogs.Save(new UserLog { UserName = model.UserName });
                 return RedirectToLocal(returnUrl);
             }
 
