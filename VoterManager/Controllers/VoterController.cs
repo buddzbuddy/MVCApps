@@ -18,7 +18,12 @@ namespace VoterManager.Controllers
         }
         public ActionResult Index()
         {
-            return View(dataManager.Voters.GetAll());
+            return View(from v in dataManager.Voters.GetAll()
+                        select new VoterViewModel
+                        {
+                            Voter = v,
+                            Person = dataManager.Persons.Get(v.PersonId ?? 0)
+                        });
         }
 
         public ActionResult Show(int Id)
@@ -27,6 +32,8 @@ namespace VoterManager.Controllers
             var person = dataManager.Persons.Get(obj.PersonId ?? 0);
             var model = new VoterViewModel
             {
+                Voter = obj,
+                Person = person,
                 PersonView = new PersonViewModel
                 {
                     Person = person,
@@ -72,7 +79,7 @@ namespace VoterManager.Controllers
             var obj = dataManager.Persons.Get(personId);
             Street streetObj;
             var houses = from h in dataManager.Houses.GetAll()
-                         where h.ManagerId == obj.Id
+                         where obj != null && h.ManagerId == obj.Id
                          select new
                          {
                              House = h,
@@ -85,7 +92,7 @@ namespace VoterManager.Controllers
                 hasData = true;
             }
             var municipalities = from m in dataManager.Municipalities.GetAll()
-                                 where m.ManagerId == obj.Id
+                                 where obj != null && m.ManagerId == obj.Id
                                  select new
                                  {
                                      Municipality = m,
@@ -97,7 +104,7 @@ namespace VoterManager.Controllers
                 hasData = true;
             }
             var districts = from d in dataManager.Districts.GetAll()
-                            where d.ManagerId == obj.Id
+                            where obj != null && d.ManagerId == obj.Id
                             select d;
             if (districts.Count() > 0)
             {
@@ -250,103 +257,44 @@ namespace VoterManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int? organizationId, int? districtId, int? nationalityId,
-            int? educationId, int? partyId, int? localityId, int? streetId, int? houseId)
+        public ActionResult Create(int? personId)
         {
-            var nationalities = new List<SelectListItem> { new SelectListItem() };
-            nationalities.AddRange(from n in dataManager.Nationalities.GetAll()
-                                   select new SelectListItem
-                                   {
-                                       Text = n.Name,
-                                       Value = n.Id.ToString(),
-                                       Selected = nationalityId == n.Id
-                                   });
-            ViewBag.Nationalities = nationalities;
-            var educations = new List<SelectListItem> { new SelectListItem() };
-            educations.AddRange(from n in dataManager.Educations.GetAll()
-                                select new SelectListItem
-                                {
-                                    Text = n.Name,
-                                    Value = n.Id.ToString(),
-                                    Selected = educationId == n.Id
-                                });
-            ViewBag.Educations = educations;
-            var organizations = new List<SelectListItem> { new SelectListItem() };
-            organizations.AddRange(from n in dataManager.Organizations.GetAll()
-                                   select new SelectListItem
-                                   {
-                                       Text = n.Name,
-                                       Value = n.Id.ToString(),
-                                       Selected = organizationId == n.Id
-                                   });
-            ViewBag.Organizations = organizations;
-            var parties = new List<SelectListItem> { new SelectListItem() };
-            parties.AddRange(from p in dataManager.Parties.GetAll()
-                             select new SelectListItem
-                             {
-                                 Text = p.Name,
-                                 Value = p.Id.ToString(),
-                                 Selected = p.Id == partyId
-                             });
-            ViewBag.Parties = parties;
-            var model = new Person();
-            if(houseId.HasValue)
-            {
-                var house = dataManager.Houses.Get(houseId.Value);
-                model.HouseId = house.Id;
-                streetId = house.StreetId;
-            }
-            if (streetId.HasValue)
-            {
-                var street = dataManager.Streets.Get(streetId.Value);
-                model.StreetId = street.Id;
-                localityId = street.LocalityId;
-                districtId = street.DistrictId;
-                ViewBag.Street = street;
-            }
-            if (localityId.HasValue)
-            {
-                var locality = dataManager.Localities.Get(localityId.Value);
-                model.LocalityId = locality.Id;
-                districtId = locality.DistrictId;
-                ViewBag.Locality = locality;
-            }
-            var districts = new List<SelectListItem> { new SelectListItem() };
-            districts.AddRange(from d in dataManager.Districts.GetAll()
-                               select new SelectListItem
-                               {
-                                   Text = d.Name,
-                                   Value = d.Id.ToString(),
-                                   Selected = districtId == d.Id
-                               });
-            ViewBag.Districts = districts;
-            var referers = new List<SelectListItem> { new SelectListItem() };
-            referers.AddRange(from p in dataManager.Persons.GetAll()
-                              select new SelectListItem
-                              {
-                                  Text = p.LastName + " " + p.FirstName + " " + p.MiddleName,
-                                  Value = p.Id.ToString()
-                              });
-            ViewBag.Referers = referers;
-
-            return View(model);
+            if (!personId.HasValue)
+                return RedirectToAction("CreateBase", "Person", new { returnUrl = Request.Url.ToString(), processName = "Создать избирателя" });
+            return View(new Voter { PersonId = personId });
         }
 
         [HttpPost]
-        public ActionResult Create(Person obj)
+        public ActionResult Create(Voter obj)
         {
             if (ModelState.IsValid)
             {
                 {
-                    dataManager.Persons.Save(obj);
+                    dataManager.Voters.Save(obj);
                     return RedirectToAction("Show", new { Id = obj.Id });
                 }
             }
             return View(obj);
         }
 
+        public ActionResult Person(int Id)
+        {
+            var obj = dataManager.Persons.Get(Id);
+            var model = new PersonViewModel
+            {
+                Person = obj,
+                District = dataManager.Districts.Get((int?)obj.DistrictId ?? 0),
+                Nationality = dataManager.Nationalities.Get((int?)obj.NationalityId ?? 0),
+                Education = dataManager.Educations.Get((int?)obj.EducationId ?? 0),
+                Locality = dataManager.Localities.Get((int?)obj.LocalityId ?? 0),
+                Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
+                House = dataManager.Houses.Get((int?)obj.HouseId ?? 0)
+            };
+            return PartialView(model);
+        }
+
         [HttpGet]
-        public ActionResult AddParty(int personId)
+        public ActionResult AddParty(int voterId)
         {
             ViewBag.Parties = from p in dataManager.Parties.GetAll()
                               select new SelectListItem
@@ -356,7 +304,7 @@ namespace VoterManager.Controllers
                               };
             return View(new VoterPartyRelation
             {
-                VoterId = personId
+                VoterId = voterId
             });
         }
         [HttpPost]

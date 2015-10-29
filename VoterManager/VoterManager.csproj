@@ -484,18 +484,12 @@
     <Content Include="Views\Organization\Show.cshtml" />
     <Content Include="Views\Relation\AddHouseToMunicipality.cshtml" />
     <Content Include="Views\Relation\Index.cshtml" />
-    <Content Include="Views\Person\MunicipalityManagers.cshtml" />
-    <Content Include="Views\Person\HouseManagers.cshtml" />
     <Content Include="Views\VoterViewer\Search.cshtml" />
     <Content Include="Views\Registration\Input.cshtml" />
     <Content Include="Views\Registration\Delete.cshtml" />
     <Content Include="Views\Registration\Edit.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Registration\Show.cshtml" />
-    <Content Include="Views\Person\NoRegistration.cshtml" />
-    <Content Include="Views\Person\ViewRegistration.cshtml" />
-    <Content Include="Views\Person\ViewStateServiceInfo.cshtml" />
-    <Content Include="Views\Person\ViewAddressManagers.cshtml" />
     <Content Include="Views\Party\Create.cshtml" />
     <Content Include="Views\Party\CreatePartial.cshtml" />
     <Content Include="Views\Party\Delete.cshtml" />
@@ -527,8 +521,19 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Home\Toolbar.cshtml" />
-    <Content Include="Views\Person\AddParty.cshtml" />
-    <Content Include="Views\Person\PoliticalViews.cshtml" />
+    <Content Include="Views\Person\CreateBase.cshtml" />
+    <Content Include="Views\Voter\Create.cshtml" />
+    <Content Include="Views\Voter\Person.cshtml" />
+    <Content Include="Views\Voter\AddParty.cshtml" />
+    <Content Include="Views\Voter\HouseManagers.cshtml" />
+    <Content Include="Views\Voter\MunicipalityManagers.cshtml" />
+    <Content Include="Views\Voter\NoRegistration.cshtml" />
+    <Content Include="Views\Voter\PoliticalViews.cshtml" />
+    <Content Include="Views\Voter\Show.cshtml" />
+    <Content Include="Views\Voter\ViewAddressManagers.cshtml" />
+    <Content Include="Views\Voter\ViewRegistration.cshtml" />
+    <Content Include="Views\Voter\ViewStateServiceInfo.cshtml" />
+    <Content Include="Views\Voter\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

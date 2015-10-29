@@ -14,7 +14,7 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
 
-        [Display(Name = "Гражданин")]
+        [Display(Name = "Физ. лицо")]
         public int? PersonId { get; set; }
 
         [Display(Name = "Сдал биометрические данные?")]

@@ -254,8 +254,8 @@ namespace VoterManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int? organizationId, int? districtId, int? nationalityId,
-            int? educationId, int? partyId, int? localityId, int? streetId, int? houseId)
+        public ActionResult Create(int? districtId, int? nationalityId,
+            int? educationId, int? localityId, int? streetId, int? houseId)
         {
             var nationalities = new List<SelectListItem> { new SelectListItem() };
             nationalities.AddRange(from n in dataManager.Nationalities.GetAll()
@@ -275,24 +275,6 @@ namespace VoterManager.Controllers
                                     Selected = educationId == n.Id
                                 });
             ViewBag.Educations = educations;
-            var organizations = new List<SelectListItem> { new SelectListItem() };
-            organizations.AddRange(from n in dataManager.Organizations.GetAll()
-                                   select new SelectListItem
-                                   {
-                                       Text = n.Name,
-                                       Value = n.Id.ToString(),
-                                       Selected = organizationId == n.Id
-                                   });
-            ViewBag.Organizations = organizations;
-            var parties = new List<SelectListItem> { new SelectListItem() };
-            parties.AddRange(from p in dataManager.Parties.GetAll()
-                             select new SelectListItem
-                             {
-                                 Text = p.Name,
-                                 Value = p.Id.ToString(),
-                                 Selected = p.Id == partyId
-                             });
-            ViewBag.Parties = parties;
             var model = new Person();
             if(houseId.HasValue)
             {
@@ -324,14 +306,6 @@ namespace VoterManager.Controllers
                                    Selected = districtId == d.Id
                                });
             ViewBag.Districts = districts;
-            var referers = new List<SelectListItem> { new SelectListItem() };
-            referers.AddRange(from p in dataManager.Persons.GetAll()
-                              select new SelectListItem
-                              {
-                                  Text = p.LastName + " " + p.FirstName + " " + p.MiddleName,
-                                  Value = p.Id.ToString()
-                              });
-            ViewBag.Referers = referers;
 
             return View(model);
         }
@@ -349,6 +323,81 @@ namespace VoterManager.Controllers
             return View(obj);
         }
 
+        [HttpGet]
+        public ActionResult CreateBase(string returnUrl, string processName, int? districtId, int? nationalityId,
+            int? educationId, int? localityId, int? streetId, int? houseId)
+        {
+            if (string.IsNullOrEmpty(returnUrl))
+                throw new ArgumentNullException("returnUrl", "Обратный Url не передан!");
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ProcessName = processName != "" ? processName : "<unknownProcess>";
+            var nationalities = new List<SelectListItem> { new SelectListItem() };
+            nationalities.AddRange(from n in dataManager.Nationalities.GetAll()
+                                   select new SelectListItem
+                                   {
+                                       Text = n.Name,
+                                       Value = n.Id.ToString(),
+                                       Selected = nationalityId == n.Id
+                                   });
+            ViewBag.Nationalities = nationalities;
+            var educations = new List<SelectListItem> { new SelectListItem() };
+            educations.AddRange(from n in dataManager.Educations.GetAll()
+                                select new SelectListItem
+                                {
+                                    Text = n.Name,
+                                    Value = n.Id.ToString(),
+                                    Selected = educationId == n.Id
+                                });
+            ViewBag.Educations = educations;
+            var model = new Person();
+            if (houseId.HasValue)
+            {
+                var house = dataManager.Houses.Get(houseId.Value);
+                model.HouseId = house.Id;
+                streetId = house.StreetId;
+            }
+            if (streetId.HasValue)
+            {
+                var street = dataManager.Streets.Get(streetId.Value);
+                model.StreetId = street.Id;
+                localityId = street.LocalityId;
+                districtId = street.DistrictId;
+                ViewBag.Street = street;
+            }
+            if (localityId.HasValue)
+            {
+                var locality = dataManager.Localities.Get(localityId.Value);
+                model.LocalityId = locality.Id;
+                districtId = locality.DistrictId;
+                ViewBag.Locality = locality;
+            }
+            var districts = new List<SelectListItem> { new SelectListItem() };
+            districts.AddRange(from d in dataManager.Districts.GetAll()
+                               select new SelectListItem
+                               {
+                                   Text = d.Name,
+                                   Value = d.Id.ToString(),
+                                   Selected = districtId == d.Id
+                               });
+            ViewBag.Districts = districts;
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult CreateBase(Person obj, FormCollection collection)
+        {
+            var returnUrl = collection["returnUrl"];
+            if (string.IsNullOrEmpty(returnUrl))
+                throw new ArgumentNullException("returnUrl", "Обратный Url не передан!");
+            if (ModelState.IsValid)
+            {
+                {
+                    dataManager.Persons.Save(obj);
+                    return Redirect(returnUrl + "?personId=" + obj.Id);
+                }
+            }
+            return View(obj);
+        }
         [HttpGet]
         public ActionResult AddParty(int personId)
         {

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<VoterManager.Models.VoterViewModel>
+
+@{
+    ViewBag.Title = "Избиратели";
+}
+
+<h2>Избиратели</h2>
+
+<p>
+    @Html.ActionLink("Создать нового избирателя", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>@Html.DisplayNameFor(model => model.Person.FullName)</th>
+        <th>@Html.DisplayNameFor(model => model.Person.Years)</th>
+        <th>@Html.DisplayNameFor(model => model.Voter.GaveBiometricData)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.Voter.Id }) |
+            @Html.ActionLink("Открыть", "Show", new { id = item.Voter.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.Voter.Id })
+        </td>
+        <td>@item.Person.FullName</td>
+        <td>@item.Person.Years</td>
+        <td>@Html.CheckBox("GaveBioData", item.Voter.GaveBiometricData, new { disabled = true })</td>
+    </tr>
+}
+
+</table>
