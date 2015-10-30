@@ -45,19 +45,28 @@ namespace VoterManager.Controllers
 
             var parties = dataManager.Parties.GetAll();
             var houses = dataManager.Houses.GetAll();
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll();
             //var persons = dataManager.Persons.GetAll();
             var voters = from v in dataManager.Voters.GetAll()
                          select new VoterViewModel
                          {
-                             PersonView = new PersonViewModel { Person = dataManager.Persons.Get(v.PersonId ?? 0) }
+                             Person = dataManager.Persons.Get(v.PersonId ?? 0),
+                             PoliticalViews = (from vp in voterPartyRelations
+                                               where vp.VoterId == v.Id
+                                               select new VoterPartyRelationViewModel
+                                               {
+                                                   VoterPartyRelation = vp,
+                                                   Voter = v,
+                                                   Party = dataManager.Parties.Get(vp.PartyId ?? 0)
+                                               }).ToList()
                          };
             var precincts = dataManager.Precincts.GetAll().Where(p => p.Latitude.HasValue && p.Longitude.HasValue);
 
             foreach(var precinct in precincts)
             {
                 var itemHouses = houses.Where(h => h.PrecinctId == precinct.Id);
-                var precinctVoters = voters.Where(v => itemHouses.Select(ih => ih.Id).Contains(v.PersonView.Person.HouseId ?? 0));
-                var worker = voters.FirstOrDefault(p => p.PersonView.Person.Id == (precinct.WorkerId ?? 0));
+                var precinctVoters = voters.Where(v => itemHouses.Select(ih => ih.Id).Contains(v.Person.HouseId ?? 0));
+                var worker = voters.FirstOrDefault(p => p.Person.Id == (precinct.WorkerId ?? 0));
 
                 var item = new CustomData();
                 
@@ -74,15 +83,15 @@ namespace VoterManager.Controllers
 
                 item.Parties = new List<KeyValuePair<string, int>>();
 
-                foreach(var v in voters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))
+                foreach(var v in precinctVoters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))
                 {
                     var party = parties.FirstOrDefault(p => p.Id == v.Key);
                     item.Parties.Add(new KeyValuePair<string, int>(party != null ? party.Name : "не указано", v.Count()));
                 }
 
-                item.VoterCount = item.Parties.Sum(x => x.Value);
+                item.VoterCount = precinctVoters != null ? precinctVoters.Count() : 0; //item.Parties.Sum(x => x.Value);
 
-                item.Worker = worker != null ? worker.PersonView.Person.FullName : "Не указано";
+                item.Worker = worker != null ? worker.Person.FullName : "Не указано";
 
                 model.Add(item);
             }

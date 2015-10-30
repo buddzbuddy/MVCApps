@@ -36,12 +36,21 @@ namespace VoterManager.Controllers
         public ActionResult Precinct(int Id)
         {
             var parties = new List<KeyValuePair<string, int>>();
-            var itemHouses = dataManager.Houses.GetAll().Where(h => h.PrecinctId == Id);
-            var persons = dataManager.Persons.GetAll().Where(p => itemHouses.Select(ih => ih.Id).Contains(p.HouseId ?? 0)).Select(p => p.Id);
+            var itemHouses = dataManager.Houses.GetAll().Where(h => h.PrecinctId == Id).Select(x => x.Id);
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll();
             var voters = from v in dataManager.Voters.GetAll()
+                         where itemHouses.Contains(dataManager.Persons.Get(v.PersonId ?? 0).HouseId ?? 0)
                          select new VoterViewModel
                          {
-                             PersonView = new PersonViewModel { Person = dataManager.Persons.Get(v.PersonId ?? 0) }
+                             Person = dataManager.Persons.Get(v.PersonId ?? 0),
+                             PoliticalViews = (from vp in voterPartyRelations
+                                               where vp.VoterId == v.Id
+                                               select new VoterPartyRelationViewModel
+                                               {
+                                                   VoterPartyRelation = vp,
+                                                   Voter = v,
+                                                   Party = dataManager.Parties.Get(vp.PartyId ?? 0)
+                                               }).ToList()
                          };
 
             foreach (var v in voters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))

@@ -69,7 +69,7 @@
                             + "<br />Всего избирателей: " + item.VoterCount
                             + "<br />Политические взгляды:"
                             + drawParties(item.Parties)
-                            + (item.VoterCount > 0 ? ("<img src='Chart/Precinct/" + item.Id + "' alt='Диаграмма' />") : "")
+                            + (item.Parties.length ? ("<img src='Chart/Precinct/" + item.Id + "' alt='Диаграмма' />") : "")
                             + "</div>"
                             );
                     infowindow.open(map, marker);
