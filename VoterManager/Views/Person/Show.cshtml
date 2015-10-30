@@ -33,7 +33,7 @@
          @Html.DisplayNameFor(model => model.Person.BirthDate)
     </div>
     <div class="display-field">
-        @*@Html.DisplayFor(model => model.Person.BirthDate)*@@(Model.Person.BirthDate.HasValue ? Model.Person.BirthDate.Value.ToString("d") : "--.--.----")
+        @Html.DisplayFor(model => model.Person.BirthDate)
     </div>
 
     <div class="display-label">

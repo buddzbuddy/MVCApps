@@ -536,6 +536,7 @@
     <Content Include="Views\Voter\ViewStateServiceInfo.cshtml" />
     <Content Include="Views\Voter\Index.cshtml" />
     <Content Include="Views\UserLog\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
