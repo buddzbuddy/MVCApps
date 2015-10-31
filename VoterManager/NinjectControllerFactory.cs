@@ -48,6 +48,7 @@ namespace VoterManager
             ninjectKernel.Bind<IVoterPartyRelationRepository>().To<VoterPartyRelationRepository>();
             ninjectKernel.Bind<IVoterRepository>().To<VoterRepository>();
             ninjectKernel.Bind<IUserLogRepository>().To<UserLogRepository>();
+            ninjectKernel.Bind<IRelationshipRepository>().To<RelationshipRepository>();
         }
     }
 }

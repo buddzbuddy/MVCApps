@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Domain.Entities.Relationship>
+
+@{
+    ViewBag.Title = "Список типов взаимоотношений";
+}
+
+<h2>Список типов взаимоотношений</h2>
+
+@Html.ActionLink("Создать новый", "Create")
+<table class="entityList">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Открыть", "Show", new { id = item.Id }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+        </tr>
+    }
+
+</table>

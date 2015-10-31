@@ -1,0 +1,22 @@
+﻿@model Domain.Entities.Relationship
+
+@{
+    ViewBag.Title = "Просмотр типа взаимоотношения: " + Model.Type;
+}
+
+<h2>Просмотр типа взаимоотношения: @Model.Type</h2>
+
+<fieldset>
+    <legend>Тип взаимоотношения</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Type)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+@Html.ActionLink("Назад к списку", "Index")
+</p>

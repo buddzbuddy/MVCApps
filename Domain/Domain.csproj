@@ -56,6 +56,7 @@
     <Compile Include="Entities\Municipality.cs" />
     <Compile Include="Entities\Education.cs" />
     <Compile Include="Entities\MunicipalityHouseRelation.cs" />
+    <Compile Include="Entities\Relationship.cs" />
     <Compile Include="Entities\Nationality.cs" />
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\Party.cs" />

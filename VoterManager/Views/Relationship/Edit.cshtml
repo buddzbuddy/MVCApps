@@ -1,0 +1,34 @@
+﻿@model Domain.Entities.Relationship
+
+@{
+    ViewBag.Title = "Редактирование типа взаимоотношений";
+}
+
+<h2>Редактирование типа взаимоотношений</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Типа взаимоотношений</legend>
+
+        @Html.HiddenFor(model => model.Id) 
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Type)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
