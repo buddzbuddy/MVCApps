@@ -4,13 +4,19 @@
         <th>
             @Html.DisplayNameFor(model => model.Party.Name)
         </th>
+        <th>
+            Действие
+        </th>
     </tr>
 
 @foreach (var item in Model)
 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Party.Name) | @Html.ActionLink("убрать", "RemovePartyRelation", new { relationId = item.VoterPartyRelation.Id })
+            @Html.DisplayFor(modelItem => item.Party.Name)
+        </td>
+        <td>
+            @Html.ActionLink("убрать", "RemovePartyRelation", new { relationId = item.VoterPartyRelation.Id })
         </td>
     </tr>
 }

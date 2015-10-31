@@ -31,6 +31,7 @@ namespace BusinessLogic
         private IVoterRepository voterRepository;
         private IUserLogRepository userLogRepository;
         private IRelationshipRepository relationshipRepository;
+        private IPersonRelationshipPersonRelationRepository personRelationshipPersonRelationRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -49,7 +50,8 @@ namespace BusinessLogic
             IVoterPartyRelationRepository voterPartyRelationRepository,
             IVoterRepository voterRepository,
             IUserLogRepository userLogRepository,
-            IRelationshipRepository relationshipRepository)
+            IRelationshipRepository relationshipRepository,
+            IPersonRelationshipPersonRelationRepository personRelationshipPersonRelationRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -70,6 +72,7 @@ namespace BusinessLogic
             this.voterRepository = voterRepository;
             this.userLogRepository = userLogRepository;
             this.relationshipRepository = relationshipRepository;
+            this.personRelationshipPersonRelationRepository = personRelationshipPersonRelationRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -91,5 +94,6 @@ namespace BusinessLogic
         public IVoterRepository Voters { get { return voterRepository; } }
         public IUserLogRepository UserLogs { get { return userLogRepository; } }
         public IRelationshipRepository Relationships { get { return relationshipRepository; } }
+        public IPersonRelationshipPersonRelationRepository PersonRelationshipPersonRelations { get { return personRelationshipPersonRelationRepository; } }
     }
 }

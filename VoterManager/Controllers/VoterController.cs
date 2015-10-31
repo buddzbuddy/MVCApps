@@ -276,23 +276,7 @@ namespace VoterManager.Controllers
             }
             return View(obj);
         }
-
-        public ActionResult Person(int Id)
-        {
-            var obj = dataManager.Persons.Get(Id);
-            var model = new PersonViewModel
-            {
-                Person = obj,
-                District = dataManager.Districts.Get((int?)obj.DistrictId ?? 0),
-                Nationality = dataManager.Nationalities.Get((int?)obj.NationalityId ?? 0),
-                Education = dataManager.Educations.Get((int?)obj.EducationId ?? 0),
-                Locality = dataManager.Localities.Get((int?)obj.LocalityId ?? 0),
-                Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
-                House = dataManager.Houses.Get((int?)obj.HouseId ?? 0)
-            };
-            return PartialView(model);
-        }
-
+        
         [HttpGet]
         public ActionResult AddParty(int voterId)
         {
@@ -307,6 +291,7 @@ namespace VoterManager.Controllers
                 VoterId = voterId
             });
         }
+        
         [HttpPost]
         public ActionResult AddParty(VoterPartyRelation obj)
         {
@@ -326,6 +311,7 @@ namespace VoterManager.Controllers
             }
             return RedirectToAction("Show", new { Id = rel.VoterId });
         }
+        
         [HttpGet]
         public ActionResult Edit(int id)
         {

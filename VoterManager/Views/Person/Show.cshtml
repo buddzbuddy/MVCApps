@@ -148,6 +148,11 @@
             <text>не указано</text>
         }
     </div>
+    <h3>Взаимоотношение с другими физ. лицами</h3>
+    @Html.ActionLink("Добавить физ. лицо", "AddRelatedPerson", new { personId = Model.Person.Id })
+    @{
+        Html.RenderPartial("RelatedPersons", Model.RelatedPersons);
+    }
 </fieldset>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id=Model.Person.Id }) |

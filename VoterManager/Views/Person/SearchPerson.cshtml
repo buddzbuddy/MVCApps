@@ -7,8 +7,9 @@
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
+    @Html.Hidden("ReturnedIdName", (string)ViewBag.ReturnedIdName)
     @Html.Hidden("ProcessName", (string)ViewBag.ProcessName)
-    @Html.Hidden("PersonId")
+    @Html.Hidden("SelectedPersonId")
     @Html.Hidden("UserAction")
     
     @Html.Label("SearchPerson", "ФИО:")
@@ -62,7 +63,7 @@
                     $('#SelectedPersonDetail').show();
                     $("#FullName").html(data.FullName);
                     $("#BirthDate").html(data.BirthDate);
-                    $("#PersonId").val(data.Id);
+                    $("#SelectedPersonId").val(data.Id);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Не удалось получить информацию о выбранном физ. лице.');

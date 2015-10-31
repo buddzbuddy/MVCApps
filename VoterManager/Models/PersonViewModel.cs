@@ -15,5 +15,6 @@ namespace VoterManager.Models
         public House House { get; set; }
         public Nationality Nationality { get; set; }
         public Education Education { get; set; }
+        public List<RelationshipRelatedPersonViewModel> RelatedPersons { get; set; }
     }
 }

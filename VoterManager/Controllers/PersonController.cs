@@ -65,7 +65,15 @@ namespace VoterManager.Controllers
                 Education = dataManager.Educations.Get((int?)obj.EducationId ?? 0),
                 Locality = dataManager.Localities.Get((int?)obj.LocalityId ?? 0),
                 Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
-                House = dataManager.Houses.Get((int?)obj.HouseId ?? 0)
+                House = dataManager.Houses.Get((int?)obj.HouseId ?? 0),
+                RelatedPersons = new List<RelationshipRelatedPersonViewModel>(from rp in dataManager.PersonRelationshipPersonRelations.GetAll()
+                                                                              where rp.PersonId == Id
+                                                                              select new RelationshipRelatedPersonViewModel
+                                                                              {
+                                                                                  RelatedPerson = dataManager.Persons.Get(rp.RelatedPersonId ?? 0),
+                                                                                  Relationship = dataManager.Relationships.Get(rp.RelationshipId ?? 0),
+                                                                                  PersonRelationshipPersonRelation = rp
+                                                                              })
             };
             return View(model);
         }
@@ -324,16 +332,17 @@ namespace VoterManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateBase(string returnUrl, string processName = "<unknownProcess>", bool isSearched = false, string forCreate = "", int? districtId = null, int? nationalityId = null,
+        public ActionResult CreateBase(string returnUrl, string processName = "<unknownProcess>", string returnedIdName = "personId", bool isSearched = false, string forCreate = "", int? districtId = null, int? nationalityId = null,
             int? educationId = null, int? localityId = null, int? streetId = null, int? houseId = null)
         {
             if (string.IsNullOrEmpty(returnUrl))
                 throw new ArgumentNullException("returnUrl", "Обратный Url не передан!");
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.ProcessName = processName;
+            ViewBag.ReturnedIdName = returnedIdName;
 
             if (!isSearched)
-                return RedirectToAction("SearchPerson", new { returnUrl = returnUrl, processName = processName });
+                return RedirectToAction("SearchPerson", new { returnUrl = returnUrl, processName = processName, returnedIdName = returnedIdName });
 
             var model = new Person();
             if (!string.IsNullOrEmpty(forCreate))
@@ -394,22 +403,24 @@ namespace VoterManager.Controllers
         public ActionResult CreateBase(Person obj, FormCollection collection)
         {
             var returnUrl = collection["returnUrl"];
+            var returnedIdName = collection["ReturnedIdName"];
             if (string.IsNullOrEmpty(returnUrl))
                 throw new ArgumentNullException("returnUrl", "Обратный Url не передан!");
             if (ModelState.IsValid)
             {
                 {
                     dataManager.Persons.Save(obj);
-                    return Redirect(returnUrl + "?personId=" + obj.Id);
+                    return Redirect(returnUrl + "?" + returnedIdName + "=" + obj.Id);
                 }
             }
             return View(obj);
         }
 
-        public ActionResult SearchPerson(string returnUrl, string processName)
+        public ActionResult SearchPerson(string returnUrl, string processName, string returnedIdName)
         {
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.ProcessName = processName;
+            ViewBag.ReturnedIdName = returnedIdName;
             return View();
         }
 
@@ -430,6 +441,7 @@ namespace VoterManager.Controllers
             var searchPerson = collection["SearchPerson"];
             var userAction = collection["UserAction"];
             var returnUrl = collection["ReturnUrl"];
+            var returnedIdName = collection["ReturnedIdName"];
             if (userAction == "create")
             {
                 var fullName = "";
@@ -442,7 +454,10 @@ namespace VoterManager.Controllers
                 return RedirectToAction("CreateBase", new { returnUrl = returnUrl, processName = collection["ProcessName"], isSearched = true, forCreate = fullName });
             }
             else if (userAction == "select")
-                return Redirect(returnUrl + "?personId=" + int.Parse(collection["PersonId"]));
+            {
+                var selectedPersonId = int.Parse(collection["SelectedPersonId"]);
+                return Redirect(returnUrl + (returnUrl.Contains('?') ? "&" : "?") + returnedIdName + "=" + selectedPersonId);
+            }
             return View();
         }
 
@@ -459,37 +474,55 @@ namespace VoterManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddParty(int personId)
+        public ActionResult AddRelatedPerson(int? personId, int? relatedPersonId)
         {
-            ViewBag.Parties = from p in dataManager.Parties.GetAll()
-                              select new SelectListItem
-                              {
-                                  Text = p.Name,
-                                  Value = p.Id.ToString()
-                              };
-            return View(new VoterPartyRelation
-            {
-                VoterId = personId
-            });
+            if (!relatedPersonId.HasValue)
+                return RedirectToAction("CreateBase", "Person", new { returnUrl = Request.Url.ToString(), processName = "Добавление связанного физ. лица", returnedIdName = "relatedPersonId" });
+            var relationships = new List<SelectListItem> { new SelectListItem() };
+            relationships.AddRange(from n in dataManager.Relationships.GetAll()
+                                   select new SelectListItem
+                                   {
+                                       Text = n.Type,
+                                       Value = n.Id.ToString()
+                                   });
+            ViewBag.Relationships = relationships;
+            return View(new PersonRelationshipPersonRelation { RelatedPersonId = relatedPersonId, PersonId = personId });
         }
         [HttpPost]
-        public ActionResult AddParty(VoterPartyRelation obj)
+        public ActionResult AddRelatedPerson(PersonRelationshipPersonRelation obj)
         {
             if(ModelState.IsValid)
             {
-                dataManager.VoterPartyRelations.Save(obj);
-                return RedirectToAction("Show", new { Id = obj.VoterId });
-            }
+                if (obj.RelationshipId.HasValue)
+                {
+                    dataManager.PersonRelationshipPersonRelations.Save(obj);
+                    return RedirectToAction("Show", new { Id = obj.PersonId });
+                }
+                ModelState.AddModelError("RelationshipId", "Укажите тип взаимоотношения.");
+            } 
+            var relationships = new List<SelectListItem> { new SelectListItem() };
+            relationships.AddRange(from n in dataManager.Relationships.GetAll()
+                                   select new SelectListItem
+                                   {
+                                       Text = n.Type,
+                                       Value = n.Id.ToString()
+                                   });
+            ViewBag.Relationships = relationships;
             return View(obj);
         }
-        public ActionResult RemovePartyRelation(int relationId)
+        public ActionResult RemoveRelatedPerson(int relationId)
         {
-            var rel = dataManager.VoterPartyRelations.Get(relationId);
+            var rel = dataManager.PersonRelationshipPersonRelations.Get(relationId);
             if(rel != null)
             {
-                dataManager.VoterPartyRelations.Delete(rel.Id);
+                dataManager.PersonRelationshipPersonRelations.Delete(rel.Id);
             }
-            return RedirectToAction("Show", new { Id = rel.VoterId });
+            return RedirectToAction("Show", new { Id = rel.PersonId });
+        }
+
+        public ActionResult ShowPartial(int Id)
+        {
+            return PartialView(dataManager.Persons.Get(Id));
         }
         [HttpGet]
         public ActionResult Edit(int id)

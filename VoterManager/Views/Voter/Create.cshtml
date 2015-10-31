@@ -6,14 +6,6 @@
 
 <h2>Создать избирателя</h2>
 
-@*@{
-    if (!Model.PersonId.HasValue)
-    {
-        Html.Action("CreateBase", "Person", new { returnUrl = Request.Url.ToString(), processName = "Создать избирателя" });
-        
-    }
-}*@
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -25,9 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PersonId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.PersonId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PersonId, "", new { @class = "text-danger" })*@
-                @{Html.RenderAction("Person", new { Id = Model.PersonId.Value });}
+                @{Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId.Value });}
             </div>
         </div>
 
@@ -43,14 +33,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад к списку", "Index")
 </div>
 
 @section Scripts {

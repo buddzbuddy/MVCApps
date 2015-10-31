@@ -10,6 +10,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.Hidden("returnUrl", (string)ViewBag.ReturnUrl);
+    @Html.Hidden("returnedIdName", (string)ViewBag.ReturnedIdName);
     <fieldset>
         <legend>Физ.лицо</legend>
 

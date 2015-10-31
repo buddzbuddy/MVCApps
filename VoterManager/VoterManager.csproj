@@ -267,6 +267,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\RelationshipRelatedPersonViewModel.cs" />
     <Compile Include="Models\VoterPartyRelationViewModel.cs" />
     <Compile Include="Models\VoterViewModel.cs" />
     <Compile Include="Models\PrecinctViewModel.cs" />
@@ -542,6 +543,9 @@
     <Content Include="Views\Relationship\Edit.cshtml" />
     <Content Include="Views\Relationship\Index.cshtml" />
     <Content Include="Views\Relationship\Show.cshtml" />
+    <Content Include="Views\Person\AddRelatedPerson.cshtml" />
+    <Content Include="Views\Person\ShowPartial.cshtml" />
+    <Content Include="Views\Person\RelatedPersons.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
