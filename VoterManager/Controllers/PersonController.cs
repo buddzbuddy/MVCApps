@@ -324,13 +324,21 @@ namespace VoterManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateBase(string returnUrl, string processName, int? districtId, int? nationalityId,
-            int? educationId, int? localityId, int? streetId, int? houseId)
+        public ActionResult CreateBase(string returnUrl, string processName = "<unknownProcess>", bool isSearched = false, string forCreate = "", int? districtId = null, int? nationalityId = null,
+            int? educationId = null, int? localityId = null, int? streetId = null, int? houseId = null)
         {
             if (string.IsNullOrEmpty(returnUrl))
                 throw new ArgumentNullException("returnUrl", "Обратный Url не передан!");
             ViewBag.ReturnUrl = returnUrl;
-            ViewBag.ProcessName = processName != "" ? processName : "<unknownProcess>";
+            ViewBag.ProcessName = processName;
+
+            if (!isSearched)
+                return RedirectToAction("SearchPerson", new { returnUrl = returnUrl, processName = processName });
+
+            var model = new Person();
+            if (!string.IsNullOrEmpty(forCreate))
+                model.FullName = forCreate;
+
             var nationalities = new List<SelectListItem> { new SelectListItem() };
             nationalities.AddRange(from n in dataManager.Nationalities.GetAll()
                                    select new SelectListItem
@@ -349,7 +357,6 @@ namespace VoterManager.Controllers
                                     Selected = educationId == n.Id
                                 });
             ViewBag.Educations = educations;
-            var model = new Person();
             if (houseId.HasValue)
             {
                 var house = dataManager.Houses.Get(houseId.Value);
@@ -398,6 +405,59 @@ namespace VoterManager.Controllers
             }
             return View(obj);
         }
+
+        public ActionResult SearchPerson(string returnUrl, string processName)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ProcessName = processName;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SearchPerson(FormCollection collection)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                string term = collection["term"];
+                var persons = dataManager.Persons.GetAll();
+                var source = new List<KeyValuePair<string, string>>
+                    (persons.Select(x =>
+                        new KeyValuePair<string, string>(x.Id.ToString(), x.FullName)));
+                var result = source.Where(s => s.Value.ToLower().Contains(term.ToLower())).ToList();
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            var searchPerson = collection["SearchPerson"];
+            var userAction = collection["UserAction"];
+            var returnUrl = collection["ReturnUrl"];
+            if (userAction == "create")
+            {
+                var fullName = "";
+                var names = searchPerson.Trim().Split(' ');
+                for (int i = 0; i < names.Length && i < 3; i++)
+                {
+                    names[i] = names[i].Trim();
+                }
+                fullName = string.Join("+", names.Take(3));
+                return RedirectToAction("CreateBase", new { returnUrl = returnUrl, processName = collection["ProcessName"], isSearched = true, forCreate = fullName });
+            }
+            else if (userAction == "select")
+                return Redirect(returnUrl + "?personId=" + int.Parse(collection["PersonId"]));
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult SelectedPersonDetail(int Id)
+        {
+            var obj = dataManager.Persons.Get(Id);
+            return Json(new
+            {
+                Id = obj.Id,
+                FullName = obj.FullName,
+                BirthDate = obj.BirthDate.HasValue ? obj.BirthDate.Value.ToString("d") : "--.--.----"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult AddParty(int personId)
         {

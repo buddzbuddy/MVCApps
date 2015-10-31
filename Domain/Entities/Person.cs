@@ -18,12 +18,23 @@ namespace Domain.Entities
         [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО"), NotMapped]
         public virtual string FullName
         {
             get
             {
                 return LastName + " " + FirstName + " " + MiddleName;
+            }
+            set
+            {
+                var fullName = value;
+                var names = fullName.Trim().Split('+');
+                if (names.Length > 0)
+                    LastName = names[0];
+                if (names.Length > 1)
+                    FirstName = names[1];
+                if (names.Length > 2)
+                    MiddleName = names[2];
             }
         }
 

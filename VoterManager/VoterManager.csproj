@@ -330,15 +330,11 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <None Include="Scripts\jquery-1.11.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.11.1.js" />
-    <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.placeholder.min.js" />
     <Content Include="Scripts\jquery.tagsinput.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json3.js" />
-    <Content Include="Scripts\jquery-1.11.1.min.map" />
     <None Include="Properties\PublishProfiles\PolitPortal.pubxml" />
     <None Include="Properties\PublishProfiles\VoterManager.pubxml" />
     <Content Include="Images\ajax-loader.gif" />
@@ -389,6 +385,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\markerwithlabel.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\SearchPerson.js" />
     <Content Include="Views\favicon.ico" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -537,6 +534,7 @@
     <Content Include="Views\Voter\Index.cshtml" />
     <Content Include="Views\UserLog\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\Person\SearchPerson.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
