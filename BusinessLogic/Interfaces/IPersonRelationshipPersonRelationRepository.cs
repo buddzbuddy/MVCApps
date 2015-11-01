@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IPersonRelationshipPersonRelationRepository
+    public interface IPersonRelationRepository
     {
-        IEnumerable<PersonRelationshipPersonRelation> GetAll();
-        PersonRelationshipPersonRelation Get(int Id);
-        void Save(PersonRelationshipPersonRelation obj);
+        IEnumerable<PersonRelation> GetAll();
+        PersonRelation Get(int Id);
+        void Save(PersonRelation obj);
         void Delete(int Id);
     }
 }

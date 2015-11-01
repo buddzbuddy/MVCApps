@@ -57,6 +57,7 @@ namespace VoterManager.Controllers
         public ActionResult Show(int Id)
         {
             var obj = dataManager.Persons.Get(Id);
+            ViewBag.CurrentPersonId = Id;
             var model = new PersonViewModel
             {
                 Person = obj,
@@ -66,14 +67,14 @@ namespace VoterManager.Controllers
                 Locality = dataManager.Localities.Get((int?)obj.LocalityId ?? 0),
                 Street = dataManager.Streets.Get((int?)obj.StreetId ?? 0),
                 House = dataManager.Houses.Get((int?)obj.HouseId ?? 0),
-                RelatedPersons = new List<RelationshipRelatedPersonViewModel>(from rp in dataManager.PersonRelationshipPersonRelations.GetAll()
-                                                                              where rp.PersonId == Id
-                                                                              select new RelationshipRelatedPersonViewModel
-                                                                              {
-                                                                                  RelatedPerson = dataManager.Persons.Get(rp.RelatedPersonId ?? 0),
-                                                                                  Relationship = dataManager.Relationships.Get(rp.RelationshipId ?? 0),
-                                                                                  PersonRelationshipPersonRelation = rp
-                                                                              })
+                RelatedPersons = new List<PersonRelationViewModel>(from rp in dataManager.PersonRelations.GetAll()
+                                                                   where rp.Person1Id == Id || rp.Person2Id == Id
+                                                                   select new PersonRelationViewModel
+                                                                   {
+                                                                       PersonRelation = rp,
+                                                                       Person = dataManager.Persons.Get(Id != rp.Person1Id ? rp.Person1Id ?? 0 : rp.Person2Id ?? 0),
+                                                                       Relationship = dataManager.Relationships.Get(Id != rp.Person1Id ? rp.Relationship1Id ?? 0 : rp.Relationship2Id ?? 0)
+                                                                   })
             };
             return View(model);
         }
@@ -410,7 +411,7 @@ namespace VoterManager.Controllers
             {
                 {
                     dataManager.Persons.Save(obj);
-                    return Redirect(returnUrl + "?" + returnedIdName + "=" + obj.Id);
+                    return Redirect(returnUrl + (returnUrl.Contains('?') ? "&" : "?") + returnedIdName + "=" + obj.Id);
                 }
             }
             return View(obj);
@@ -451,7 +452,7 @@ namespace VoterManager.Controllers
                     names[i] = names[i].Trim();
                 }
                 fullName = string.Join("+", names.Take(3));
-                return RedirectToAction("CreateBase", new { returnUrl = returnUrl, processName = collection["ProcessName"], isSearched = true, forCreate = fullName });
+                return RedirectToAction("CreateBase", new { returnUrl = returnUrl, processName = collection["ProcessName"], isSearched = true, forCreate = fullName, returnedIdName = returnedIdName });
             }
             else if (userAction == "select")
             {
@@ -486,19 +487,20 @@ namespace VoterManager.Controllers
                                        Value = n.Id.ToString()
                                    });
             ViewBag.Relationships = relationships;
-            return View(new PersonRelationshipPersonRelation { RelatedPersonId = relatedPersonId, PersonId = personId });
+            return View(new PersonRelation { Person2Id = relatedPersonId, Person1Id = personId });
         }
         [HttpPost]
-        public ActionResult AddRelatedPerson(PersonRelationshipPersonRelation obj)
+        public ActionResult AddRelatedPerson(PersonRelation obj)
         {
             if(ModelState.IsValid)
             {
-                if (obj.RelationshipId.HasValue)
+                if (obj.Relationship1Id.HasValue && obj.Relationship2Id.HasValue)
                 {
-                    dataManager.PersonRelationshipPersonRelations.Save(obj);
-                    return RedirectToAction("Show", new { Id = obj.PersonId });
+                    dataManager.PersonRelations.Save(obj);
+                    return RedirectToAction("Show", new { Id = obj.Person1Id });
                 }
-                ModelState.AddModelError("RelationshipId", "Укажите тип взаимоотношения.");
+                if (!obj.Relationship1Id.HasValue) ModelState.AddModelError("Relationship1Id", "Укажите тип взаимоотношения.");
+                if (!obj.Relationship2Id.HasValue) ModelState.AddModelError("Relationship2Id", "Укажите тип взаимоотношения.");
             } 
             var relationships = new List<SelectListItem> { new SelectListItem() };
             relationships.AddRange(from n in dataManager.Relationships.GetAll()
@@ -510,14 +512,14 @@ namespace VoterManager.Controllers
             ViewBag.Relationships = relationships;
             return View(obj);
         }
-        public ActionResult RemoveRelatedPerson(int relationId)
+        public ActionResult RemoveRelatedPerson(int relationId, int currentPersonId)
         {
-            var rel = dataManager.PersonRelationshipPersonRelations.Get(relationId);
+            var rel = dataManager.PersonRelations.Get(relationId);
             if(rel != null)
             {
-                dataManager.PersonRelationshipPersonRelations.Delete(rel.Id);
+                dataManager.PersonRelations.Delete(rel.Id);
             }
-            return RedirectToAction("Show", new { Id = rel.PersonId });
+            return RedirectToAction("Show", new { Id = currentPersonId });
         }
 
         public ActionResult ShowPartial(int Id)

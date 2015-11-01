@@ -3,28 +3,25 @@ using Domain;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Implementations
 {
-    public class PersonRelationshipPersonRelationRepository : IPersonRelationshipPersonRelationRepository
+    public class PersonRelationRepository : IPersonRelationRepository
     {
         private EFDbContext context;
-        public PersonRelationshipPersonRelationRepository(EFDbContext context)
+        public PersonRelationRepository(EFDbContext context)
         {
             this.context = context;
         }
-        public IEnumerable<PersonRelationshipPersonRelation> GetAll()
+        public IEnumerable<PersonRelation> GetAll()
         {
-            return context.PersonRelationshipPersonRelations;
+            return context.PersonRelations;
         }
-        public PersonRelationshipPersonRelation Get(int Id)
+        public PersonRelation Get(int Id)
         {
-            return context.PersonRelationshipPersonRelations.Find(Id);
+            return context.PersonRelations.Find(Id);
         }
-        public void Save(PersonRelationshipPersonRelation obj)
+        public void Save(PersonRelation obj)
         {
             if (obj.Id == 0)
                 context.Entry(obj).State = System.Data.Entity.EntityState.Added;

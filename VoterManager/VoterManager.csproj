@@ -267,7 +267,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\RelationshipRelatedPersonViewModel.cs" />
+    <Compile Include="Models\PersonRelationViewModel.cs" />
     <Compile Include="Models\VoterPartyRelationViewModel.cs" />
     <Compile Include="Models\VoterViewModel.cs" />
     <Compile Include="Models\PrecinctViewModel.cs" />

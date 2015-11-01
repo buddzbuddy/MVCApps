@@ -1,4 +1,4 @@
-﻿@model Domain.Entities.PersonRelationshipPersonRelation
+﻿@model Domain.Entities.PersonRelation
 
 @{
     ViewBag.Title = "Добавление связанного физ. лица";
@@ -14,31 +14,34 @@
     <div class="form-horizontal">
         <h4>Информация о взаимотношении</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.PersonId, htmlAttributes: new { @class = "control-label col-md-2" })
-            @if(Model.PersonId.HasValue)
-            {
-                Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId.Value });
-            }
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RelatedPersonId, htmlAttributes: new { @class = "control-label col-md-2" })
-            @if (Model.RelatedPersonId.HasValue)
-            {
-                Html.RenderAction("ShowPartial", "Person", new { Id = Model.RelatedPersonId.Value });
-            }
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RelationshipId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Relationship1Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RelationshipId, ViewBag.Relationships as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
-                @Html.ValidationMessageFor(model => model.RelationshipId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Relationship1Id, ViewBag.Relationships as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+                @Html.ValidationMessageFor(model => model.Relationship1Id, "", new { @class = "text-danger" })
             </div>
+            @Html.LabelFor(model => model.Person1Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            @if(Model.Person1Id.HasValue)
+            {
+                Html.RenderAction("ShowPartial", "Person", new { Id = Model.Person1Id.Value });
+            }
+            @Html.HiddenFor(model => model.Person1Id)
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.Relationship2Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Relationship2Id, ViewBag.Relationships as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
+                @Html.ValidationMessageFor(model => model.Relationship2Id, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.Person2Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            @if (Model.Person2Id.HasValue)
+            {
+                Html.RenderAction("ShowPartial", "Person", new { Id = Model.Person2Id.Value });
+            }
+            @Html.HiddenFor(model => model.Person2Id)
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Сохранить" class="btn btn-default" />
@@ -48,7 +51,7 @@
 }
 
 <div>
-    @Html.ActionLink("Отмена", "Show", new { Id = Model.PersonId })
+    @Html.ActionLink("Отмена", "Show", new { Id = Model.Person1Id })
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

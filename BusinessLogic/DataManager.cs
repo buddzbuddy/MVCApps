@@ -31,7 +31,7 @@ namespace BusinessLogic
         private IVoterRepository voterRepository;
         private IUserLogRepository userLogRepository;
         private IRelationshipRepository relationshipRepository;
-        private IPersonRelationshipPersonRelationRepository personRelationshipPersonRelationRepository;
+        private IPersonRelationRepository personRelationRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -51,7 +51,7 @@ namespace BusinessLogic
             IVoterRepository voterRepository,
             IUserLogRepository userLogRepository,
             IRelationshipRepository relationshipRepository,
-            IPersonRelationshipPersonRelationRepository personRelationshipPersonRelationRepository)
+            IPersonRelationRepository personRelationRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -72,7 +72,7 @@ namespace BusinessLogic
             this.voterRepository = voterRepository;
             this.userLogRepository = userLogRepository;
             this.relationshipRepository = relationshipRepository;
-            this.personRelationshipPersonRelationRepository = personRelationshipPersonRelationRepository;
+            this.personRelationRepository = personRelationRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -94,6 +94,6 @@ namespace BusinessLogic
         public IVoterRepository Voters { get { return voterRepository; } }
         public IUserLogRepository UserLogs { get { return userLogRepository; } }
         public IRelationshipRepository Relationships { get { return relationshipRepository; } }
-        public IPersonRelationshipPersonRelationRepository PersonRelationshipPersonRelations { get { return personRelationshipPersonRelationRepository; } }
+        public IPersonRelationRepository PersonRelations { get { return personRelationRepository; } }
     }
 }
