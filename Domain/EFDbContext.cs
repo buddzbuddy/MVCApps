@@ -40,5 +40,7 @@ namespace Domain
         public DbSet<UserLog> UserLogs { get; set; }
         public DbSet<Relationship> Relationships { get; set; }
         public DbSet<PersonRelation> PersonRelations { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Agitator> Agitators { get; set; }
     }
 }

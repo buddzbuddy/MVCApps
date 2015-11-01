@@ -51,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManager.cs" />
+    <Compile Include="Implementations\AgitatorRepository.cs" />
     <Compile Include="Implementations\RelationshipRepository.cs" />
     <Compile Include="Implementations\PersonRelationshipPersonRelationRepository.cs" />
     <Compile Include="Implementations\VoterPartyRelationRepository.cs" />
     <Compile Include="Implementations\UserLogRepository.cs" />
+    <Compile Include="Implementations\CandidateRepository.cs" />
     <Compile Include="Implementations\VoterRepository.cs" />
     <Compile Include="Implementations\PrecinctRepository.cs" />
     <Compile Include="Implementations\PartyRepository.cs" />
@@ -71,12 +73,14 @@
     <Compile Include="Implementations\MunicipalityRepository.cs" />
     <Compile Include="Implementations\DistrictRepository.cs" />
     <Compile Include="Implementations\UserRepository.cs" />
+    <Compile Include="Interfaces\IAgitatorRepository.cs" />
     <Compile Include="Interfaces\IRelationshipRepository.cs" />
     <Compile Include="Interfaces\IPersonRelationshipPersonRelationRepository.cs" />
     <Compile Include="Interfaces\IVoterPartyRelationRepository.cs" />
     <Compile Include="Interfaces\IPrecinctRepository.cs" />
     <Compile Include="Interfaces\IPartyRepository.cs" />
     <Compile Include="Interfaces\IUserLogRepository.cs" />
+    <Compile Include="Interfaces\ICandidateRepository.cs" />
     <Compile Include="Interfaces\IVoterRepository.cs" />
     <Compile Include="Interfaces\IWorkerRepository.cs" />
     <Compile Include="Interfaces\IRegistrationRepository.cs" />

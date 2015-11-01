@@ -56,23 +56,6 @@ namespace VoterManager.Controllers
             return View(model);
         }
 
-        public ActionResult AsyncChange(int Id)
-        {
-            var task = Execute(Id);
-            return RedirectToAction("Show", new { Id = Id });
-        }
-
-        private async System.Threading.Tasks.Task Execute(int id)
-        {
-            await System.Threading.Tasks.Task.Factory.StartNew(() =>
-            {
-                System.Threading.Thread.Sleep(15000);
-                var obj = dataManager.Persons.Get(id);
-                obj.FirstName = obj.FirstName + " changed by async";
-                dataManager.Persons.Save(obj);
-            });
-        }
-
         public ActionResult ViewStateServiceInfo(int personId)
         {
             var hasData = false;

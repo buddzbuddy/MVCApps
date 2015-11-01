@@ -238,10 +238,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgitatorController.cs" />
     <Compile Include="Controllers\RelationshipController.cs" />
     <Compile Include="Controllers\UserLogController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\CandidateController.cs" />
     <Compile Include="Controllers\VoterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
@@ -267,8 +269,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AgitatorViewModel.cs" />
     <Compile Include="Models\PersonRelationViewModel.cs" />
     <Compile Include="Models\VoterPartyRelationViewModel.cs" />
+    <Compile Include="Models\CandidateViewModel.cs" />
     <Compile Include="Models\VoterViewModel.cs" />
     <Compile Include="Models\PrecinctViewModel.cs" />
     <Compile Include="Models\RegistrationViewModel.cs" />
@@ -296,7 +300,6 @@
     <Content Include="Content\Images\mail-add.png" />
     <Content Include="Content\Images\mail-delete.png" />
     <Content Include="Content\Images\rss-icon.png" />
-    <Content Include="Content\telerik.common.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -546,6 +549,12 @@
     <Content Include="Views\Person\AddRelatedPerson.cshtml" />
     <Content Include="Views\Person\ShowPartial.cshtml" />
     <Content Include="Views\Person\RelatedPersons.cshtml" />
+    <Content Include="Views\Candidate\Create.cshtml" />
+    <Content Include="Views\Candidate\Index.cshtml" />
+    <Content Include="Views\Candidate\Show.cshtml" />
+    <Content Include="Views\Agitator\Create.cshtml" />
+    <Content Include="Views\Agitator\Index.cshtml" />
+    <Content Include="Views\Agitator\Show.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

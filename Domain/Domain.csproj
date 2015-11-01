@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFDbContext.cs" />
+    <Compile Include="Entities\Agitator.cs" />
     <Compile Include="Entities\District.cs" />
     <Compile Include="Entities\Enums.cs" />
     <Compile Include="Entities\House.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRelation.cs" />
     <Compile Include="Entities\UserLog.cs" />
+    <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\VoterPartyRelation.cs" />
     <Compile Include="Entities\Precinct.cs" />
     <Compile Include="Entities\Street.cs" />

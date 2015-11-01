@@ -13,4 +13,10 @@
 	top: 0;
 	left: 0;
 	cursor: default;
+    padding:2px;
+}
+.ui-menu-item {
+    /*list-style-type: none;*/
+        list-style: none;
+    padding: 2px;
 }

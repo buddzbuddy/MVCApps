@@ -1,0 +1,29 @@
+﻿@model IEnumerable<VoterManager.Models.CandidateViewModel>
+
+@{
+    ViewBag.Title = "Кандидаты";
+}
+
+<h2>Кандидаты</h2>
+
+<p>
+    @Html.ActionLink("Создать нового кандидата", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>@Html.DisplayNameFor(model => model.Person.FullName)</th>
+        <th>@Html.DisplayNameFor(model => model.Person.Years)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Открыть", "Show", new { id = item.Candidate.Id })
+        </td>
+        <td>@item.Person.FullName</td>
+        <td>@item.Person.Years</td>
+    </tr>
+}
+
+</table>

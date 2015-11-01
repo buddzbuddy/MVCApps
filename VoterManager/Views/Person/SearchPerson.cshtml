@@ -1,9 +1,8 @@
 ﻿@{
     ViewBag.Title = ViewBag.ProcessName + " - Поиск физ. лица по базе";
 }
-
 <h2>@ViewBag.ProcessName - Поиск физ. лица по базе</h2>
-@using(Html.BeginForm())
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
@@ -11,9 +10,9 @@
     @Html.Hidden("ProcessName", (string)ViewBag.ProcessName)
     @Html.Hidden("SelectedPersonId")
     @Html.Hidden("UserAction")
-    
+    <div id="searchCountInfo" style="display:none;position: absolute;margin-left: 50px;margin-top: 2px;color:green">Найдено совпадений: <span id="searchCount"></span></div>
     @Html.Label("SearchPerson", "ФИО:")
-    @Html.TextBox("SearchPerson", null, new { style = "width:300px" }) <button type="button" onclick="userAction('create')">Создать нового физ. лица</button>
+    @Html.TextBox("SearchPerson", null, new { style = "width:300px", @class = "ui-widget" }) <button type="button" onclick="userAction('create')">Создать нового физ. лица</button>
     <div id="SelectedPersonDetail" style="display:none">
         <b>ФИО</b>:<p id="FullName"></p>
         <b>Дата рождения</b>:<p id="BirthDate"></p>
@@ -25,50 +24,90 @@
         $('#UserAction').val(actionName);
         $('form').submit();
     }
-    $('form').on('keyup keypress', function (e) {
-        var code = e.keyCode || e.which;
-        if (code == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
-    $("#SearchPerson").autocomplete({
-        source: function (request, response) {
-            var persons = new Array();
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("SearchPerson", "Person"))",
-                data: { "term": request.term },
-                success: function (data) {
-                    for (var i = 0; i < data.length ; i++) {
-                        persons[i] = { label: data[i].Value, Id: data[i].Key };
-                    }
-                }
-            });
-            response(persons);
-            $('#SelectedPersonDetail').hide();
-        },
-         select: function (event, ui) {
-             //fill selected person details on form
-             $.ajax({
-                 cache: false,
-                 async: false,
-                 type: "POST",
-                 url: "@(Url.Action("SelectedPersonDetail", "Person"))",
-                data: { "Id": ui.item.Id },
 
-                success: function (data) {
-                    $('#SelectedPersonDetail').show();
-                    $("#FullName").html(data.FullName);
-                    $("#BirthDate").html(data.BirthDate);
-                    $("#SelectedPersonId").val(data.Id);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Не удалось получить информацию о выбранном физ. лице.');
-                }
-            });
-        }
-     });
+    function monkeyPatchAutocomplete() {
+        // Custom autocomplete instance.
+        $.widget("app.autocomplete", $.ui.autocomplete, {
+
+            // Which class get's applied to matched text in the menu items.
+            options: {
+                highlightClass: "ui-state-highlight2"//"bold-text"
+            },
+
+            _renderItem: function (ul, item) {
+
+                // Replace the matched text with a custom span. This
+                // span uses the class found in the "highlightClass" option.
+                var re = new RegExp("(" + this.term + ")", "gi"),
+                    cls = this.options.highlightClass,
+                    template = "<span class='" + cls + "'>$1</span>",
+                    label = item.label.replace(re, template),
+                    $li = $("<li/>").html(label).appendTo(ul);
+
+                // Create and return the custom menu item content.
+                /*$("<a/>").attr("href", "#")
+                           .html(label)
+                           .appendTo($li);*/
+
+                return $li;
+
+            }
+
+        });
+    }
+    $(document).ready(function () {
+
+        $('form').on('keyup keypress', function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        monkeyPatchAutocomplete();//установка собственных настроек отображения результата поиска в списке
+        
+        $("#SearchPerson").autocomplete({
+            source: function (request, response) {
+                var persons = new Array();
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("SearchPerson", "Person"))",
+                    data: { "term": request.term },
+                    success: function (data) {
+                        for (var i = 0; i < data.length ; i++) {
+                            persons[i] = { label: data[i].Value, Id: data[i].Key };
+                        }
+                    }
+                });
+                response(persons);
+                $('#SelectedPersonDetail').hide();
+                $('#searchCount').html(persons.length);
+                $('#searchCountInfo').show();
+            },
+            select: function (event, ui) {
+                $('#searchCountInfo').hide();
+                //fill selected person details on form
+                $.ajax({
+                    cache: false,
+                    async: false,
+                    type: "POST",
+                    url: "@(Url.Action("SelectedPersonDetail", "Person"))",
+                    data: { "Id": ui.item.Id },
+
+                    success: function (data) {
+                        $('#SelectedPersonDetail').show();
+                        $("#FullName").html(data.FullName);
+                        $("#BirthDate").html(data.BirthDate);
+                        $("#SelectedPersonId").val(data.Id);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Не удалось получить информацию о выбранном физ. лице.');
+                    }
+                });
+            }
+        });
+    });
 </script>
