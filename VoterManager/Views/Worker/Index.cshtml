@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<VoterManager.Models.WorkerViewModel>
 
 @{
-    ViewBag.Title = "Список работников";
+    ViewBag.Title = "Список работников штаба";
 }
 
-<h2>Список работников</h2>
+<h2>Список работников штаба</h2>
 
 <p>
     @Html.ActionLink("Создать новый", "Create")
@@ -15,27 +15,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Worker.PersonId)
         </th>
-        <th>
-            Ответственный за
-        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        var responseTypes = "";
-        if (item.Worker.Houses.Count > 0)
-        {
-            responseTypes = "Дом";
-        }
-        if(item.Worker.Precincts.Count > 0)
-        {
-            responseTypes = responseTypes != "" ? responseTypes + ", " + "УИК" : "УИК";
-        }
         <tr>
             <td>
-                @Html.ActionLink("Открыть", "Show", new { id = item.Worker.Id }) |
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Worker.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Worker.Id })
+                @Html.ActionLink("Открыть", "Show", new { id = item.Worker.Id })
             </td>
             <td>
                 @if (item.Person != null)
@@ -46,9 +32,6 @@
                 {
                     <text>не указан</text>
                 }
-            </td>
-            <td>
-                @responseTypes
             </td>
         </tr>
     }

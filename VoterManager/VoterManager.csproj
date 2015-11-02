@@ -285,6 +285,7 @@
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\MunicipalityViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Models\WorkerHouseRelationViewModel.cs" />
     <Compile Include="Models\WorkerViewModel.cs" />
     <Compile Include="NinjectControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -555,6 +556,8 @@
     <Content Include="Views\Agitator\Create.cshtml" />
     <Content Include="Views\Agitator\Index.cshtml" />
     <Content Include="Views\Agitator\Show.cshtml" />
+    <Content Include="Views\Worker\AddRelatedHouse.cshtml" />
+    <Content Include="Views\Worker\RelatedHouses.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -34,6 +34,7 @@ namespace BusinessLogic
         private IPersonRelationRepository personRelationRepository;
         private ICandidateRepository candidateRepository;
         private IAgitatorRepository agitatorRepository;
+        private IWorkerHouseRelationRepository workerHouseRelationRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -55,7 +56,8 @@ namespace BusinessLogic
             IRelationshipRepository relationshipRepository,
             IPersonRelationRepository personRelationRepository,
             ICandidateRepository candidateRepository,
-            IAgitatorRepository agitatorRepository)
+            IAgitatorRepository agitatorRepository,
+            IWorkerHouseRelationRepository workerHouseRelationRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -79,6 +81,7 @@ namespace BusinessLogic
             this.personRelationRepository = personRelationRepository;
             this.candidateRepository = candidateRepository;
             this.agitatorRepository = agitatorRepository;
+            this.workerHouseRelationRepository = workerHouseRelationRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -103,5 +106,6 @@ namespace BusinessLogic
         public IPersonRelationRepository PersonRelations { get { return personRelationRepository; } }
         public ICandidateRepository Candidates { get { return candidateRepository; } }
         public IAgitatorRepository Agitators { get { return agitatorRepository; } }
+        public IWorkerHouseRelationRepository WorkerHouseRelations { get { return workerHouseRelationRepository; } }
     }
 }

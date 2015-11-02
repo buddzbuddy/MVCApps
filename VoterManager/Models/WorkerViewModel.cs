@@ -10,5 +10,7 @@ namespace VoterManager.Models
     {
         public Worker Worker { get; set; }
         public Person Person { get; set; }
+        public PersonViewModel PersonViewModel { get; set; }
+        public List<WorkerHouseRelationViewModel> RelatedHouses { get; set; }
     }
 }

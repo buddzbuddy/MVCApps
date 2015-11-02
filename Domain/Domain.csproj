@@ -72,6 +72,7 @@
     <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Entities\Voter.cs" />
     <Compile Include="Entities\Worker.cs" />
+    <Compile Include="Entities\WorkerHouseRelation.cs" />
     <Compile Include="Filters\CustomModelMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

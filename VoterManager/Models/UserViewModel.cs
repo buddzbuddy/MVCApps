@@ -9,6 +9,6 @@ namespace VoterManager.Models
     public class UserViewModel
     {
         public UserProfile UserProfile { get; set; }
-        public Worker Worker { get; set; }
+        public Person Person { get; set; }
     }
 }

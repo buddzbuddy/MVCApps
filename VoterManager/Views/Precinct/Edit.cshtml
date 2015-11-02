@@ -14,6 +14,10 @@
         <legend>УИК</legend>
 
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IconPath)
+        @Html.HiddenFor(model => model.Latitude)
+        @Html.HiddenFor(model => model.Longitude)
+
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)

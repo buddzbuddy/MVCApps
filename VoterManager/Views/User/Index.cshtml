@@ -4,7 +4,7 @@
     ViewBag.Title = "Управление пользователями системы";
 }
 
-<h2>Управление пользователями системы</h2>
+<h2>Пользователи системы</h2>
 
 <p>
     @Html.ActionLink("Создать нового пользователя", "Create")
@@ -13,7 +13,7 @@
     <tr>
         <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.UserProfile.WorkerId)
+            @Html.DisplayNameFor(model => model.Person.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UserProfile.UserName)
@@ -31,9 +31,9 @@
             @Html.ActionLink("Удалить", "Delete", new { id = item.UserProfile.UserId })*@
         </td>
         <td>
-            @if (item.Worker != null)
+            @if (item.Person != null)
             {
-                @Html.ActionLink(item.Worker.FullName, "Show", "Worker", new { Id = item.Worker.Id }, new { title = "Просмотр работника" })
+                @Html.ActionLink(item.Person.FullName, "Show", "Person", new { Id = item.Person.Id }, new { title = "Просмотр физ. лица" })
             }
             else
             {

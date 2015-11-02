@@ -64,7 +64,7 @@
 
                 google.maps.event.addListener(marker, 'click', function () {
                     infowindow.setContent("<div class='message-info'>Информация по УИКу № <b>" + item.Name + "</b><hr style='margin-bottom:0px;' />"
-                        + "<br />Ответственный: <b>" + item.Worker + "</b>"
+                        + "<br />Ответственный: <b>" + item.Worker/*GetWorkerInfo(item)*/ + "</b>"
                             + "<br />Кол-во домов: " + item.Houses.length + " (" + item.Houses.toString() + ")"
                             + "<br />Всего избирателей: " + item.VoterCount
                             + "<br />Политические взгляды:"
@@ -79,6 +79,16 @@
         });
     }
 
+    function GetWorkerInfo(item) {
+        //var val = "не указано";
+
+        if (item.Worker != null && item.WorkerId != null) {
+            console.log($('<a/>').attr("href", "@(Url.Action("Show", "Worker"))" + "/" + item.WorkerId.toString()).html(item.Worker).attr("title", "Просмотр работника"));
+            return $('<a/>').attr("href", "@(Url.Action("Show", "Worker"))" + "/" + item.WorkerId.toString()).html(item.Worker).attr("title", "Просмотр работника");
+        }
+        return "не указано";
+    }
+
     function drawParties(parties) {
         var result = "<ul>";
 
@@ -91,5 +101,5 @@
         return result + "</ul>";
     }
 
-    </script>
+</script>
 }

@@ -23,24 +23,16 @@ namespace VoterManager.Controllers
                         select new UserViewModel
                         {
                             UserProfile = u,
-                            Worker = dataManager.Workers.Get(u.WorkerId ?? 0)
+                            Person = dataManager.Persons.Get(u.PersonId ?? 0)
                         });
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int? personId)
         {
-            var existWorkers = dataManager.Users.GetAll().Where(u => u.WorkerId.HasValue).Select(u => u.WorkerId.Value);
-            var workers = new List<SelectListItem> { new SelectListItem() };
-            workers.AddRange(from w in dataManager.Workers.GetAll()
-                             where !existWorkers.Contains(w.Id)
-                             select new SelectListItem
-                             {
-                                 Text = w.FullName,
-                                 Value = w.Id.ToString()
-                             });
-            ViewBag.Workers = workers;
-            return View();
+            if (!personId.HasValue)
+                return RedirectToAction("CreateBase", "Person", new { returnUrl = Request.Url.ToString(), processName = "Создать пользователя системы" });
+            return View(new UserProfile { PersonId = personId });
         }
 
         [HttpPost]
@@ -50,7 +42,7 @@ namespace VoterManager.Controllers
             {
                 try
                 {
-                    dataManager.Users.CreateUserAndAccount(obj.UserName, obj.Password, new { Password = obj.Password, WorkerId = obj.WorkerId });
+                    dataManager.Users.CreateUserAndAccount(obj.UserName, obj.Password, new { Password = obj.Password, PersonId = obj.PersonId });
                     return RedirectToAction("Index");
                 }
                 catch (MembershipCreateUserException e)
@@ -65,60 +57,33 @@ namespace VoterManager.Controllers
         public ActionResult Edit(int Id)
         {
             var obj = dataManager.Users.Get(Id);
-            if (obj == null)
-                return HttpNotFound();
-            var existWorkers = dataManager.Users.GetAll().Where(u => u.WorkerId.HasValue).Select(u => u.WorkerId.Value).ToList();
-            if (obj.WorkerId.HasValue)
-                existWorkers.Remove(obj.WorkerId.Value);
-            var workers = new List<SelectListItem> { new SelectListItem() };
-            workers.AddRange(from w in dataManager.Workers.GetAll()
-                             where !existWorkers.Contains(w.Id)
-                             select new SelectListItem
-                             {
-                                 Text = w.FullName,
-                                 Value = w.Id.ToString(),
-                                 Selected = w.Id == obj.WorkerId
-                             });
-            ViewBag.Workers = workers;
+            
             return View(obj);
         }
 
         [HttpPost]
-        public ActionResult Edit(UserProfile obj)
+        public ActionResult Edit(UserProfile obj, FormCollection collection)
         {
             if (ModelState.IsValid)
             {
                 var obj2 = dataManager.Users.Get(obj.UserName);
                 if(!(obj2 != null && obj2.UserId != obj.UserId))
                 {
-                    var objFromDB = dataManager.Users.Get(obj.UserId);
-                    if (dataManager.Users.ChangePassword(objFromDB.UserName, objFromDB.Password, obj.Password))
+                    var objFromDb = dataManager.Users.Get(obj.UserId);
+                    if (dataManager.Users.ChangePassword(obj.UserName, objFromDb.Password, obj.Password))
                     {
-                        objFromDB.UserName = obj.UserName;
-                        objFromDB.Password = obj.Password;
-                        objFromDB.WorkerId = obj.WorkerId;
-                        dataManager.Users.Save(objFromDB);
+                        objFromDb.PersonId = obj.PersonId;
+                        objFromDb.UserName = obj.UserName;
+                        objFromDb.Password = obj.Password;
+                        dataManager.Users.Save(objFromDb);
                         return RedirectToAction("Index");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.DuplicateUserName));
+                    ModelState.AddModelError("UserName", ErrorCodeToString(MembershipCreateStatus.DuplicateUserName));
                 }
             }
-            var existWorkers = dataManager.Users.GetAll().Where(u => u.WorkerId.HasValue).Select(u => u.WorkerId.Value).ToList();
-            if (obj.WorkerId.HasValue)
-                existWorkers.Remove(obj.WorkerId.Value);
-            var workers = new List<SelectListItem> { new SelectListItem() };
-            workers.AddRange(from w in dataManager.Workers.GetAll()
-                             where !existWorkers.Contains(w.Id)
-                             select new SelectListItem
-                             {
-                                 Text = w.FullName,
-                                 Value = w.Id.ToString(),
-                                 Selected = w.Id == obj.WorkerId
-                             });
-            ViewBag.Workers = workers;
             return View(obj);
         }
 

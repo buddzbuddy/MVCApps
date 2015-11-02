@@ -37,6 +37,7 @@ namespace VoterManager.Controllers
             public List<KeyValuePair<string, int>> Parties;
             public int VoterCount;
             public string Worker;
+            public int WorkerId;
         }
 
         public JsonResult GetData()
@@ -66,7 +67,7 @@ namespace VoterManager.Controllers
             {
                 var itemHouses = houses.Where(h => h.PrecinctId == precinct.Id);
                 var precinctVoters = voters.Where(v => itemHouses.Select(ih => ih.Id).Contains(v.Person.HouseId ?? 0));
-                var worker = voters.FirstOrDefault(p => p.Person.Id == (precinct.WorkerId ?? 0));
+                var worker = dataManager.Workers.Get(precinct.WorkerId ?? 0);//voters.FirstOrDefault(p => p.Person.Id == (precinct.WorkerId ?? 0));
 
                 var item = new CustomData();
                 
@@ -91,8 +92,8 @@ namespace VoterManager.Controllers
 
                 item.VoterCount = precinctVoters != null ? precinctVoters.Count() : 0; //item.Parties.Sum(x => x.Value);
 
-                item.Worker = worker != null ? worker.Person.FullName : "Не указано";
-
+                item.Worker = worker != null ? dataManager.Persons.Get(worker.PersonId ?? 0).FullName : "Не указано";
+                item.WorkerId = worker != null ? worker.Id : 0;
                 model.Add(item);
             }
 

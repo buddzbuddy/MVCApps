@@ -17,8 +17,11 @@
             @Html.LabelFor(model => model.PersonId)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.PersonId, ViewBag.Persons as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
-            @Html.ValidationMessageFor(model => model.PersonId)
+            @Html.HiddenFor(model => model.PersonId)
+            @if(Model.PersonId.HasValue)
+            {
+                Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId });
+            }
         </div>
 
         <p>
@@ -30,8 +33,3 @@
 <div>
     @Html.ActionLink("Назад к списку", "Index")
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".chzn-select").chosen({ no_results_text: "Не найдено", width: "300px", allow_single_deselect: true });
-    });
-</script>

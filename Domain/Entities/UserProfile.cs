@@ -12,7 +12,7 @@ namespace Domain.Entities
     public class UserProfile
     {
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
         [Display(Name = "Логин"), Required(ErrorMessage = "Задайте логин")]
@@ -21,7 +21,7 @@ namespace Domain.Entities
         [Display(Name = "Пароль"), Required(ErrorMessage = "Задайте пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "ФИО работника")]
-        public int? WorkerId { get; set; }
+        [Display(Name = "Физ. лицо")]
+        public int? PersonId { get; set; }
     }
 }

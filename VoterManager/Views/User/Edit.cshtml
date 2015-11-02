@@ -14,13 +14,16 @@
         <legend>Пользователь</legend>
 
         @Html.HiddenFor(model => model.UserId)
-
+        @Html.Hidden("CurrentPassword", (string)ViewBag.CurrentPassword)
         <div class="editor-label">
-            @Html.LabelFor(model => model.WorkerId)
+            @Html.LabelFor(model => model.PersonId)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.WorkerId, ViewBag.Workers as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выберите" })
-            @Html.ValidationMessageFor(model => model.WorkerId)
+            @Html.HiddenFor(model => model.PersonId)
+            @if (Model.PersonId.HasValue)
+            {
+                Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId });
+            }
         </div>
 
         <div class="editor-label">
@@ -52,8 +55,3 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.chzn-select').chosen({ no_results_text: "Не найдено", width: "300px", allow_single_deselect: true });
-    });
-</script>
