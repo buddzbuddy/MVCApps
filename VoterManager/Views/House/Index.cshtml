@@ -24,15 +24,19 @@
         <th>
             @Html.DisplayNameFor(model => model.House.PrecinctId)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.Longitude)
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.ActionLink("Открыть", "Show", new { id = item.House.Id }) |
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.House.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.House.Id })
+                @Html.ActionLink("Открыть", "Show", new { id = item.House.Id })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.House.Name)
@@ -67,6 +71,8 @@
                     <text>не указано</text>
                 }
             </td>
+            <td>@item.House.Latitude</td>
+            <td>@item.House.Longitude</td>
         </tr>
     }
 </table>

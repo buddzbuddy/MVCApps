@@ -5,7 +5,40 @@
 }
 
 <h2>Редактирование УИК</h2>
+<style type="text/css">
+    * {
+        font-size: 12px;
+        font-family: verdana;
+    }
 
+    .demo-content {
+        background: none repeat scroll 0 0 #DADADA;
+        border: 2px solid #DDDDDD;
+        font-size: 12px;
+        width: 900px;
+        padding: 20px;
+        margin: 0px auto;
+    }
+
+        .demo-content h3 {
+            padding: 0px;
+            margin: 0px 0px 20px;
+            font-size: 18px;
+        }
+
+    .spacer {
+        clear: both;
+        height: 20px;
+        width: 100%;
+    }
+</style>
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+<script type="text/javascript" src="~/Scripts/jquery.ddslick.min.js"></script>
+<script type="text/javascript" src="~/Scripts/dropDownIconList.js"></script>
+<div class="float-right" style="margin-right: 40px;">
+    <h2>Указать позицию на карте</h2>
+    <div id="canvas" style="height: 400px; width:400px;"></div>
+</div>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -14,10 +47,6 @@
         <legend>УИК</legend>
 
         @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.IconPath)
-        @Html.HiddenFor(model => model.Latitude)
-        @Html.HiddenFor(model => model.Longitude)
-
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -40,9 +69,39 @@
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.WorkerId, ViewBag.Workers as IEnumerable<SelectListItem>, new { @class = "chzn-select", data_placeholder = "Выбрать" })
-            @Html.ValidationMessageFor(model => model.DistrictId)
+            @Html.ValidationMessageFor(model => model.WorkerId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Latitude)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Latitude, new { @readonly = "true" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Longitude)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Longitude, new { @readonly = "true" })
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IconPath)
+        </div>
+        <div class="editor-field">
+            <div class="spacer"></div>
+            <select id="demo-htmlselect-basic">
+                <option data-description="Иконка 1" data-imagesrc="@Url.Content("~/Images/Map/icons/2.ico")" value="0">Иконка 1</option>
+                <option data-description="Иконка 2" data-imagesrc="@Url.Content("~/Images/Map/icons/3.ico")" value="1">Иконка 2</option>
+                <option data-description="Иконка 3" data-imagesrc="@Url.Content("~/Images/Map/icons/4.ico")" value="2">Иконка 3</option>
+                <option data-description="Иконка 4" data-imagesrc="@Url.Content("~/Images/Map/icons/5.ico")" value="3">Иконка 4</option>
+                <option data-description="Иконка 5" data-imagesrc="@Url.Content("~/Images/Map/icons/6.ico")" value="4">Иконка 5</option>
+                <option data-description="Иконка 6" data-imagesrc="@Url.Content("~/Images/Map/icons/7.ico")" value="5">Иконка 6</option>
+                <option data-description="Иконка 7" data-imagesrc="@Url.Content("~/Images/Map/icons/8.ico")" value="6">Иконка 7</option>
+                <option data-description="Иконка 8" data-imagesrc="@Url.Content("~/Images/Map/icons/9.ico")" value="7">Иконка 8</option>
+                <option data-description="Иконка 9" data-imagesrc="@Url.Content("~/Images/Map/icons/10.ico")" value="8">Иконка 9</option>
+            </select>
+            @Html.HiddenFor(model => model.IconPath)
+        </div>
         <p>
             <input type="submit" value="Сохранить" />
         </p>
@@ -50,13 +109,53 @@
 }
 
 <div>
-    @Html.ActionLink("Назад к списку", "Index")
+    @Html.ActionLink("Отмена", "Show", new { Id = Model.Id })
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+
 <script type="text/javascript">
     $(document).ready(function () {
         $(".chzn-select").chosen({ no_results_text: "Не найдено", width: "300px", allow_single_deselect: true });
+        GetMap();
     });
+    function GetMap() {
+        google.maps.visualRefresh = true;
+        var hasPosition = @(Model.Latitude.HasValue && Model.Longitude.HasValue ? "true" : "false");
+        var currLat = @(Model.Latitude.HasValue ? Model.Latitude.Value.ToString().Replace(',', '.') : "42.874722");
+        var currLng = @(Model.Longitude.HasValue ? Model.Longitude.Value.ToString().Replace(',', '.') : "74.612222");
+        var zoom = @(Model.Zoom ?? 13);
+        var mapCenter = new google.maps.LatLng(currLat, currLng);
+
+        var mapOptions = {
+            zoom: zoom,
+            center: mapCenter,
+            mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("canvas"), mapOptions);
+
+        var myLatlng = new google.maps.LatLng(currLat, currLng);
+        var marker = new google.maps.Marker(
+            {
+                position: myLatlng,
+                map: map, title: 'Позиция на карте',
+                icon: new google.maps.MarkerImage('@(string.IsNullOrEmpty(Model.IconPath) ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png" : Model.IconPath)', new google.maps.Size(32, 37), new google.maps.Point(0,0), new google.maps.Point(0, 37))
+            });
+        if(hasPosition) {
+            var infowindow = new google.maps.InfoWindow({
+                content: "<div class='message-info'><b>Текущяя позиция на карте УИК № " + @Model.Name + "</b></div>"
+            });
+            infowindow.open(map, marker);
+        }
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            $('input#Latitude').val(event.latLng.lat());
+            $('input#Longitude').val(event.latLng.lng());
+        });
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            $('input#Zoom').val(map.getZoom());
+        });
+    }
 </script>
+}

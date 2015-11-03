@@ -22,7 +22,7 @@ namespace VoterManager.Controllers
         }
         public ActionResult Index()
         {
-            return View(dataManager.UserLogs.GetAll());
+            return View(dataManager.UserLogs.GetAll().OrderByDescending(x => x.LoginDate));
         }
     }
 }

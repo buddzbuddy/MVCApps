@@ -43,6 +43,9 @@
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.DistrictId)
+    @Html.HiddenFor(model => model.WorkerId)
     @Html.HiddenFor(model => model.Zoom)
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Name)

@@ -25,6 +25,18 @@ namespace Domain.Entities
 
         [Display(Name = "УИК")]
         public int? PrecinctId { get; set; }
-        public virtual List<Person> Persons { get; set; }
+
+        #region Map info
+
+        [Display(Name = "Широта")]
+        public double? Latitude { get; set; }
+
+        [Display(Name = "Долгота")]
+        public double? Longitude { get; set; }
+
+        public int? Zoom { get; set; }
+
+        public string IconPath { get; set; }
+        #endregion
     }
 }

@@ -65,41 +65,50 @@ namespace VoterManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Precinct obj)
+        public ActionResult Create(Precinct obj, FormCollection collection)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    if (!dataManager.Precincts.GetAll()
+            //        .Where(m => m.DistrictId == obj.DistrictId)
+            //        .Any(o => o.Name == obj.Name))
+            //    {
+            //        dataManager.Precincts.Save(obj);
+            //        return RedirectToAction("Show", new { Id = obj.Id });
+            //    }
+            //    else
+            //        ModelState.AddModelError("Name",
+            //            "УИК с названием \"" + obj.Name + "\" уже существует!");
+            //}
+            //ViewBag.Districts = from d in dataManager.Districts.GetAll()
+            //                    select new SelectListItem
+            //                    {
+            //                        Text = d.Name,
+            //                        Value = d.Id.ToString(),
+            //                        Selected = obj.DistrictId == d.Id
+            //                    };
+            //var workers = new List<SelectListItem>
+            //{
+            //    new SelectListItem()
+            //};
+            //workers.AddRange(from w in dataManager.Workers.GetAll()
+            //                 select new SelectListItem
+            //                 {
+            //                     Text = dataManager.Persons.Get(w.PersonId ?? 0).FullName,
+            //                     Value = w.Id.ToString(),
+            //                     Selected = w.Id == obj.WorkerId
+            //                 });
+            //ViewBag.Workers = workers;
+            //return View(obj);
+            string latitude = collection["Latitude"];
+            string longitude = collection["Longitude"];
+            if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
             {
-                if (!dataManager.Precincts.GetAll()
-                    .Where(m => m.DistrictId == obj.DistrictId)
-                    .Any(o => o.Name == obj.Name))
-                {
-                    dataManager.Precincts.Save(obj);
-                    return RedirectToAction("Show", new { Id = obj.Id });
-                }
-                else
-                    ModelState.AddModelError("Name",
-                        "УИК с названием \"" + obj.Name + "\" уже существует!");
+                obj.Latitude = double.Parse(latitude.Replace('.', ','));
+                obj.Longitude = double.Parse(longitude.Replace('.', ','));
             }
-            ViewBag.Districts = from d in dataManager.Districts.GetAll()
-                                select new SelectListItem
-                                {
-                                    Text = d.Name,
-                                    Value = d.Id.ToString(),
-                                    Selected = obj.DistrictId == d.Id
-                                };
-            var workers = new List<SelectListItem>
-            {
-                new SelectListItem()
-            };
-            workers.AddRange(from w in dataManager.Workers.GetAll()
-                             select new SelectListItem
-                             {
-                                 Text = dataManager.Persons.Get(w.PersonId ?? 0).FullName,
-                                 Value = w.Id.ToString(),
-                                 Selected = w.Id == obj.WorkerId
-                             });
-            ViewBag.Workers = workers;
-            return View(obj);
+            dataManager.Precincts.Save(obj);
+            return RedirectToAction("Show", new { Id = obj.Id });
         }
 
         [HttpGet]
@@ -175,61 +184,31 @@ namespace VoterManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Precinct obj)
+        public ActionResult Edit(Precinct obj, FormCollection collection)
         {
-            if (ModelState.IsValid)
+            string latitude = collection["Latitude"];
+            string longitude = collection["Longitude"];
+            if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
             {
-                if (!dataManager.Precincts.GetAll()
-                    .Any(o => o.Name == obj.Name && o.Id != obj.Id))
-                {
-                    var objFromDb = dataManager.Precincts.Get(obj.Id);
-                    objFromDb.Name = obj.Name;
-                    objFromDb.DistrictId = obj.DistrictId;
-                    objFromDb.WorkerId = obj.WorkerId;
-                    objFromDb.Latitude = obj.Latitude;
-                    objFromDb.Longitude = obj.Longitude;
-                    objFromDb.Zoom = obj.Zoom;
-                    objFromDb.IconPath = obj.IconPath;
-                    dataManager.Precincts.Save(objFromDb);
-                    return RedirectToAction("Show", new { Id = obj.Id });
-                }
-                else
-                    ModelState.AddModelError("Name",
-                        "УИК с названием \"" + obj.Name + "\" уже существует!");
+                obj.Latitude = double.Parse(latitude.Replace('.', ','));
+                obj.Longitude = double.Parse(longitude.Replace('.', ','));
             }
-            ViewBag.Districts = from d in dataManager.Districts.GetAll()
-                                select new SelectListItem
-                                {
-                                    Text = d.Name,
-                                    Value = d.Id.ToString(),
-                                    Selected = obj.DistrictId == d.Id
-                                };
-            var workers = new List<SelectListItem>
-            {
-                new SelectListItem()
-            };
-            workers.AddRange(from w in dataManager.Workers.GetAll()
-                             select new SelectListItem
-                             {
-                                 Text = dataManager.Persons.Get(w.PersonId ?? 0).FullName,
-                                 Value = w.Id.ToString(),
-                                 Selected = w.Id == obj.WorkerId
-                             });
-            ViewBag.Workers = workers;
-            return View(obj);
+            dataManager.Precincts.Save(obj);
+            return RedirectToAction("Show", new { Id = obj.Id });
         }
 
         [HttpGet]
         public ActionResult SetMapPosition(int Id)
         {
-            var obj = dataManager.Precincts.Get(Id);
-            return View(obj);
+            return View("Error");
+            /*var obj = dataManager.Precincts.Get(Id);
+            return View(obj);*/
         }
 
         [HttpPost]
-        public ActionResult SetMapPosition(FormCollection collection)
+        public ActionResult SetMapPosition(Precinct obj/*FormCollection collection*/)
         {
-            string latitude = collection["Latitude"];
+            /*string latitude = collection["Latitude"];
             string longitude = collection["Longitude"];
             string zoom = collection["Zoom"];
             string iconPath = collection["IconPath"];
@@ -242,8 +221,8 @@ namespace VoterManager.Controllers
                 objFromDb.Zoom = int.Parse(zoom);
                 objFromDb.IconPath = iconPath;
                 dataManager.Precincts.Save(objFromDb);
-            }
-            return RedirectToAction("Show", new { Id = id });
+            }*/
+            return View("Error");
         }
 
         [HttpGet]

@@ -1,0 +1,107 @@
+commit 5a5b98a87a2401ff8ef5ebd4d6c115c2f5bb830c
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Mon Nov 2 23:20:55 2015 +0600
+
+    Добавлена функция привязки работника штаба к домам (возможна модернизация). Изменили методы создания пользователей (привязан процесс поиска физ. лица).
+
+commit 5332ee74c0d1fdf2fc37805369f39d7977df7973
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sun Nov 1 19:58:24 2015 +0600
+
+    Добавлены сущности Кандидат и Агитатор. Также доработано оформление поисковика Person
+
+commit 993faae977b6b968e857970cccbb0b8763df7641
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sun Nov 1 14:36:11 2015 +0600
+
+    Доведена до логического конца функция добавления связей между физ.лицами - автоматически добавляется и связанному лицу о текущей связи (при указании обратного отнашения)
+
+commit 147925b63cad683b2c473c045b76282a5716d5f2
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sun Nov 1 00:47:20 2015 +0600
+
+    Добавлена функция связывания физ. лиц (родственники, коллеги, знакомые, друзья и т.д.) в сущность Person
+
+commit d868674dc7fb4951953b91b822fd6b613633dc90
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sat Oct 31 21:33:39 2015 +0600
+
+    Добавлена сущность Тип взаимоотношений
+
+commit b68b6158723e4b8571471e8a79520829051f5672
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sat Oct 31 20:58:56 2015 +0600
+
+    Добавлена функция поиска физ.лица по умолчанию в базовом создании физ.лица
+
+commit f87532ddf6deb80fa70a9626185f14b77f200f0b
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Fri Oct 30 20:19:07 2015 +0600
+
+    Подправлена логика отображения диаграмм на карте
+
+commit 18ebd0f4cd318b656267fa04967da32433f87cd2
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Fri Oct 30 19:30:20 2015 +0600
+
+    Добавлен шаблон отображения даты
+
+commit 56a5a810a5dd6cf0578dd363dbbc24792dbb0b59
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Thu Oct 29 23:10:52 2015 +0600
+
+    Добавлена сущность UserLog - которая регистрирует каждую авторизацию к базе
+
+commit 1db7737bebc944e02e3a1a411bb9a5b2dec4d689
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Thu Oct 29 22:16:32 2015 +0600
+
+    Опубликованная версия
+
+commit 823bdd93b3b6f02bcc40dfedd26117ba9c8c1505
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Thu Oct 29 21:56:46 2015 +0600
+
+    123
+
+commit 96127293f991d5000deea8484e6906d7245fcf25
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Thu Oct 29 21:52:54 2015 +0600
+
+    Создан базовый процесс создания физ.лица. Добавлены основные предсавтления для VoterController
+
+commit 4084b096e8e1aea29ae6ffde8705fad0477ae989
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Thu Oct 29 01:11:47 2015 +0600
+
+    Корректный формат ввода и отображения даты с помощью jquery
+
+commit 71d391ee8dadd8a2f8356dd84dd88ec5ffba3905
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Wed Oct 28 23:03:45 2015 +0600
+
+    Изменена архитектура, но не довведена до логического конца - осталось отделить внешние ссылки-данные-показатели в отдельную модель обработки
+
+commit 52bb09a257b32cc5d9f46c25261b930917e89d5c
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Mon Oct 26 20:29:07 2015 +0600
+
+    Добавлена опция по указанию нескольких полит. взглядов
+
+commit 1cf372cc9d170b9d5a1d4889c3c6bd7fbe277e5d
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Mon Oct 26 20:17:48 2015 +0600
+
+    Последняя рабочая версия
+
+commit 50777363bd3c296d9294e59da2017e12f58e22e2
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sat Oct 24 19:56:02 2015 +0600
+
+    Последнее рабочее состояние
+
+commit 108279c036c1fd0c37ca76eae2e3540288b67189
+Author: Azamat Bormokov <azamatbormokov@gmail.com>
+Date:   Sat Oct 24 19:52:49 2015 +0600
+
+    Исходная фиксация для добавления файлов по умолчанию .gitIgnore и .gitAttribute.

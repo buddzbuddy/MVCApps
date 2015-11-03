@@ -82,9 +82,9 @@ namespace VoterManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(House obj)
+        public ActionResult Create(House obj, FormCollection collection)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 if (!dataManager.Houses.GetAll()
                     .Where(m => m.StreetId == obj.StreetId)
@@ -113,7 +113,16 @@ namespace VoterManager.Controllers
                                    Selected = p.Id == obj.PrecinctId
                                });
             ViewBag.Precincts = precincts;
-            return View(obj);
+            return View(obj);*/
+            string latitude = collection["Latitude"];
+            string longitude = collection["Longitude"];
+            if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
+            {
+                obj.Latitude = double.Parse(latitude.Replace('.', ','));
+                obj.Longitude = double.Parse(longitude.Replace('.', ','));
+            }
+            dataManager.Houses.Save(obj);
+            return RedirectToAction("Show", new { Id = obj.Id });
         }
 
         [HttpGet]
@@ -198,9 +207,9 @@ namespace VoterManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(House obj)
+        public ActionResult Edit(House obj, FormCollection collection)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 if (!dataManager.Houses.GetAll()
                     .Where(m => m.StreetId == obj.StreetId)
@@ -241,7 +250,16 @@ namespace VoterManager.Controllers
                                    Selected = p.Id == obj.PrecinctId
                                });
             ViewBag.Precincts = precincts;
-            return View(obj);
+            return View(obj);*/
+            string latitude = collection["Latitude"];
+            string longitude = collection["Longitude"];
+            if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
+            {
+                obj.Latitude = double.Parse(latitude.Replace('.', ','));
+                obj.Longitude = double.Parse(longitude.Replace('.', ','));
+            }
+            dataManager.Houses.Save(obj);
+            return RedirectToAction("Show", new { Id = obj.Id });
         }
 
         [HttpGet]

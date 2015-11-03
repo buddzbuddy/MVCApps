@@ -620,5 +620,10 @@ namespace VoterManager.Controllers
             dataManager.Persons.Delete(Id);
             return RedirectToAction("Index");
         }
+
+        public string ShowFullName(int Id)
+        {
+            return dataManager.Persons.Get(Id).FullName;
+        }
     }
 }

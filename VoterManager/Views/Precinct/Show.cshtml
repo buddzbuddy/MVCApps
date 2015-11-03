@@ -23,58 +23,46 @@
         {
             @Html.ActionLink(Model.District.Name, "Show", "District", new { Id = Model.District.Id }, new { title = "Открыть район" });
         }
-        else
-        {
-            <text>не указано</text>
-        }
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Precinct.WorkerId)
     </div>
     <div class="display-field">
-        @if (Model.Worker != null)
+        @if (Model.Worker != null && Model.Worker.PersonId.HasValue)
         {
-            @Html.ActionLink(Model.Worker.FullName, "Show", "Worker", new { Id = Model.Worker.Id }, new { title = "Открыть работника" });
-        }
-        else
-        {
-            <text>не указано</text>
+            Html.RenderAction("ShowPartial", "Person", new { Id = Model.Worker.PersonId });
         }
     </div>
 </fieldset>
+<br />
+<h5>Позиция на карте</h5>
+@*@Html.ActionLink("Указать на карте", "SetMapPosition", new { id = Model.Precinct.Id })*@
+<table class="entityList">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Precinct.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precinct.Longitude)
+        </th>
+    </tr>
+    @if (Model.Precinct.Latitude.HasValue && Model.Precinct.Longitude.HasValue)
+    {
+        <tr>
+            <td>
+                @Model.Precinct.Latitude
+            </td>
+            <td>
+                @Model.Precinct.Longitude
+            </td>
+        </tr>
+    }
+</table>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.Precinct.Id }) |
     @Html.ActionLink("Назад", "Index")
 </p>
-@*<br />
-<h5>Список граждан</h5>
-@Html.ActionLink("Создать нового гражданина", "Create", "Person", new { precinctId = Model.Precinct.Id }, null)
-@if (Model.Precinct.Persons.Count > 0)
-{
-    <table class="entityList">
-        <tr>
-            <th>
-            </th>
-            <th>ФИО</th>
-            <th>Д.р.</th>
-        </tr>
-        @foreach (var p in Model.Precinct.Persons)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("Открыть", "Show", "Person", new { Id = p.Id }, null) |
-                    @Html.ActionLink("Редактировать", "Edit", "Person", new { Id = p.Id }, null) |
-                    @Html.ActionLink("Удалить", "Delete", "Person", new { Id = p.Id }, null)
-                </td>
-                <td>@p.LastName @p.FirstName @p.MiddleName</td>
-                <td>
-                    @(p.BirthDate.HasValue ? p.BirthDate.Value.ToShortDateString() : "не указано")
-                </td>
-            </tr>
-        }
-    </table>
-}*@
 <br />
 <h5>Список домов, относящиеся к данному УИКу</h5>
 @Html.ActionLink("Добавить/Создать дом", "AddHouse", new { Id = Model.Precinct.Id })
@@ -99,27 +87,3 @@
         }
     </table>
 }
-<br />
-<h5>Позиция на карте</h5>
-@Html.ActionLink("Указать на карте", "SetMapPosition", new { id = Model.Precinct.Id })
-<table class="entityList">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Precinct.Latitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Precinct.Longitude)
-        </th>
-    </tr>
-    @if (Model.Precinct.Latitude.HasValue && Model.Precinct.Longitude.HasValue)
-    {
-        <tr>
-            <td>
-                @Model.Precinct.Latitude
-            </td>
-            <td>
-                @Model.Precinct.Longitude
-            </td>
-        </tr>
-    }
-</table>

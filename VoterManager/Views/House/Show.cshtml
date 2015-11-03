@@ -57,6 +57,30 @@
         }
     </div>
 </fieldset>
+<br />
+<h5>Позиция на карте</h5>
+@*@Html.ActionLink("Указать на карте", "SetMapPosition", new { id = Model.Precinct.Id })*@
+<table class="entityList">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.House.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House.Longitude)
+        </th>
+    </tr>
+    @if (Model.House.Latitude.HasValue && Model.House.Longitude.HasValue)
+    {
+        <tr>
+            <td>
+                @Model.House.Latitude
+            </td>
+            <td>
+                @Model.House.Longitude
+            </td>
+        </tr>
+    }
+</table>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.House.Id }) |
     @Html.ActionLink("Назад", "Index")

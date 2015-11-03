@@ -49,13 +49,9 @@
                 }
             </td>
             <td>
-                @if (item.Worker != null)
+                @if (item.Worker != null && item.Worker.PersonId.HasValue)
                 {
-                    @Html.ActionLink(item.Worker.FullName, "Show", "Worker", new { Id = item.Worker.Id }, new { title = "Просмотр ответственного" });
-                }
-                else
-                {
-                    <text>не указано</text>
+                    Html.RenderAction("ShowFullName", "Person", new { Id = item.Worker.PersonId });
                 }
             </td>
             <td>
