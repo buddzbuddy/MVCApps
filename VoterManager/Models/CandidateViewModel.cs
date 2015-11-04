@@ -36,5 +36,9 @@ namespace VoterManager.Models
                 _personView = value;
             }
         }
+
+        public List<CandidatePrecinctRelationViewModel> RelatedPrecincts { get; set; }
+
+        public List<CandidateMunicipalityRelationViewModel> RelatedMunicipalities { get; set; }
     }
 }

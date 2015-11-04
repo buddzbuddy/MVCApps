@@ -6,154 +6,27 @@
 
 <h2>Просмотр кандидата</h2>
 <fieldset>
-    <legend>@Html.DisplayNameFor(model => model.Person)</legend>
+    <legend>Кандидат</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.LastName)
+        @Html.DisplayNameFor(model => model.Candidate.PersonId)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Person.LastName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.FirstName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.MiddleName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.MiddleName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.BirthDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.BirthDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.Phone)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.Phone)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Person.Email)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Person.Email)
-    </div>
-    <div class="addressInfo">
-        <h5>Адресные данные</h5>
-        <section class="feature">
-            <b>Проживает</b>
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.PersonView.District.Name)
-            </div>
-            <div class="display-field">
-                @if (Model.PersonView.District != null)
-            {
-                    @Html.ActionLink(Model.PersonView.District.Name, "Show", "District", new { Id = Model.PersonView.District.Id }, new { title = "Открыть район" });
-            }
-            else
-            {
-                    <text>не указано</text>
-            }
-            </div>
-
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.PersonView.Locality.Name)
-            </div>
-            <div class="display-field">
-                @if (Model.PersonView.Locality != null)
-            {
-                    @Html.ActionLink(Model.PersonView.Locality.Name, "Show", "Locality", new { Id = Model.PersonView.Locality.Id }, new { title = "Открыть нас. пункт" });
-            }
-            else
-            {
-                    <text>не указано</text>
-            }
-            </div>
-
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.PersonView.Street.Name)
-            </div>
-            <div class="display-field">
-                @if (Model.PersonView.Street != null)
-            {
-                    @Html.ActionLink(Model.PersonView.Street.Name, "Show", "Street", new { Id = Model.PersonView.Street.Id }, new { title = "Открыть улицу" });
-            }
-            else
-            {
-                    <text>не указано</text>
-            }
-            </div>
-
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.PersonView.House.Name)
-            </div>
-            <div class="display-field">
-                @if (Model.PersonView.House != null)
-            {
-                    @Html.ActionLink(Model.PersonView.House.Name, "Show", "House", new { Id = Model.PersonView.House.Id }, new { title = "Открыть дом" });
-            }
-            else
-            {
-                    <text>не указано</text>
-            }
-            </div>
-
-            <div class="display-label">
-                @Html.DisplayNameFor(model => model.Person.Apartment)
-            </div>
-            <div class="display-field">
-                @Html.DisplayFor(model => model.Person.Apartment)
-            </div>
-
-        </section>
-        <section class="feature">
-            <b>Прописан</b>
-            @{
-            Html.RenderAction("ViewRegistration", "Voter", new { personId = Model.Person.Id });
-            }
-        </section>
-        <div class="clear-fix"></div>
-    </div>
-
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.PersonView.Nationality.Name)
-    </div>
-    <div class="display-field">
-        @if (Model.PersonView.Nationality != null)
+        @if (Model.Candidate.PersonId.HasValue)
         {
-            @Html.ActionLink(Model.PersonView.Nationality.Name, "Show", "Nationality", new { Id = Model.PersonView.Nationality.Id }, new { title = "Открыть национальность" });
-        }
-        else
-        {
-            <text>не указано</text>
+            Html.RenderAction("ShowPartial", "Person", new { Id = Model.Candidate.PersonId });
         }
     </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.PersonView.Education.Name)
-    </div>
-    <div class="display-field">
-        @if (Model.PersonView.Education != null)
-        {
-            @Html.ActionLink(Model.PersonView.Education.Name, "Show", "Education", new { Id = Model.PersonView.Education.Id }, new { title = "Открыть образование" });
-        }
-        else
-        {
-            <text>не указано</text>
-        }
-    </div>
+    <h3>Назначенные УИК</h3>
+    @Html.ActionLink("Добавить УИК", "AddRelatedPrecinct", new { candidateId = Model.Candidate.Id })
+    @{
+        Html.RenderPartial("RelatedPrecincts", Model.RelatedPrecincts);
+    }
+    <h3>Назначенные МТУ</h3>
+    @Html.ActionLink("Добавить МТУ", "AddRelatedMunicipality", new { candidateId = Model.Candidate.Id })
+    @{
+        Html.RenderPartial("RelatedMunicipalities", Model.RelatedMunicipalities);
+    }
 
 </fieldset>
 <p>

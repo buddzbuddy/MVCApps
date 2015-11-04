@@ -35,6 +35,10 @@ namespace BusinessLogic
         private ICandidateRepository candidateRepository;
         private IAgitatorRepository agitatorRepository;
         private IWorkerHouseRelationRepository workerHouseRelationRepository;
+        private IAgitatorHouseRelationRepository agitatorHouseRelationRepository;
+        private IAgitatorPrecinctRelationRepository agitatorPrecinctRelationRepository;
+        private ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository;
+        private ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -57,7 +61,11 @@ namespace BusinessLogic
             IPersonRelationRepository personRelationRepository,
             ICandidateRepository candidateRepository,
             IAgitatorRepository agitatorRepository,
-            IWorkerHouseRelationRepository workerHouseRelationRepository)
+            IWorkerHouseRelationRepository workerHouseRelationRepository,
+            IAgitatorHouseRelationRepository agitatorHouseRelationRepository,
+            IAgitatorPrecinctRelationRepository agitatorPrecinctRelationRepository,
+            ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository,
+            ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -82,6 +90,10 @@ namespace BusinessLogic
             this.candidateRepository = candidateRepository;
             this.agitatorRepository = agitatorRepository;
             this.workerHouseRelationRepository = workerHouseRelationRepository;
+            this.agitatorHouseRelationRepository = agitatorHouseRelationRepository;
+            this.agitatorPrecinctRelationRepository = agitatorPrecinctRelationRepository;
+            this.candidatePrecinctRelationRepository = candidatePrecinctRelationRepository;
+            this.candidateMunicipalityRelationRepository = candidateMunicipalityRelationRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -107,5 +119,9 @@ namespace BusinessLogic
         public ICandidateRepository Candidates { get { return candidateRepository; } }
         public IAgitatorRepository Agitators { get { return agitatorRepository; } }
         public IWorkerHouseRelationRepository WorkerHouseRelations { get { return workerHouseRelationRepository; } }
+        public IAgitatorHouseRelationRepository AgitatorHouseRelations { get { return agitatorHouseRelationRepository; } }
+        public IAgitatorPrecinctRelationRepository AgitatorPrecinctRelations { get { return agitatorPrecinctRelationRepository; } }
+        public ICandidatePrecinctRelationRepository CandidatePrecinctRelations { get { return candidatePrecinctRelationRepository; } }
+        public ICandidateMunicipalityRelationRepository CandidateMunicipalityRelations { get { return candidateMunicipalityRelationRepository; } }
     }
 }

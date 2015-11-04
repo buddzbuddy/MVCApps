@@ -50,6 +50,9 @@
   <ItemGroup>
     <Compile Include="EFDbContext.cs" />
     <Compile Include="Entities\Agitator.cs" />
+    <Compile Include="Entities\CandidateMunicipalityRelation.cs" />
+    <Compile Include="Entities\CandidatePrecinctRelation.cs" />
+    <Compile Include="Entities\AgitatorPrecinctRelation.cs" />
     <Compile Include="Entities\District.cs" />
     <Compile Include="Entities\Enums.cs" />
     <Compile Include="Entities\House.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Entities\Voter.cs" />
     <Compile Include="Entities\Worker.cs" />
+    <Compile Include="Entities\AgitatorHouseRelation.cs" />
     <Compile Include="Entities\WorkerHouseRelation.cs" />
     <Compile Include="Filters\CustomModelMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

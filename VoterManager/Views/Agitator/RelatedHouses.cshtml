@@ -1,0 +1,19 @@
+﻿@model IEnumerable<VoterManager.Models.AgitatorHouseRelationViewModel>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.House.Name)</th>
+        <th>Действие</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.House.Name)
+        </td>
+        <td>
+            @Html.ActionLink("убрать", "RemoveRelatedHouse", new { relationId = item.AgitatorHouseRelation.Id })
+        </td>
+    </tr>
+}
+
+</table>

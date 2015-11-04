@@ -53,6 +53,10 @@ namespace VoterManager
             ninjectKernel.Bind<ICandidateRepository>().To<CandidateRepository>();
             ninjectKernel.Bind<IAgitatorRepository>().To<AgitatorRepository>();
             ninjectKernel.Bind<IWorkerHouseRelationRepository>().To<WorkerHouseRelationRepository>();
+            ninjectKernel.Bind<IAgitatorHouseRelationRepository>().To<AgitatorHouseRelationRepository>();
+            ninjectKernel.Bind<IAgitatorPrecinctRelationRepository>().To<AgitatorPrecinctRelationRepository>();
+            ninjectKernel.Bind<ICandidatePrecinctRelationRepository>().To<CandidatePrecinctRelationRepository>();
+            ninjectKernel.Bind<ICandidateMunicipalityRelationRepository>().To<CandidateMunicipalityRelationRepository>();
         }
     }
 }

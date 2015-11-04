@@ -34,16 +34,20 @@ namespace AgitatorManager.Controllers
             {
                 Agitator = obj,
                 Person = person,
-                PersonView = new PersonViewModel
-                {
-                    Person = person,
-                    District = dataManager.Districts.Get((int?)person.DistrictId ?? 0),
-                    Nationality = dataManager.Nationalities.Get((int?)person.NationalityId ?? 0),
-                    Education = dataManager.Educations.Get((int?)person.EducationId ?? 0),
-                    Locality = dataManager.Localities.Get((int?)person.LocalityId ?? 0),
-                    Street = dataManager.Streets.Get((int?)person.StreetId ?? 0),
-                    House = dataManager.Houses.Get((int?)person.HouseId ?? 0)
-                }
+                RelatedHouses = new List<AgitatorHouseRelationViewModel>(from ah in dataManager.AgitatorHouseRelations.GetAll()
+                                                                         where ah.AgitatorId == Id
+                                                                         select new AgitatorHouseRelationViewModel
+                                                                         {
+                                                                             AgitatorHouseRelation = ah,
+                                                                             House = dataManager.Houses.Get(ah.HouseId ?? 0)
+                                                                         }),
+                RelatedPrecincts = new List<AgitatorPrecinctRelationViewModel>(from ap in dataManager.AgitatorPrecinctRelations.GetAll()
+                                                                               where ap.AgitatorId == Id
+                                                                               select new AgitatorPrecinctRelationViewModel
+                                                                               {
+                                                                                   AgitatorPrecinctRelation = ap,
+                                                                                   Precinct = dataManager.Precincts.Get(ap.PrecinctId ?? 0)
+                                                                               })
             };
             return View(model);
         }
@@ -162,6 +166,84 @@ namespace AgitatorManager.Controllers
         {
             dataManager.Persons.Delete(Id);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AddRelatedHouse(int agitatorId)
+        {
+            ViewBag.Houses = from h in dataManager.Houses.GetAll()
+                             select new SelectListItem
+                             {
+                                 Text = h.Name,
+                                 Value = h.Id.ToString()
+                             };
+            return View(new AgitatorHouseRelation { AgitatorId = agitatorId });
+        }
+
+        [HttpPost]
+        public ActionResult AddRelatedHouse(AgitatorHouseRelation obj)
+        {
+            if (ModelState.IsValid)
+            {
+                dataManager.AgitatorHouseRelations.Save(obj);
+                return RedirectToAction("Show", new { Id = obj.AgitatorId });
+            }
+
+            ViewBag.Houses = from h in dataManager.Houses.GetAll()
+                             select new SelectListItem
+                             {
+                                 Text = h.Name,
+                                 Value = h.Id.ToString()
+                             };
+            return View(obj);
+        }
+
+        public ActionResult RemoveRelatedHouse(int relationId)
+        {
+            var rel = dataManager.AgitatorHouseRelations.Get(relationId);
+            if (rel != null)
+            {
+                dataManager.AgitatorHouseRelations.Delete(rel.Id);
+            }
+            return RedirectToAction("Show", new { Id = rel.AgitatorId });
+        }
+
+        public ActionResult AddRelatedPrecinct(int agitatorId)
+        {
+            ViewBag.Precincts = from h in dataManager.Precincts.GetAll()
+                                select new SelectListItem
+                                {
+                                    Text = h.Name,
+                                    Value = h.Id.ToString()
+                                };
+            return View(new AgitatorPrecinctRelation { AgitatorId = agitatorId });
+        }
+
+        [HttpPost]
+        public ActionResult AddRelatedPrecinct(AgitatorPrecinctRelation obj)
+        {
+            if (ModelState.IsValid)
+            {
+                dataManager.AgitatorPrecinctRelations.Save(obj);
+                return RedirectToAction("Show", new { Id = obj.AgitatorId });
+            }
+
+            ViewBag.Precincts = from h in dataManager.Precincts.GetAll()
+                                select new SelectListItem
+                                {
+                                    Text = h.Name,
+                                    Value = h.Id.ToString()
+                                };
+            return View(obj);
+        }
+
+        public ActionResult RemoveRelatedPrecinct(int relationId)
+        {
+            var rel = dataManager.AgitatorPrecinctRelations.Get(relationId);
+            if (rel != null)
+            {
+                dataManager.AgitatorPrecinctRelations.Delete(rel.Id);
+            }
+            return RedirectToAction("Show", new { Id = rel.AgitatorId });
         }
     }
 }

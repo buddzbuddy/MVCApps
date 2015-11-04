@@ -34,16 +34,20 @@ namespace CandidateManager.Controllers
             {
                 Candidate = obj,
                 Person = person,
-                PersonView = new PersonViewModel
-                {
-                    Person = person,
-                    District = dataManager.Districts.Get((int?)person.DistrictId ?? 0),
-                    Nationality = dataManager.Nationalities.Get((int?)person.NationalityId ?? 0),
-                    Education = dataManager.Educations.Get((int?)person.EducationId ?? 0),
-                    Locality = dataManager.Localities.Get((int?)person.LocalityId ?? 0),
-                    Street = dataManager.Streets.Get((int?)person.StreetId ?? 0),
-                    House = dataManager.Houses.Get((int?)person.HouseId ?? 0)
-                }
+                RelatedPrecincts = new List<CandidatePrecinctRelationViewModel>(from cp in dataManager.CandidatePrecinctRelations.GetAll()
+                                                                                where cp.CandidateId == Id
+                                                                                select new CandidatePrecinctRelationViewModel
+                                                                                {
+                                                                                    CandidatePrecinctRelation = cp,
+                                                                                    Precinct = dataManager.Precincts.Get(cp.PrecinctId ?? 0)
+                                                                                }),
+                RelatedMunicipalities = new List<CandidateMunicipalityRelationViewModel>(from cp in dataManager.CandidateMunicipalityRelations.GetAll()
+                                                                                         where cp.CandidateId == Id
+                                                                                         select new CandidateMunicipalityRelationViewModel
+                                                                                {
+                                                                                    CandidateMunicipalityRelation = cp,
+                                                                                    Municipality = dataManager.Municipalities.Get(cp.MunicipalityId ?? 0)
+                                                                                })
             };
             return View(model);
         }
@@ -162,6 +166,84 @@ namespace CandidateManager.Controllers
         {
             dataManager.Persons.Delete(Id);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AddRelatedPrecinct(int candidateId)
+        {
+            ViewBag.Precincts = from h in dataManager.Precincts.GetAll()
+                                select new SelectListItem
+                                {
+                                    Text = h.Name,
+                                    Value = h.Id.ToString()
+                                };
+            return View(new CandidatePrecinctRelation { CandidateId = candidateId });
+        }
+
+        [HttpPost]
+        public ActionResult AddRelatedPrecinct(CandidatePrecinctRelation obj)
+        {
+            if (ModelState.IsValid)
+            {
+                dataManager.CandidatePrecinctRelations.Save(obj);
+                return RedirectToAction("Show", new { Id = obj.CandidateId });
+            }
+
+            ViewBag.Precincts = from h in dataManager.Precincts.GetAll()
+                                select new SelectListItem
+                                {
+                                    Text = h.Name,
+                                    Value = h.Id.ToString()
+                                };
+            return View(obj);
+        }
+
+        public ActionResult RemoveRelatedPrecinct(int relationId)
+        {
+            var rel = dataManager.CandidatePrecinctRelations.Get(relationId);
+            if (rel != null)
+            {
+                dataManager.CandidatePrecinctRelations.Delete(rel.Id);
+            }
+            return RedirectToAction("Show", new { Id = rel.CandidateId });
+        }
+
+        public ActionResult AddRelatedMunicipality(int candidateId)
+        {
+            ViewBag.Municipalities = from h in dataManager.Municipalities.GetAll()
+                                     select new SelectListItem
+                                     {
+                                         Text = h.Name,
+                                         Value = h.Id.ToString()
+                                     };
+            return View(new CandidateMunicipalityRelation { CandidateId = candidateId });
+        }
+
+        [HttpPost]
+        public ActionResult AddRelatedMunicipality(CandidateMunicipalityRelation obj)
+        {
+            if (ModelState.IsValid)
+            {
+                dataManager.CandidateMunicipalityRelations.Save(obj);
+                return RedirectToAction("Show", new { Id = obj.CandidateId });
+            }
+
+            ViewBag.Municipalities = from h in dataManager.Municipalities.GetAll()
+                                     select new SelectListItem
+                                     {
+                                         Text = h.Name,
+                                         Value = h.Id.ToString()
+                                     };
+            return View(obj);
+        }
+
+        public ActionResult RemoveRelatedMunicipality(int relationId)
+        {
+            var rel = dataManager.CandidateMunicipalityRelations.Get(relationId);
+            if (rel != null)
+            {
+                dataManager.CandidateMunicipalityRelations.Delete(rel.Id);
+            }
+            return RedirectToAction("Show", new { Id = rel.CandidateId });
         }
     }
 }

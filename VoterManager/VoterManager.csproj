@@ -269,6 +269,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\CandidateMunicipalityRelationViewModel.cs" />
+    <Compile Include="Models\CandidatePrecinctRelationViewModel.cs" />
+    <Compile Include="Models\AgitatorPrecinctRelationViewModel.cs" />
     <Compile Include="Models\AgitatorViewModel.cs" />
     <Compile Include="Models\PersonRelationViewModel.cs" />
     <Compile Include="Models\VoterPartyRelationViewModel.cs" />
@@ -285,6 +288,7 @@
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\MunicipalityViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Models\AgitatorHouseRelationViewModel.cs" />
     <Compile Include="Models\WorkerHouseRelationViewModel.cs" />
     <Compile Include="Models\WorkerViewModel.cs" />
     <Compile Include="NinjectControllerFactory.cs" />
@@ -558,6 +562,14 @@
     <Content Include="Views\Agitator\Show.cshtml" />
     <Content Include="Views\Worker\AddRelatedHouse.cshtml" />
     <Content Include="Views\Worker\RelatedHouses.cshtml" />
+    <Content Include="Views\Agitator\AddRelatedHouse.cshtml" />
+    <Content Include="Views\Agitator\RelatedHouses.cshtml" />
+    <Content Include="Views\Agitator\RelatedPrecincts.cshtml" />
+    <Content Include="Views\Agitator\AddRelatedPrecinct.cshtml" />
+    <Content Include="Views\Candidate\AddRelatedPrecinct.cshtml" />
+    <Content Include="Views\Candidate\RelatedPrecincts.cshtml" />
+    <Content Include="Views\Candidate\AddRelatedMunicipality.cshtml" />
+    <Content Include="Views\Candidate\RelatedMunicipalities.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -51,7 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManager.cs" />
+    <Compile Include="Implementations\CandidateMunicipalityRelationRepository.cs" />
+    <Compile Include="Implementations\CandidatePrecinctRelationRepository.cs" />
+    <Compile Include="Implementations\AgitatorPrecinctRelationRepository.cs" />
     <Compile Include="Implementations\AgitatorRepository.cs" />
+    <Compile Include="Implementations\AgitatorHouseRelationRepository.cs" />
     <Compile Include="Implementations\WorkerHouseRelationRepository.cs" />
     <Compile Include="Implementations\RelationshipRepository.cs" />
     <Compile Include="Implementations\PersonRelationRepository.cs" />
@@ -74,7 +78,11 @@
     <Compile Include="Implementations\MunicipalityRepository.cs" />
     <Compile Include="Implementations\DistrictRepository.cs" />
     <Compile Include="Implementations\UserRepository.cs" />
+    <Compile Include="Interfaces\ICandidateMunicipalityRelationRepository.cs" />
+    <Compile Include="Interfaces\ICandidatePrecinctRelationRepository.cs" />
+    <Compile Include="Interfaces\IAgitatorPrecinctRelationRepository.cs" />
     <Compile Include="Interfaces\IAgitatorRepository.cs" />
+    <Compile Include="Interfaces\IAgitatorHouseRelationRepository.cs" />
     <Compile Include="Interfaces\IWorkerHouseRelationRepository.cs" />
     <Compile Include="Interfaces\IRelationshipRepository.cs" />
     <Compile Include="Interfaces\IPersonRelationRepository.cs" />

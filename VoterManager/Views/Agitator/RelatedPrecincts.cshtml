@@ -1,0 +1,19 @@
+﻿@model IEnumerable<VoterManager.Models.AgitatorPrecinctRelationViewModel>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Precinct.Name)</th>
+        <th>Действие</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precinct.Name)
+        </td>
+        <td>
+            @Html.ActionLink("убрать", "RemoveRelatedPrecinct", new { relationId = item.AgitatorPrecinctRelation.Id })
+        </td>
+    </tr>
+}
+
+</table>
