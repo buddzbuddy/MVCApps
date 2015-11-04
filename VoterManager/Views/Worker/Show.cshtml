@@ -8,7 +8,7 @@
 
 <fieldset>
     <legend>Работник штаба</legend>
-
+    
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Worker.PersonId)
     </div>
@@ -28,5 +28,7 @@
 </fieldset>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.Worker.Id }) |
-@Html.ActionLink("Назад", "Index")
+@Html.ActionLink("Назад", "Index")@if(Model.RelatedHouses.Count > 0){
+    <text>| </text>@Html.ActionLink("Просмотреть на карте", "ViewInMap", new { id = Model.Worker.Id })
+    }
 </p>

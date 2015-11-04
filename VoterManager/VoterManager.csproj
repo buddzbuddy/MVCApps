@@ -570,6 +570,7 @@
     <Content Include="Views\Candidate\RelatedPrecincts.cshtml" />
     <Content Include="Views\Candidate\AddRelatedMunicipality.cshtml" />
     <Content Include="Views\Candidate\RelatedMunicipalities.cshtml" />
+    <Content Include="Views\Worker\ViewInMap.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
