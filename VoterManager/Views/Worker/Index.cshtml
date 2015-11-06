@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VoterManager.Models.WorkerViewModel>
+﻿@model IEnumerable<Domain.Entities.Worker>
 
 @{
     ViewBag.Title = "Список работников штаба";
@@ -13,7 +13,7 @@
     <tr>
         <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.Worker.PersonId)
+            @Html.DisplayNameFor(model => model.PersonId)
         </th>
     </tr>
 
@@ -21,16 +21,12 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Открыть", "Show", new { id = item.Worker.Id })
+                @Html.ActionLink("Открыть", "Show", new { id = item.Id })
             </td>
             <td>
-                @if (item.Person != null)
+                @if (item.PersonId.HasValue)
                 {
-                    @Html.ActionLink(item.Person.FullName, "Show", "Person", new { Id = item.Person.Id }, new { title = "Просмотр гражданина" })
-                }
-                else
-                {
-                    <text>не указан</text>
+                    Html.RenderAction("ShowFullName", "Person", new { Id = item.PersonId });
                 }
             </td>
         </tr>

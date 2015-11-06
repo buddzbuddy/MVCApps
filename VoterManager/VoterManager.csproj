@@ -571,6 +571,10 @@
     <Content Include="Views\Candidate\AddRelatedMunicipality.cshtml" />
     <Content Include="Views\Candidate\RelatedMunicipalities.cshtml" />
     <Content Include="Views\Worker\ViewInMap.cshtml" />
+    <Content Include="Views\Agitator\ViewInMap.cshtml" />
+    <Content Include="Views\Agitator\ViewInMap2.cshtml" />
+    <Content Include="Views\Candidate\ViewInMap2.cshtml" />
+    <Content Include="Views\Candidate\ViewInMap3.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -32,5 +32,8 @@
 </fieldset>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id=Model.Agitator.Id }) |
-    @Html.ActionLink("Назад к списку", "Index")
+    @Html.ActionLink("Назад к списку", "Index")@if (Model.RelatedHouses.Count > 0 || Model.RelatedPrecincts.Count > 0)
+    {
+        <text>| </text>@Html.ActionLink("Просмотреть на карте", "ViewInMap", new { id = Model.Agitator.Id })
+    }
 </p>

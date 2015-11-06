@@ -19,12 +19,7 @@ namespace VoterManager.Controllers
         public ActionResult Index()
         {
 
-            return View(from d in dataManager.Workers.GetAll()
-                        select new WorkerViewModel
-                        {
-                            Worker = d,
-                            Person = dataManager.Persons.Get(d.PersonId ?? 0)
-                        });
+            return View(dataManager.Workers.GetAll());
         }
 
         public ActionResult Show(int Id)

@@ -31,5 +31,8 @@
 </fieldset>
 <p>
     @Html.ActionLink("Редактировать", "Edit", new { id=Model.Candidate.Id }) |
-    @Html.ActionLink("Назад к списку", "Index")
+    @Html.ActionLink("Назад к списку", "Index")@if (Model.RelatedPrecincts.Count > 0 || Model.RelatedMunicipalities.Count > 0)
+    {
+        <text>| </text>@Html.ActionLink("Просмотреть на карте", "ViewInMap2", new { id = Model.Candidate.Id })
+    }
 </p>

@@ -148,5 +148,116 @@ namespace VoterManager.Controllers
             return File(chart.GetBytes(), "image/jpeg");
         }
 
+
+        public ActionResult Agitator(int Id)
+        {
+            var politicalViews = new List<KeyValuePair<string, int>>();
+            var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(ah => ah.AgitatorId == Id && ah.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+
+            var houses = dataManager.Houses.GetAll().Where(h => agitatorHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().ToList();
+            var parties = voterPartyRelations.Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+
+            foreach (var house in houses)
+            {
+                var hPersons = persons.Where(x => x.HouseId == house.Id).ToList();
+                var hVoters = voters.Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0)).ToList();
+                var hVoterPartyRelations = voterPartyRelations.Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0)).ToList();
+                var hParties = parties.Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id)).ToList();
+
+                foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()))
+                {
+                    politicalViews.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).Count()));
+                }
+            }
+            var chart = new Chart(width: 200, height: 200)
+            .AddSeries(
+                name: "Employee",
+                xValue: politicalViews.Select(p => p.Key).ToArray(),
+                yValues: politicalViews.Select(p => p.Value).ToArray(),
+                chartType: "Pie");
+            return File(chart.GetBytes(), "image/jpeg");
+        }
+        public ActionResult Agitator2(int Id)
+        {
+            var politicalViews = new List<KeyValuePair<string, int>>();
+            var agitatorPrecincts = dataManager.AgitatorPrecinctRelations.GetAll().Where(ap => ap.AgitatorId == Id && ap.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
+            
+            //var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(ah => ah.AgitatorId == Id && ah.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+            var agitatorHouses = dataManager.Houses.GetAll()
+                .Where(ah => ah.PrecinctId.HasValue && agitatorPrecincts.Contains(ah.PrecinctId.Value))
+                .Select(ah => ah.Id).ToList();
+            var houses = dataManager.Houses.GetAll().Where(h => agitatorHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().ToList();
+            var parties = voterPartyRelations.Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+
+            foreach (var precinct in agitatorPrecincts)
+            {
+                var obj = dataManager.Precincts.Get(precinct);
+                var pHouses = houses.Where(h => h.PrecinctId == precinct).Select(h => h.Id).ToList();
+                var hPersons = persons.Where(x => pHouses.Contains(x.HouseId ?? 0)).ToList();
+                var hVoters = voters.Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0)).ToList();
+                var hVoterPartyRelations = voterPartyRelations.Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0)).ToList();
+                var hParties = parties.Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id)).ToList();
+
+                foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()))
+                {
+                    politicalViews.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).Count()));
+                }
+            }
+            var chart = new Chart(width: 200, height: 200)
+            .AddSeries(
+                name: "Employee",
+                xValue: politicalViews.Select(p => p.Key).ToArray(),
+                yValues: politicalViews.Select(p => p.Value).ToArray(),
+                chartType: "Pie");
+            return File(chart.GetBytes(), "image/jpeg");
+        }
+
+        public ActionResult Candidate2(int Id)
+        {
+            var politicalViews = new List<KeyValuePair<string, int>>();
+            var candidatePrecincts = dataManager.CandidatePrecinctRelations.GetAll().Where(cp => cp.CandidateId == Id && cp.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
+
+            //var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(ah => ah.AgitatorId == Id && ah.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+            var candidateHouses = dataManager.Houses.GetAll()
+                .Where(ah => ah.PrecinctId.HasValue && candidatePrecincts.Contains(ah.PrecinctId.Value))
+                .Select(ah => ah.Id).ToList();
+            var houses = dataManager.Houses.GetAll().Where(h => candidateHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().ToList();
+            var parties = voterPartyRelations.Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+
+            foreach (var precinct in candidatePrecincts)
+            {
+                var obj = dataManager.Precincts.Get(precinct);
+                var pHouses = houses.Where(h => h.PrecinctId == precinct).Select(h => h.Id).ToList();
+                var hPersons = persons.Where(x => pHouses.Contains(x.HouseId ?? 0)).ToList();
+                var hVoters = voters.Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0)).ToList();
+                var hVoterPartyRelations = voterPartyRelations.Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0)).ToList();
+                var hParties = parties.Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id)).ToList();
+
+                foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()))
+                {
+                    politicalViews.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).Count()));
+                }
+            }
+            var chart = new Chart(width: 200, height: 200)
+            .AddSeries(
+                name: "Employee",
+                xValue: politicalViews.Select(p => p.Key).ToArray(),
+                yValues: politicalViews.Select(p => p.Value).ToArray(),
+                chartType: "Pie");
+            return File(chart.GetBytes(), "image/jpeg");
+        }
+
     }
 }
