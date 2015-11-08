@@ -332,7 +332,7 @@ namespace CandidateManager.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        /*public ActionResult ViewInMap3(int Id)
+        public ActionResult ViewInMap3(int Id)
         {
             var candidateMunicipalities = dataManager.CandidateMunicipalityRelations.GetAll().Where(cm => cm.CandidateId == Id && cm.MunicipalityId.HasValue).Select(ap => ap.MunicipalityId.Value).ToList();
 
@@ -356,55 +356,60 @@ namespace CandidateManager.Controllers
                 Candidate = dataManager.Candidates.Get(Id)
             });
         }
-
+        private class Polygon
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public List<MapData> Items { get; set; }
+            public List<KeyValuePair<string, int>> Parties;
+            public int VoterCount;
+        }
         public JsonResult GetData3(int Id)
         {
-            var candidatePrecincts = dataManager.CandidatePrecinctRelations.GetAll().Where(cp => cp.CandidateId == Id && cp.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
+            var candidateMunicipalities = dataManager.CandidateMunicipalityRelations.GetAll().Where(cm => cm.CandidateId == Id && cm.MunicipalityId.HasValue).Select(cm => cm.MunicipalityId.Value).ToList();
             //var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(ah => ah.AgitatorId == Id && ah.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
-            var candidateHouses = dataManager.Houses.GetAll()
-                .Where(ah => ah.PrecinctId.HasValue && candidatePrecincts.Contains(ah.PrecinctId.Value))
-                .Select(ah => ah.Id).ToList();
-            var model = new List<MapData>();
-
-            var houses = dataManager.Houses.GetAll().Where(h => candidateHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
-            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
-            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
-            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().ToList();
-            var parties = voterPartyRelations.Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
-                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
-
-            foreach (var precinct in candidatePrecincts)
+            //var candidateHouses = dataManager.Houses.GetAll()
+            //    .Where(ah => ah.PrecinctId.HasValue && candidateMunicipalities.Contains(ah.PrecinctId.Value))
+            //    .Select(ah => ah.Id).ToList();
+            var municipalitiesHouses = dataManager.MunicipalityHouseRelations.GetAll().Where(mh => candidateMunicipalities.Contains(mh.MunicipalityId ?? 0)).Select(mh => mh.HouseId.Value).ToList();
+            var model = new List<Polygon>();
+            foreach (var municipalityId in candidateMunicipalities)
             {
-                var obj = dataManager.Precincts.Get(precinct);
-                var pHouses = houses.Where(h => h.PrecinctId == precinct).Select(h => h.Id).ToList();
-                var hPersons = persons.Where(x => pHouses.Contains(x.HouseId ?? 0)).ToList();
-                var hVoters = voters.Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0)).ToList();
-                var hVoterPartyRelations = voterPartyRelations.Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0)).ToList();
-                var hParties = parties.Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id)).ToList();
-                var item = new MapData();
-
-                item.Longitude = obj.Longitude.Value;
-                item.Latitude = obj.Latitude.Value;
-
-                item.Name = obj.Name;
-
-                item.Id = obj.Id;
-
-                item.IconPath = obj.IconPath;
-
-                item.Parties = new List<KeyValuePair<string, int>>();
-
-                foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()))
+                var politicalViews = new List<KeyValuePair<string, int>>();
+                var municipalityHouses = dataManager.MunicipalityHouseRelations.GetAll()
+                    .Where(mh => mh.MunicipalityId == municipalityId).Select(mh => mh.HouseId.Value).ToList();
+                var municipality = dataManager.Municipalities.Get(municipalityId);
+                var mPersons = dataManager.Persons.GetAll().Where(x => municipalityHouses.Contains(x.HouseId ?? 0)).Select(x => x.Id).ToList();
+                var mVoters = dataManager.Voters.GetAll().Where(x => mPersons.Contains(x.PersonId ?? 0)).Select(x => x.Id).ToList();
+                var mVoterPartyRelations = dataManager.VoterPartyRelations.GetAll()
+                    .Where(x => x.PartyId.HasValue && mVoters.Contains(x.VoterId ?? 0)).ToList();
+                var mParties = mVoterPartyRelations.Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+                foreach (var mParty in mParties.GroupBy(x => x.Id).Select(x => x.First()))
                 {
-                    item.Parties.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).Count()));
+                    politicalViews.Add(new KeyValuePair<string, int>(mParty.Name, mVoterPartyRelations.Where(x => x.PartyId == mParty.Id).Count()));
+                }
+                var polygon = new Polygon
+                {
+                    Id = municipalityId,
+                    Name = municipality.Name,
+                    Items = new List<MapData>(),
+                    VoterCount = mVoters.Count,
+                    Parties = politicalViews
+                };
+                foreach (var house in municipalityHouses)
+                {
+                    var obj = dataManager.Houses.Get(house);
+                    var item = new MapData();
+
+                    item.Longitude = obj.Longitude.Value;
+                    item.Latitude = obj.Latitude.Value;
+                    polygon.Items.Add(item);
                 }
 
-                item.VoterCount = hVoters != null ? hVoters.Count() : 0; //item.Parties.Sum(x => x.Value);
-
-                model.Add(item);
+                model.Add(polygon);
             }
-
             return Json(model, JsonRequestBehavior.AllowGet);
-        }*/
+        }
+
     }
 }

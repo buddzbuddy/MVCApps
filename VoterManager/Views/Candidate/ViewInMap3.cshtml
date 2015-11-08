@@ -66,7 +66,7 @@
             var mapOptions = {
                 zoom: 13,
                 center: Bishkek,
-                mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP
+                mapTypeId: google.maps.MapTypeId.ROADMAP//.G_NORMAL_MAP
             };
 
             var map = new google.maps.Map(document.getElementById("canvas"), mapOptions);
@@ -80,9 +80,41 @@
                     return;
                 }
                 var latlngbounds = new google.maps.LatLngBounds();
-                $.each(data, function (i, item) {
+                $.each(data, function (i, polygonItem) {
+                    var polygonCoordinates = [];
+
+                    $.each(polygonItem.Items, function (j, item) {
+                        var latlng = new google.maps.LatLng(item.Latitude, item.Longitude);
+                        latlngbounds.extend(latlng);
+                        polygonCoordinates.push(latlng);
+                    });
+
+                    var polygon = new google.maps.Polygon({
+                        //paths: polygonItem.Items,
+                        paths: polygonCoordinates,
+                        strokeColor: "#6666FF",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#6666FF",
+                        fillOpacity: 0.35
+                    });
+                    polygon.setMap(map);
+                    google.maps.event.addListener(polygon, 'click', function (event) {
+                        infowindow.setContent("<div class='message-info'><b>МТУ № " + polygonItem.Name + "</b><hr style='margin-bottom:0px;' />"
+                                + "<br />Всего избирателей: " + polygonItem.VoterCount
+                                + "<br />Политические взгляды:"
+                                + drawParties(polygonItem.Parties)
+                                + (polygonItem.Parties.length ? ("<img src='/Chart/Municipality/" + polygonItem.Id + "' alt='Диаграмма' />") : "")
+                                + "</div>"
+                                );
+                        infowindow.setPosition(event.latLng);
+                        infowindow.open(map);
+                    });
+                });
+                /*$.each(data, function (i, item) {
                     var latlng = new google.maps.LatLng(item.Latitude, item.Longitude);
                     latlngbounds.extend(latlng);
+                    
                     var marker = new MarkerWithLabel({
                         position: latlng,
                         map: map,
@@ -94,7 +126,7 @@
                         labelStyle: { opacity: 0.75 }
                     });
 
-                    marker.setIcon("---"/*item.IconPath*/);
+                    marker.setIcon("---");
 
                     google.maps.event.addListener(marker, 'click', function () {
                         infowindow.setContent("<div class='message-info'><b>МТУ № " + item.Name + "</b><hr style='margin-bottom:0px;' />"
@@ -106,7 +138,7 @@
                                 );
                         infowindow.open(map, marker);
                     });
-                });
+                });*/
                 map.setCenter(latlngbounds.getCenter(), map.fitBounds(latlngbounds));
             });
         }
