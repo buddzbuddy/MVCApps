@@ -7,10 +7,6 @@
 <h2>Создание дома</h2>
 
 <style type="text/css">
-    * {
-        font-size: 12px;
-        font-family: verdana;
-    }
 
     .demo-content {
         background: none repeat scroll 0 0 #DADADA;
@@ -40,10 +36,11 @@
     <h2>Указать позицию на карте</h2>
     <div id="canvas" style="height: 400px; width:400px;"></div>
 </div>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Create", "House")) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
+    @Html.HiddenFor(model => model.Zoom)
     <fieldset>
         <legend>Дом</legend>
 
@@ -129,10 +126,10 @@
     });
     function GetMap() {
         google.maps.visualRefresh = true;
-        var hasPosition = @*@(Model.Latitude.HasValue && Model.Longitude.HasValue ? "true" : "false")*@false;
-        var currLat = @*@(Model.Latitude.HasValue ? Model.Latitude.Value.ToString().Replace(',', '.') : "42.874722")*@42.874722;
-        var currLng = @*@(Model.Longitude.HasValue ? Model.Longitude.Value.ToString().Replace(',', '.') : "74.612222")*@74.612222;
-        var zoom = @*@(Model.Zoom ?? 13)*@13;
+        var hasPosition = @(Model != null && Model.Latitude.HasValue && Model.Longitude.HasValue ? "true" : "false");
+        var currLat = @(Model != null && Model.Latitude.HasValue ? Model.Latitude.Value.ToString().Replace(',', '.') : "42.874722");
+        var currLng = @(Model != null && Model.Longitude.HasValue ? Model.Longitude.Value.ToString().Replace(',', '.') : "74.612222");
+        var zoom = @(Model != null && Model.Zoom.HasValue ? Model.Zoom.Value.ToString() :  "13");
         var mapCenter = new google.maps.LatLng(currLat, currLng);
 
         var mapOptions = {
@@ -150,13 +147,12 @@
                 map: map, title: 'Позиция на карте',
                 icon: new google.maps.MarkerImage('@*@(string.IsNullOrEmpty(Model.IconPath) ? "*@http://maps.google.com/mapfiles/ms/icons/red-dot.png@*" : Model.IconPath)*@', new google.maps.Size(32, 37), new google.maps.Point(0, 0), new google.maps.Point(0, 37))
             });
-        @*if(hasPosition) {
-                var infowindow = new google.maps.InfoWindow({
-                    content: "<div class='message-info'><b>Текущяя позиция на карте УИК № " + @Model.Name + "</b></div>"
-                });
-                infowindow.open(map, marker);
-            }*@
-
+        if(hasPosition) {
+            var infowindow = new google.maps.InfoWindow({
+                content: "<div class='message-info'><b>Текущяя позиция на карте Дом № " + @(Model != null ? Model.Name : "Razor: Model not privided") + "</b></div>"
+            });
+            infowindow.open(map, marker);
+        }
         google.maps.event.addListener(map, 'click', function (event) {
             $('input#Latitude').val(event.latLng.lat());
             $('input#Longitude').val(event.latLng.lng());

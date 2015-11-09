@@ -6,11 +6,6 @@
 
 <h2>Редактирование дома</h2>
 <style type="text/css">
-    * {
-        font-size: 12px;
-        font-family: verdana;
-    }
-
     .demo-content {
         background: none repeat scroll 0 0 #DADADA;
         border: 2px solid #DDDDDD;
@@ -44,6 +39,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
+    @Html.HiddenFor(model => model.Zoom)
     <fieldset>
         <legend>Дом</legend>
 

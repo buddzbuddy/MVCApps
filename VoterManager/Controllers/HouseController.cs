@@ -125,6 +125,49 @@ namespace VoterManager.Controllers
             return RedirectToAction("Show", new { Id = obj.Id });
         }
 
+        public ActionResult CreateByChain(int Id)
+        {
+            var obj = dataManager.Houses.Get(Id);
+            ViewBag.Streets = from d in dataManager.Streets.GetAll()
+                              select new SelectListItem
+                              {
+                                  Text = d.Name,
+                                  Value = d.Id.ToString(),
+                                  Selected = obj.StreetId == d.Id
+                              };
+            var managers = dataManager.Municipalities.GetAll().Where(m => m.ManagerId.HasValue).Select(m => m.ManagerId.Value).ToList();
+            //managers.AddRange(dataManager.Houses.GetAll().Where(h => h.ManagerId.HasValue).Select(h => h.ManagerId.Value).Distinct());
+            managers.AddRange(dataManager.Districts.GetAll().Where(d => d.ManagerId.HasValue).Select(d => d.ManagerId.Value));
+            managers.Remove((int?)obj.ManagerId ?? 0);
+            ViewBag.Persons = from p in dataManager.Persons.GetAll()
+                              where !managers.Contains(p.Id)
+                              select new SelectListItem
+                              {
+                                  Text = p.LastName + " " + p.FirstName + " " + p.MiddleName,
+                                  Value = p.Id.ToString(),
+                                  Selected = p.Id == obj.ManagerId
+                              };
+            var precincts = new List<SelectListItem> { new SelectListItem() };
+            precincts.AddRange(from p in dataManager.Precincts.GetAll()
+                               select new SelectListItem
+                               {
+                                   Text = p.Name,
+                                   Value = p.Id.ToString(),
+                                   Selected = p.Id == obj.PrecinctId
+                               });
+            ViewBag.Precincts = precincts;
+            return View("Create", new House
+            {
+                IconPath = obj.IconPath,
+                Latitude = obj.Latitude,
+                Longitude = obj.Longitude,
+                ManagerId = obj.ManagerId,
+                PrecinctId = obj.PrecinctId,
+                StreetId = obj.StreetId,
+                WorkerId = obj.WorkerId,
+                Zoom = obj.Zoom
+            });
+        }
         [HttpGet]
         public ActionResult CreatePartial(int? streetId)
         {
