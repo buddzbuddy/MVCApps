@@ -66,6 +66,7 @@
     <Compile Include="Entities\Party.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRelation.cs" />
+    <Compile Include="Entities\TempPerson.cs" />
     <Compile Include="Entities\UserLog.cs" />
     <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\VoterPartyRelation.cs" />

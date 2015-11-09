@@ -47,5 +47,6 @@ namespace Domain
         public DbSet<AgitatorPrecinctRelation> AgitatorPrecinctRelations { get; set; }
         public DbSet<CandidatePrecinctRelation> CandidatePrecinctRelations { get; set; }
         public DbSet<CandidateMunicipalityRelation> CandidateMunicipalityRelations { get; set; }
+        public DbSet<TempPerson> TempPersons { get; set; }
     }
 }

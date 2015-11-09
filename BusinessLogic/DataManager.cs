@@ -39,6 +39,7 @@ namespace BusinessLogic
         private IAgitatorPrecinctRelationRepository agitatorPrecinctRelationRepository;
         private ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository;
         private ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository;
+        private ITempPersonRepository tempPersonRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -65,7 +66,8 @@ namespace BusinessLogic
             IAgitatorHouseRelationRepository agitatorHouseRelationRepository,
             IAgitatorPrecinctRelationRepository agitatorPrecinctRelationRepository,
             ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository,
-            ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository)
+            ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository,
+            ITempPersonRepository tempPersonRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -94,6 +96,7 @@ namespace BusinessLogic
             this.agitatorPrecinctRelationRepository = agitatorPrecinctRelationRepository;
             this.candidatePrecinctRelationRepository = candidatePrecinctRelationRepository;
             this.candidateMunicipalityRelationRepository = candidateMunicipalityRelationRepository;
+            this.tempPersonRepository = tempPersonRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -123,5 +126,6 @@ namespace BusinessLogic
         public IAgitatorPrecinctRelationRepository AgitatorPrecinctRelations { get { return agitatorPrecinctRelationRepository; } }
         public ICandidatePrecinctRelationRepository CandidatePrecinctRelations { get { return candidatePrecinctRelationRepository; } }
         public ICandidateMunicipalityRelationRepository CandidateMunicipalityRelations { get { return candidateMunicipalityRelationRepository; } }
+        public ITempPersonRepository TempPersons { get { return tempPersonRepository; } }
     }
 }
