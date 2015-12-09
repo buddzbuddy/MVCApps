@@ -48,5 +48,9 @@ namespace Domain
         public DbSet<CandidatePrecinctRelation> CandidatePrecinctRelations { get; set; }
         public DbSet<CandidateMunicipalityRelation> CandidateMunicipalityRelations { get; set; }
         public DbSet<TempPerson> TempPersons { get; set; }
+        public DbSet<LatLng> LatLngs { get; set; }
+        public DbSet<Marker> Markers { get; set; }
+        public DbSet<Polygon> Polygons { get; set; }
+        public DbSet<PolygonLatLngRelation> PolygonLatLngRelations { get; set; }
     }
 }

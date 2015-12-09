@@ -40,6 +40,7 @@ namespace BusinessLogic
         private ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository;
         private ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository;
         private ITempPersonRepository tempPersonRepository;
+        private IGEORepository geoRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -67,7 +68,8 @@ namespace BusinessLogic
             IAgitatorPrecinctRelationRepository agitatorPrecinctRelationRepository,
             ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository,
             ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository,
-            ITempPersonRepository tempPersonRepository)
+            ITempPersonRepository tempPersonRepository,
+            IGEORepository geoRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -97,6 +99,7 @@ namespace BusinessLogic
             this.candidatePrecinctRelationRepository = candidatePrecinctRelationRepository;
             this.candidateMunicipalityRelationRepository = candidateMunicipalityRelationRepository;
             this.tempPersonRepository = tempPersonRepository;
+            this.geoRepository = geoRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -127,5 +130,6 @@ namespace BusinessLogic
         public ICandidatePrecinctRelationRepository CandidatePrecinctRelations { get { return candidatePrecinctRelationRepository; } }
         public ICandidateMunicipalityRelationRepository CandidateMunicipalityRelations { get { return candidateMunicipalityRelationRepository; } }
         public ITempPersonRepository TempPersons { get { return tempPersonRepository; } }
+        public IGEORepository GEO { get { return geoRepository; } }
     }
 }

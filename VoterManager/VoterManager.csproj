@@ -307,6 +307,10 @@
     <Content Include="Content\Images\mail-add.png" />
     <Content Include="Content\Images\mail-delete.png" />
     <Content Include="Content\Images\rss-icon.png" />
+    <Content Include="Content\Leaflet\images\spritesheet-2x.png" />
+    <Content Include="Content\Leaflet\images\spritesheet.png" />
+    <Content Include="Content\Leaflet\leaflet.draw.css" />
+    <Content Include="Content\Leaflet\leaflet.label.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -395,6 +399,40 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\Leaflet\Control.Draw.js" />
+    <Content Include="Scripts\Leaflet\copyright.js" />
+    <Content Include="Scripts\Leaflet\draw\DrawToolbar.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Circle.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Feature.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Marker.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Polygon.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Polyline.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.Rectangle.js" />
+    <Content Include="Scripts\Leaflet\draw\handler\Draw.SimpleShape.js" />
+    <Content Include="Scripts\Leaflet\edit\EditToolbar.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\Edit.Circle.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\Edit.Marker.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\Edit.Poly.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\Edit.Rectangle.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\Edit.SimpleShape.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\EditToolbar.Delete.js" />
+    <Content Include="Scripts\Leaflet\edit\handler\EditToolbar.Edit.js" />
+    <Content Include="Scripts\Leaflet\ext\GeometryUtil.js" />
+    <Content Include="Scripts\Leaflet\ext\LatLngUtil.js" />
+    <Content Include="Scripts\Leaflet\ext\LineUtil.Intersect.js" />
+    <Content Include="Scripts\Leaflet\ext\Polygon.Intersect.js" />
+    <Content Include="Scripts\Leaflet\ext\Polyline.Intersect.js" />
+    <Content Include="Scripts\Leaflet\Label\BaseMarkerMethods.js" />
+    <Content Include="Scripts\Leaflet\Label\CircleMarker.Label.js" />
+    <Content Include="Scripts\Leaflet\Label\copyright.js" />
+    <Content Include="Scripts\Leaflet\Label\FeatureGroup.Label.js" />
+    <Content Include="Scripts\Leaflet\Label\Label.js" />
+    <Content Include="Scripts\Leaflet\Label\Map.Label.js" />
+    <Content Include="Scripts\Leaflet\Label\Marker.Label.js" />
+    <Content Include="Scripts\Leaflet\Label\Path.Label.js" />
+    <Content Include="Scripts\Leaflet\Leaflet.draw.js" />
+    <Content Include="Scripts\Leaflet\Toolbar.js" />
+    <Content Include="Scripts\Leaflet\Tooltip.js" />
     <Content Include="Scripts\markerwithlabel.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\SearchPerson.js" />
@@ -579,6 +617,7 @@
     <Content Include="Views\Candidate\ViewInMap3.cshtml" />
     <Content Include="Views\Monitor\Map.cshtml" />
     <Content Include="Views\TempPerson\Index.cshtml" />
+    <Content Include="Views\Monitor\Municipalities.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

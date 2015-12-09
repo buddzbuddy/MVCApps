@@ -56,6 +56,7 @@
     <Compile Include="Implementations\AgitatorPrecinctRelationRepository.cs" />
     <Compile Include="Implementations\AgitatorRepository.cs" />
     <Compile Include="Implementations\AgitatorHouseRelationRepository.cs" />
+    <Compile Include="Implementations\GEORepository.cs" />
     <Compile Include="Implementations\TempPersonRepository.cs" />
     <Compile Include="Implementations\WorkerHouseRelationRepository.cs" />
     <Compile Include="Implementations\RelationshipRepository.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Interfaces\IAgitatorPrecinctRelationRepository.cs" />
     <Compile Include="Interfaces\IAgitatorRepository.cs" />
     <Compile Include="Interfaces\IAgitatorHouseRelationRepository.cs" />
+    <Compile Include="Interfaces\IGEORepository.cs" />
     <Compile Include="Interfaces\ITempPersonRepository.cs" />
     <Compile Include="Interfaces\IWorkerHouseRelationRepository.cs" />
     <Compile Include="Interfaces\IRelationshipRepository.cs" />

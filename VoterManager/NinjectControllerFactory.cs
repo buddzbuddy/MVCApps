@@ -58,6 +58,7 @@ namespace VoterManager
             ninjectKernel.Bind<ICandidatePrecinctRelationRepository>().To<CandidatePrecinctRelationRepository>();
             ninjectKernel.Bind<ICandidateMunicipalityRelationRepository>().To<CandidateMunicipalityRelationRepository>();
             ninjectKernel.Bind<ITempPersonRepository>().To<TempPersonRepository>();
+            ninjectKernel.Bind<IGEORepository>().To<GEORepository>();
         }
     }
 }
