@@ -309,6 +309,7 @@
     <Content Include="Content\Images\rss-icon.png" />
     <Content Include="Content\Leaflet\images\spritesheet-2x.png" />
     <Content Include="Content\Leaflet\images\spritesheet.png" />
+    <Content Include="Content\Leaflet\leaflet.css" />
     <Content Include="Content\Leaflet\leaflet.draw.css" />
     <Content Include="Content\Leaflet\leaflet.label.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -431,6 +432,8 @@
     <Content Include="Scripts\Leaflet\Label\Marker.Label.js" />
     <Content Include="Scripts\Leaflet\Label\Path.Label.js" />
     <Content Include="Scripts\Leaflet\Leaflet.draw.js" />
+    <Content Include="Scripts\Leaflet\leaflet.js" />
+    <Content Include="Scripts\Leaflet\Map.js" />
     <Content Include="Scripts\Leaflet\Toolbar.js" />
     <Content Include="Scripts\Leaflet\Tooltip.js" />
     <Content Include="Scripts\markerwithlabel.js" />
@@ -618,6 +621,7 @@
     <Content Include="Views\Monitor\Map.cshtml" />
     <Content Include="Views\TempPerson\Index.cshtml" />
     <Content Include="Views\Monitor\Municipalities.cshtml" />
+    <Content Include="Views\Agitator\ViewInMap_old.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

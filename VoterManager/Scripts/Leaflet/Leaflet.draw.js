@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Leaflet.draw assumes that you have already included the Leaflet library.
  */
 
@@ -9,18 +9,18 @@ L.drawLocal = {
 		toolbar: {
 			actions: {
 				title: 'Cancel drawing',
-				text: 'Cancel'
+				text: 'Отмена'
 			},
 			undo: {
 				title: 'Delete last point drawn',
-				text: 'Delete last point'
+				text: 'Удалить последнюю точку'
 			},
 			buttons: {
 				polyline: 'Draw a polyline',
-				polygon: 'Draw a polygon',
+				polygon: 'Создать область/многоугольник',
 				rectangle: 'Draw a rectangle',
 				circle: 'Draw a circle',
-				marker: 'Draw a marker'
+				marker: 'Создать метку'
 			}
 		},
 		handlers: {
@@ -32,14 +32,14 @@ L.drawLocal = {
 			},
 			marker: {
 				tooltip: {
-					start: 'Click map to place marker.'
+					start: 'Укажите точку на карте для установки метки.'
 				}
 			},
 			polygon: {
 				tooltip: {
-					start: 'Click to start drawing shape.',
-					cont: 'Click to continue drawing shape.',
-					end: 'Click first point to close this shape.'
+				    start: 'Укажите точку начала многоугольника/области на карте.',
+					cont: 'Укажите точку продолжения многоугольника/области.',
+					end: 'Нажмите первую точку для завершения.'
 				}
 			},
 			polyline: {
@@ -66,31 +66,31 @@ L.drawLocal = {
 		toolbar: {
 			actions: {
 				save: {
-					title: 'Save changes.',
-					text: 'Save'
+					title: 'Сохранить изменения.',
+					text: 'Сохранить'
 				},
 				cancel: {
-					title: 'Cancel editing, discards all changes.',
-					text: 'Cancel'
+					title: 'Отмена редактирования, вернуть все изменения.',
+					text: 'Отмена'
 				}
 			},
 			buttons: {
-				edit: 'Edit layers.',
+				edit: 'Редактировать объекты',
 				editDisabled: 'No layers to edit.',
-				remove: 'Delete layers.',
+				remove: 'Удалить объекты.',
 				removeDisabled: 'No layers to delete.'
 			}
 		},
 		handlers: {
 			edit: {
 				tooltip: {
-					text: 'Drag handles, or marker to edit feature.',
-					subtext: 'Click cancel to undo changes.'
+					text: 'Двигайте точки объектов для перемещения.',
+					subtext: 'Нажмите "Отмена" для отмены редактирования.'
 				}
 			},
 			remove: {
 				tooltip: {
-					text: 'Click on a feature to remove'
+					text: 'Нажмите на объект для его удаления.'
 				}
 			}
 		}
