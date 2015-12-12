@@ -42,6 +42,23 @@ namespace VoterManager.Controllers
             return View(model);
         }
 
+        public ActionResult ViewInMap_old(int Id)
+        {
+            var workerHouses = dataManager.WorkerHouseRelations.GetAll().Where(wh => wh.WorkerId == Id && wh.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+
+            var houses = dataManager.Houses.GetAll().Where(h => workerHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var parties = dataManager.VoterPartyRelations.GetAll().Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+            ViewBag.HouseCount = workerHouses.Count;
+            ViewBag.VoterCount = voters.Count;
+            ViewBag.PolitViewCount = parties.Count;
+            return View(new WorkerViewModel
+            {
+                Worker = dataManager.Workers.Get(Id)
+            });
+        }
         public ActionResult ViewInMap(int Id)
         {
             var workerHouses = dataManager.WorkerHouseRelations.GetAll().Where(wh => wh.WorkerId == Id && wh.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();

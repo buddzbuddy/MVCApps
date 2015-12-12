@@ -613,7 +613,7 @@
     <Content Include="Views\Candidate\RelatedPrecincts.cshtml" />
     <Content Include="Views\Candidate\AddRelatedMunicipality.cshtml" />
     <Content Include="Views\Candidate\RelatedMunicipalities.cshtml" />
-    <Content Include="Views\Worker\ViewInMap.cshtml" />
+    <Content Include="Views\Worker\ViewInMap_old.cshtml" />
     <Content Include="Views\Agitator\ViewInMap.cshtml" />
     <Content Include="Views\Agitator\ViewInMap2.cshtml" />
     <Content Include="Views\Candidate\ViewInMap2.cshtml" />
@@ -622,6 +622,10 @@
     <Content Include="Views\TempPerson\Index.cshtml" />
     <Content Include="Views\Monitor\Municipalities.cshtml" />
     <Content Include="Views\Agitator\ViewInMap_old.cshtml" />
+    <Content Include="Views\Worker\ViewInMap.cshtml" />
+    <Content Include="Views\Agitator\ViewInMap2_old.cshtml" />
+    <Content Include="Views\Candidate\ViewInMap2_old.cshtml" />
+    <Content Include="Views\Candidate\ViewInMap3_old.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -23,9 +23,6 @@
         <td>
             <ul>
                 <li>@Html.ActionLink("Физические лица", "Index", "Person", null, null)</li>
-                <li>@Html.ActionLink("Избиратели", "Index", "Voter", null, null)</li>
-                <li>@Html.ActionLink("Кандидаты", "Index", "Candidate", null, null)</li>
-                <li>@Html.ActionLink("Агитаторы", "Index", "Agitator", null, null)</li>
                 <li>@Html.ActionLink("Организации", "Index", "Organization", null, null)</li>
                 <li>@Html.ActionLink("Районы", "Index", "District", null, null)</li>
                 <li>@Html.ActionLink("Нас. пункты", "Index", "Locality", null, null)</li>
@@ -36,12 +33,15 @@
         </td>
         <td>
             <ul>
+                <li>@Html.ActionLink("Избиратели", "Index", "Voter", null, null)</li>
+                <li>@Html.ActionLink("Кандидаты", "Index", "Candidate", null, null)</li>
+                <li>@Html.ActionLink("Агитаторы", "Index", "Agitator", null, null)</li>
+                <li>@Html.ActionLink("Работники", "Index", "Worker", null, null)</li>
                 <li>@Html.ActionLink("Временное хранилище физ. лиц", "Index", "TempPerson", null, null)</li>
                 <li>@Html.ActionLink("Список МТУ", "Index", "Municipality", null, null)</li>
                 <li>@Html.ActionLink("Руководители МТУ", "MunicipalityManagers", "Person", null, null)</li>
                 <li>@Html.ActionLink("Квартальные/Домкомы", "HouseManagers", "Person", null, null)</li>
                 <li>@Html.ActionLink("Список УИК", "Index", "Precinct", null, null)</li>
-                <li>@Html.ActionLink("Список работников", "Index", "Worker", null, null)</li>
             </ul>
         </td>
         <td rowspan="2">@Html.ActionLink("Конструктор карты", "Map", "Monitor", null, null)</td>

@@ -127,6 +127,28 @@ namespace AgitatorManager.Controllers
         }
 
 
+        public ActionResult ViewInMap2_old(int Id)
+        {
+            var agitatorPrecincts = dataManager.AgitatorPrecinctRelations.GetAll().Where(ap => ap.AgitatorId == Id && ap.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
+            //var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(wh => wh.AgitatorId == Id && wh.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+
+            var agitatorHouses = dataManager.Houses.GetAll()
+                .Where(ah => ah.PrecinctId.HasValue && agitatorPrecincts.Contains(ah.PrecinctId.Value))
+                .Select(ah => ah.Id).ToList();
+
+            var houses = dataManager.Houses.GetAll().Where(h => agitatorHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var parties = dataManager.VoterPartyRelations.GetAll().Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+            ViewBag.HouseCount = agitatorHouses.Count;
+            ViewBag.VoterCount = voters.Count;
+            ViewBag.PolitViewCount = parties.Count;
+            return View(new AgitatorViewModel
+            {
+                Agitator = dataManager.Agitators.Get(Id)
+            });
+        }
         public ActionResult ViewInMap2(int Id)
         {
             var agitatorPrecincts = dataManager.AgitatorPrecinctRelations.GetAll().Where(ap => ap.AgitatorId == Id && ap.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();

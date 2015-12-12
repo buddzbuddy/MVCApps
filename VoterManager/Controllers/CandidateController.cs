@@ -258,6 +258,29 @@ namespace CandidateManager.Controllers
             public int VoterCount;
         }
 
+        public ActionResult ViewInMap2_old(int Id)
+        {
+            var candidatePrecincts = dataManager.CandidatePrecinctRelations.GetAll().Where(cp => cp.CandidateId == Id && cp.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
+            //var agitatorHouses = dataManager.AgitatorHouseRelations.GetAll().Where(wh => wh.AgitatorId == Id && wh.HouseId.HasValue).Select(wh => wh.HouseId.Value).ToList();
+
+            var candidateHouses = dataManager.Houses.GetAll()
+                .Where(ah => ah.PrecinctId.HasValue && candidatePrecincts.Contains(ah.PrecinctId.Value))
+                .Select(ah => ah.Id).ToList();
+
+            var houses = dataManager.Houses.GetAll().Where(h => candidateHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var parties = dataManager.VoterPartyRelations.GetAll().Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+            ViewBag.PrecinctCount = candidatePrecincts.Count;
+            ViewBag.HouseCount = candidateHouses.Count;
+            ViewBag.VoterCount = voters.Count;
+            ViewBag.PolitViewCount = parties.Count;
+            return View(new CandidateViewModel
+            {
+                Candidate = dataManager.Candidates.Get(Id)
+            });
+        }
         public ActionResult ViewInMap2(int Id)
         {
             var candidatePrecincts = dataManager.CandidatePrecinctRelations.GetAll().Where(cp => cp.CandidateId == Id && cp.PrecinctId.HasValue).Select(ap => ap.PrecinctId.Value).ToList();
@@ -332,6 +355,30 @@ namespace CandidateManager.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ViewInMap3_old(int Id)
+        {
+            var candidateMunicipalities = dataManager.CandidateMunicipalityRelations.GetAll().Where(cm => cm.CandidateId == Id && cm.MunicipalityId.HasValue).Select(ap => ap.MunicipalityId.Value).ToList();
+
+            var municipalityHouses = dataManager.MunicipalityHouseRelations.GetAll().Where(mh => candidateMunicipalities.Contains(mh.MunicipalityId ?? 0)).Select(mh => mh.HouseId.Value).ToList();
+
+            //var candidateHouses = dataManager.Houses.GetAll()
+            //    .Where(ah => ah.PrecinctId.HasValue && candidateMunicipalities.Contains(ah.PrecinctId.Value))
+            //    .Select(ah => ah.Id).ToList();
+
+            var houses = dataManager.Houses.GetAll().Where(h => municipalityHouses.Contains(h.Id) && h.Latitude.HasValue && h.Longitude.HasValue).ToList();
+            var persons = dataManager.Persons.GetAll().Where(p => houses.Select(x => x.Id).Contains(p.HouseId ?? 0)).ToList();
+            var voters = dataManager.Voters.GetAll().Where(v => persons.Select(x => x.Id).Contains(v.PersonId ?? 0)).ToList();
+            var parties = dataManager.VoterPartyRelations.GetAll().Where(vp => voters.Select(x => x.Id).Contains(vp.VoterId ?? 0))
+                .Select(x => dataManager.Parties.Get(x.PartyId ?? 0)).ToList();
+            ViewBag.MunicipalityCount = candidateMunicipalities.Count;
+            ViewBag.HouseCount = municipalityHouses.Count;
+            ViewBag.VoterCount = voters.Count;
+            ViewBag.PolitViewCount = parties.Count;
+            return View(new CandidateViewModel
+            {
+                Candidate = dataManager.Candidates.Get(Id)
+            });
+        }
         public ActionResult ViewInMap3(int Id)
         {
             var candidateMunicipalities = dataManager.CandidateMunicipalityRelations.GetAll().Where(cm => cm.CandidateId == Id && cm.MunicipalityId.HasValue).Select(ap => ap.MunicipalityId.Value).ToList();
