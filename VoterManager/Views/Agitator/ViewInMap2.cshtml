@@ -38,24 +38,24 @@
 @section scripts {
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            GetMap2();
-        });
+    $(document).ready(function () {
+        GetMap2();
+    });
 
-        function GetMap2() {
-            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
-            map = new L.Map('canvas', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
-            var latlngs = [];
-            $.getJSON('@(Url.Action("GetData2", new { Id = Model.Agitator.Id }))', function (data) {
+    function GetMap2() {
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
+        map = new L.Map('canvas', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
+        var latlngs = [];
+        $.getJSON('@(Url.Action("GetData2", new { Id = Model.Agitator.Id }))', function (data) {
                 $(data).each(function (i, item) {
                     var latlng = L.latLng(item.Latitude, item.Longitude);
-                    var marker = L.marker(latlng, { id: item.Id }).bindPopup(L.popup().setContent("<div class='message-info'><b>УИК № " + item.Name + "</b><hr style='margin-bottom:0px;' />"
+                    var marker = L.marker(latlng, { id: item.Id/*, icon: L.icon({ iconUrl: item.IconPath })*/ }).bindPopup(L.popup().setContent("<div class='message-info'><b>УИК № " + item.Name + "</b><hr style='margin-bottom:0px;' />"
                                 + "<br />Всего избирателей: " + item.VoterCount
                                 + "<br />Политические взгляды:"
                                 + drawParties(item.Parties)
-                                + (item.Parties.length ? ("<img src='/Chart/Precinct/" + item.Id + "' alt='Диаграмма' />") : "")
+                                + (item.Parties.length ? ("<img src='@Url.Action("Precinct", "Chart")/" + item.Id + "' alt='Диаграмма' />") : "")
                                 + "</div>")).bindLabel("<i>" + item.Name + "</i>", {
                                     noHide: true
                                 }).addTo(map);

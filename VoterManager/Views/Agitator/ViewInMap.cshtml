@@ -51,11 +51,11 @@
         $.getJSON('@(Url.Action("GetData", new { Id = Model.Agitator.Id }))', function (data) {
             $(data).each(function (i, item) {
                 var latlng = L.latLng(item.Latitude, item.Longitude);
-                var marker = L.marker(latlng, { id: item.Id }).bindPopup(L.popup().setContent("<div class='message-info'><b>Дом № " + item.Name + "</b><hr style='margin-bottom:0px;' />"
+                var marker = L.marker(latlng, { id: item.Id/*, icon: L.icon({ iconUrl: item.IconPath })*/ }).bindPopup(L.popup().setContent("<div class='message-info'><b>Дом № " + item.Name + "</b><hr style='margin-bottom:0px;' />"
                             + "<br />Всего избирателей: " + item.VoterCount
                             + "<br />Политические взгляды:"
                             + drawParties(item.Parties)
-                            + (item.Parties.length ? ("<img src='/Chart/House/" + item.Id + "' alt='Диаграмма' />") : "")
+                            + (item.Parties.length ? ("<img src='@Url.Action("House", "Chart")/" + item.Id + "' alt='Диаграмма' />") : "")
                             + "</div>"/*'Marker Id:' + item.Id*/)).bindLabel("<i>" + item.Name + "</i>", {
                     noHide: true
                 }).addTo(map);

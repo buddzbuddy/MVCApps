@@ -39,16 +39,16 @@
 @section scripts {
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            GetMap3();
-        });
+    $(document).ready(function () {
+        GetMap3();
+    });
 
-        function GetMap3() {
-            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
-            map = new L.Map('canvas', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
-            $.getJSON('@(Url.Action("GetData3", new { Id = Model.Candidate.Id }))', function (data) {
+    function GetMap3() {
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
+        map = new L.Map('canvas', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
+        $.getJSON('@(Url.Action("GetData3", new { Id = Model.Candidate.Id }))', function (data) {
                 var latlngs = [];
                 $(data).each(function (i, p) {
                     $(p.Items).each(function (i1, item) {
@@ -65,7 +65,7 @@
                                     + "<br />Всего избирателей: " + p.VoterCount
                                     + "<br />Политические взгляды:"
                                     + drawParties(p.Parties)
-                                    + (p.Parties.length ? ("<img src='/Chart/Municipality/" + p.Id + "' alt='Диаграмма' />") : "")
+                                    + (p.Parties.length ? ("<img src='@Url.Action("Municipality", "Chart")/" + p.Id + "' alt='Диаграмма' />") : "")
                                     + "</div>")).bindLabel('МТУ <br/><b>' + p.Name + '</b>').addTo(map);
 
                 });

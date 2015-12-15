@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Domain.Entities.Person>
+﻿@using VoterManager.Helpers
+@model IEnumerable<Domain.Entities.Person>
 
 @{
     ViewBag.Title = "Список граждан";
@@ -38,3 +39,6 @@
     }
 
 </table>
+<div style="text-align:center;">
+    @Html.Pager((int)ViewBag.ItemsCount, (int)ViewBag.PageSize)
+</div>

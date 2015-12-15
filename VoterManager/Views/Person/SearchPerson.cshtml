@@ -12,7 +12,7 @@
     @Html.Hidden("UserAction")
     <div id="searchCountInfo" style="display:none;position: absolute;margin-left: 50px;margin-top: 2px;color:green">Найдено совпадений: <span id="searchCount"></span></div>
     @Html.Label("SearchPerson", "ФИО:")
-    @Html.TextBox("SearchPerson", null, new { style = "width:300px", @class = "ui-widget" }) <button type="button" onclick="userAction('create')">Создать нового физ. лица</button>
+    @Html.TextBox("SearchPerson", null, new { style = "width:300px", @class = "ui-widget", placeholder = "Начните вводить..." }) <button type="button" onclick="userAction('create')">Создать нового физ. лица</button>
     <div id="SelectedPersonDetail" style="display:none">
         <b>ФИО</b>:<p id="FullName"></p>
         <b>Дата рождения</b>:<p id="BirthDate"></p>

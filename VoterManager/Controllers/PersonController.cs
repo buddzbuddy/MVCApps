@@ -12,13 +12,22 @@ namespace VoterManager.Controllers
     public class PersonController : Controller
     {
         private DataManager dataManager;
+        private const int PageSize = 10;
         public PersonController(DataManager dataManager)
         {
             this.dataManager = dataManager;
+            ViewBag.PageSize = PageSize;
         }
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(dataManager.Persons.GetAll());
+            if (page == null) page = 1;
+            var persons = dataManager.Persons.GetAll();
+            //setting page parameters
+            ViewBag.ItemsCount = persons.Count();
+            ViewBag.CurrentPage = page;
+
+            return View(persons
+                .Skip((page.Value - 1) * PageSize).Take(PageSize));
         }
 
         public ActionResult MunicipalityManagers()

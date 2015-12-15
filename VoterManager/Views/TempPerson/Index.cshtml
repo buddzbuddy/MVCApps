@@ -1,11 +1,16 @@
-﻿@model IEnumerable<Domain.Entities.TempPerson>
+﻿@using VoterManager.Helpers
+@model IEnumerable<Domain.Entities.TempPerson>
 
 @{
     ViewBag.Title = "Временные физ. лица";
 }
 
 <h2>Временное хранилище физ. лиц (всего: 17 490 чел.)</h2>
-
+@if (ViewBag.CreatedItems != null)
+{
+    <p>Created: @ViewBag.CreatedItems</p>
+    <p>NoCreated: @ViewBag.NoCreatedItems</p>
+}
 <table class="table" style="font-size:10px;">
     <tr>
         <th>
@@ -106,3 +111,6 @@
 }
 
 </table>
+<div style="text-align:center;">
+    @Html.Pager((int)ViewBag.ItemsCount, (int)ViewBag.PageSize)
+</div>

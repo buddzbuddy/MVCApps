@@ -270,6 +270,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomQueryStringBuilder.cs" />
+    <Compile Include="Helpers\HtmlHelpersExtensions.cs" />
+    <Compile Include="Helpers\IPager.cs" />
+    <Compile Include="Helpers\ListPager.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CandidateMunicipalityRelationViewModel.cs" />
     <Compile Include="Models\CandidatePrecinctRelationViewModel.cs" />
@@ -312,6 +316,7 @@
     <Content Include="Content\Leaflet\leaflet.css" />
     <Content Include="Content\Leaflet\leaflet.draw.css" />
     <Content Include="Content\Leaflet\leaflet.label.css" />
+    <Content Include="Content\Pager.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -626,6 +631,7 @@
     <Content Include="Views\Agitator\ViewInMap2_old.cshtml" />
     <Content Include="Views\Candidate\ViewInMap2_old.cshtml" />
     <Content Include="Views\Candidate\ViewInMap3_old.cshtml" />
+    <Content Include="Views\Shared\_Pager.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

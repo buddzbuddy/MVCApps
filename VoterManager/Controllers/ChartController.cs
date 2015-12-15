@@ -36,8 +36,8 @@ namespace VoterManager.Controllers
         public ActionResult Precinct(int Id)
         {
             var parties = new List<KeyValuePair<string, int>>();
-            var itemHouses = dataManager.Houses.GetAll().Where(h => h.PrecinctId == Id).Select(x => x.Id);
-            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll();
+            var itemHouses = dataManager.Houses.GetAll().Where(h => h.PrecinctId == Id).Select(x => x.Id).ToList();
+            var voterPartyRelations = dataManager.VoterPartyRelations.GetAll().ToList();
             var voters = from v in dataManager.Voters.GetAll()
                          where itemHouses.Contains(dataManager.Persons.Get(v.PersonId ?? 0).HouseId ?? 0)
                          select new VoterViewModel
@@ -53,7 +53,7 @@ namespace VoterManager.Controllers
                                                }).ToList()
                          };
 
-            foreach (var v in voters.SelectMany(x => x.PoliticalViews).GroupBy(v => v.Party != null ? v.Party.Id : 0))
+            foreach (var v in voters.SelectMany(x => x.PoliticalViews).ToList().GroupBy(v => v.Party != null ? v.Party.Id : 0))
             {
                 var party = dataManager.Parties.Get(v.Key);
                 parties.Add(new KeyValuePair<string, int>(party != null ? party.Name : "не указано", v.Count()));
@@ -98,13 +98,13 @@ namespace VoterManager.Controllers
         public ActionResult House(int Id)
         {
             var politicalViews = new List<KeyValuePair<string, int>>();
-            var hPersons = dataManager.Persons.GetAll().Where(x => x.HouseId == Id);
-            var hVoters = dataManager.Voters.GetAll().Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0));
-            var hVoterPartyRelations = dataManager.VoterPartyRelations.GetAll().Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0));
-            var hParties = dataManager.Parties.GetAll().Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id));
-            foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()))
+            var hPersons = dataManager.Persons.GetAll().Where(x => x.HouseId == Id).ToList();
+            var hVoters = dataManager.Voters.GetAll().Where(x => hPersons.Select(x2 => x2.Id).Contains(x.PersonId ?? 0)).ToList();
+            var hVoterPartyRelations = dataManager.VoterPartyRelations.GetAll().Where(x => hVoters.Select(x2 => x2.Id).Contains(x.VoterId ?? 0)).ToList();
+            var hParties = dataManager.Parties.GetAll().Where(x => hVoterPartyRelations.Select(x2 => x2.PartyId).Contains(x.Id)).ToList();
+            foreach (var hParty in hParties.GroupBy(x => x.Id).Select(x => x.First()).ToList())
             {
-                politicalViews.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).Count()));
+                politicalViews.Add(new KeyValuePair<string, int>(hParty.Name, hVoterPartyRelations.Where(x => x.PartyId == hParty.Id).ToList().Count));
             }
 
             var chart = new Chart(width: 160, height: 140)
