@@ -1,0 +1,23 @@
+﻿@model Domain.Entities.PartySupporter
+
+@{
+    ViewBag.Title = "Просмотр сторонника партии";
+}
+
+<h2>Просмотр сторонника партии</h2>
+
+<div>
+    <h4>Сторонник партии</h4>
+    <hr />
+    @if (Model.PersonId.HasValue)
+    {
+        Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId });
+    }
+    <dl class="dl-horizontal">
+        
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

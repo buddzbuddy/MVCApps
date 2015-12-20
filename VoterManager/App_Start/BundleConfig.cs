@@ -31,6 +31,9 @@ namespace VoterManager
                 "~/Scripts/Leaflet/Label/Map.Label.js",
                 "~/Scripts/Leaflet/Label/FeatureGroup.Label.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/leaflet/awesome-markers/js").Include(
+                "~/Scripts/Leaflet/leaflet.awesome-markers.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/leaflet/draw/js").Include(
                 "~/Scripts/Leaflet/Leaflet.draw.js",
                 "~/Scripts/Leaflet/Toolbar.js",
@@ -83,11 +86,15 @@ namespace VoterManager
             bundles.Add(new StyleBundle("~/bundles/chosen/css").Include("~/Content/Chosen/chosen.min.css"));
 
             //leafletjs styles
-            bundles.Add(new StyleBundle("~/bundles/leaflet/base/css", "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css").Include("~/Content/Leaflet/leaflet.css"));
+            bundles.Add(new StyleBundle("~/bundles/leaflet/base/css", "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css").Include(
+                "~/Content/Leaflet/leaflet.css"));
 
             bundles.Add(new StyleBundle("~/bundles/leaflet/draw/css").Include("~/Content/Leaflet/leaflet.draw.css"));
 
             bundles.Add(new StyleBundle("~/bundles/leaflet/label/css").Include("~/Content/Leaflet/leaflet.label.css"));
+            bundles.Add(new StyleBundle("~/bundles/leaflet/awesome-markers/css").Include(
+                "~/Content/Leaflet/font-awesome.css",
+                "~/Content/Leaflet/leaflet.awesome-markers.css"));
 
 
             BundleTable.EnableOptimizations = true;

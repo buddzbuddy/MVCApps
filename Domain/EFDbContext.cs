@@ -52,5 +52,7 @@ namespace Domain
         public DbSet<Marker> Markers { get; set; }
         public DbSet<Polygon> Polygons { get; set; }
         public DbSet<PolygonLatLngRelation> PolygonLatLngRelations { get; set; }
+        public DbSet<PartyMember> PartyMembers { get; set; }
+        public DbSet<PartySupporter> PartySupporters { get; set; }
     }
 }

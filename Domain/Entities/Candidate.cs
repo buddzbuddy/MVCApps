@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Base;
 namespace Domain.Entities
 {
     /// <summary>
     /// Класс "Кандидат"
     /// </summary>
-    public class Candidate
+    public class Candidate : EntityBase
     {
-        public int Id { get; set; }
-
         [Display(Name = "Физ. лицо")]
         public int? PersonId { get; set; }
+
+        [Display(Name = "Тип маркера на карте"), Required(ErrorMessage = "Укажите маркер")]
+        public string MarkerType { get; set; }
     }
 }

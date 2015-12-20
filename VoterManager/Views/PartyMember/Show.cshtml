@@ -1,0 +1,37 @@
+﻿@model Domain.Entities.PartyMember
+
+@{
+    ViewBag.Title = "Просмотр члена партии";
+}
+
+<h2>Просмотр члена партии</h2>
+
+<div>
+    <h4>Член партии</h4>
+    <hr />
+    @if (Model.PersonId.HasValue)
+    {
+        Html.RenderAction("ShowPartial", "Person", new { Id = Model.PersonId });
+    }
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EntryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StructurePosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StructurePosition)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

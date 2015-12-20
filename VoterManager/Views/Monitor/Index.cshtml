@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Монитор руководителя штаба";
+}
+@section heads {
+    @Styles.Render("~/bundles/leaflet/base/css", "~/bundles/leaflet/label/css", "~/bundles/leaflet/awesome-markers/css")
+}
+<h2>Монитор руководителя штаба</h2>
+
+<div id="map" style="width:1000px;height:600px;"></div>
+
+@section scripts {
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        GetMap2();
+    });
+    function GetMap2() {
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
+        map = new L.Map('map', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
+        var latlngs = [];
+        $.getJSON('@Url.Action("Precincts")', function (data) {
+                $(data).each(function (i, item) {
+                    var latlng = L.latLng(item.Latitude, item.Longitude);
+                    var marker = L.marker(latlng, { id: item.Id, icon: L.AwesomeMarkers.icon(/*{
+                        icon: 'home',
+                        markerColor: 'aqua'
+                    }*/) }).bindPopup(L.popup().setContent("<div class='message-info'><b>УИК № " + item.Name + "</b><hr style='margin-bottom:0px;' /></div>")).bindLabel("<i>" + item.Name + "</i>",
+                        {
+                            noHide: true
+                        }).addTo(map);
+                    latlngs.push(latlng);
+                });
+                map.fitBounds(L.latLngBounds(latlngs));
+            });
+        }
+
+    </script>
+    @Scripts.Render(
+    "~/bundles/leaflet/base/js",
+    "~/bundles/leaflet/label/js",
+    "~/bundles/leaflet/awesome-markers/js")
+}

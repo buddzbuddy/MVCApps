@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Domain.Base;
 namespace Domain.Entities
 {
-    public class UserLog
+    public class UserLog : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string UserName { get; set; }
 
         private DateTime _LoginDate = DateTime.Now;

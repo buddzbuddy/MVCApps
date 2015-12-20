@@ -15,14 +15,53 @@ namespace VoterManager.Controllers
         {
             this.dataManager = dataManager;
         }
-        public ActionResult Map()
+
+        public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Municipalities()
+        public ActionResult ShowCandidates()
         {
             return View();
+        }
+
+        public ActionResult Map()
+        {
+            return View();
+        }
+        
+        public JsonResult Precincts()
+        {
+            var precincts = dataManager.Precincts.GetAll().Where(p => p.Latitude.HasValue && p.Longitude.HasValue).ToList();
+
+            return Json(precincts, JsonRequestBehavior.AllowGet);
+        }
+
+        class PrecinctCandidate
+        {
+            public Candidate Candidate { get; set; }
+            public Precinct Precinct { get; set; }
+            public string CandidateName { get; set; }
+        }
+        public JsonResult PrecinctsByCandidates()
+        {
+            var model = new List<PrecinctCandidate>();
+            var precincts = dataManager.Precincts.GetAll().Where(p => p.Latitude.HasValue && p.Longitude.HasValue).ToList();
+
+            foreach (var precinct in precincts)
+            {
+                var item = new PrecinctCandidate { Precinct = precinct };
+                var candidatePrecinctRelation = dataManager.CandidatePrecinctRelations.GetAll().FirstOrDefault(x => x.PrecinctId == precinct.Id);
+                if (candidatePrecinctRelation != null && candidatePrecinctRelation.CandidateId.HasValue)
+                {
+                    item.Candidate = dataManager.Candidates.Get(candidatePrecinctRelation.CandidateId.Value);
+                    item.CandidateName = dataManager.Persons.Get(item.Candidate.PersonId ?? 0).FullName;
+                }
+                model.Add(item);
+            }
+
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CreateMarker(string lat, string lng)

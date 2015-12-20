@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Base;
 
 namespace Domain.Entities
 {
     [Table("Persons")]
-    public class Person
+    public class Person : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }

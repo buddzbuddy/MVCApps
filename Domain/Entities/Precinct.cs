@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Base;
 
 namespace Domain.Entities
 {
-    public class Precinct
+    public class Precinct : EntityBase
     {
-        public int Id { get; set; }
-
         [Display(Name = "УИК")]
         public string Name { get; set; }
 
@@ -32,8 +31,5 @@ namespace Domain.Entities
 
         public string IconPath { get; set; }
         #endregion
-
-        public virtual List<House> Houses { get; set; }
-        //public virtual List<Person> Persons { get; set; }
     }
 }

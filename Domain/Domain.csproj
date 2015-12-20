@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\EntityBase.cs" />
     <Compile Include="EFDbContext.cs" />
     <Compile Include="Entities\Agitator.cs" />
     <Compile Include="Entities\CandidateMunicipalityRelation.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Entities\Municipality.cs" />
     <Compile Include="Entities\Education.cs" />
     <Compile Include="Entities\MunicipalityHouseRelation.cs" />
+    <Compile Include="Entities\PartySupporter.cs" />
     <Compile Include="Entities\Relationship.cs" />
     <Compile Include="Entities\Nationality.cs" />
     <Compile Include="Entities\Organization.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Entities\Registration.cs" />
     <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Entities\Voter.cs" />
+    <Compile Include="Entities\PartyMember.cs" />
     <Compile Include="Entities\Worker.cs" />
     <Compile Include="Entities\AgitatorHouseRelation.cs" />
     <Compile Include="Entities\WorkerHouseRelation.cs" />

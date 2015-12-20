@@ -13,6 +13,9 @@
             Штаб
         </th>
         <th>
+            Партия
+        </th>
+        <th>
             Руководство
         </th>
     </tr>
@@ -35,8 +38,8 @@
             <ul>
                 <li>@Html.ActionLink("Избиратели", "Index", "Voter", null, null)</li>
                 <li>@Html.ActionLink("Кандидаты", "Index", "Candidate", null, null)</li>
+                <li>@Html.ActionLink("Работники штаба", "Index", "Worker", null, null)</li>
                 <li>@Html.ActionLink("Агитаторы", "Index", "Agitator", null, null)</li>
-                <li>@Html.ActionLink("Работники", "Index", "Worker", null, null)</li>
                 <li>@Html.ActionLink("Временное хранилище физ. лиц", "Index", "TempPerson", null, null)</li>
                 <li>@Html.ActionLink("Список МТУ", "Index", "Municipality", null, null)</li>
                 <li>@Html.ActionLink("Руководители МТУ", "MunicipalityManagers", "Person", null, null)</li>
@@ -44,7 +47,19 @@
                 <li>@Html.ActionLink("Список УИК", "Index", "Precinct", null, null)</li>
             </ul>
         </td>
-        <td rowspan="2">@Html.ActionLink("Конструктор карты", "Map", "Monitor", null, null)</td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Члены партии", "Index", "PartyMember", null, null)</li>
+                <li>@Html.ActionLink("Сторонники партии", "Index", "PartySupporter", null, null)</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>@Html.ActionLink("Монитор кандидатов", "ShowCandidates", "Monitor", null, null)</li>
+                <li>@Html.ActionLink("Монитор по УИК-ам", "Index", "Monitor", null, null)</li>
+                <li>@Html.ActionLink("Конструктор карты", "Map", "Monitor", null, null)</li>
+            </ul>
+        </td>
     </tr>
     <tr>
         <td>
@@ -61,5 +76,7 @@
                 <li>@Html.ActionLink("Связи домов с МТУ", "Index", "Relation", null, null)</li>
             </ul>
         </td>
+        <td></td>
+        <td></td>
     </tr>
 </table>

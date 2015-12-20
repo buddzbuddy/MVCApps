@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
+using Domain.Base;
 namespace Domain.Entities
 {
     /// <summary>
     /// Класс "Избиратель"
     /// </summary>
-    public class Voter
+    public class Voter : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Display(Name = "Физ. лицо")]
         public int? PersonId { get; set; }

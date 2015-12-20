@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Domain.Entities.PartyMember>
+
+@{
+    ViewBag.Title = "Список членов партий";
+}
+
+<h2>Список членов партий</h2>
+
+<p>
+    @Html.ActionLink("Создать члена партии", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StructurePosition)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Открыть", "Show", new { id = item.Id })
+        </td>
+        <td>
+            @if (item.PersonId.HasValue)
+            {
+                Html.RenderAction("ShowFullName", "Person", new { Id = item.PersonId });
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntryDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StructurePosition)
+        </td>
+    </tr>
+}
+</table>

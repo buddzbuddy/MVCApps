@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Кандидаты";
 }
-
+@section heads{
+    @Styles.Render("~/bundles/leaflet/base/css", "~/bundles/leaflet/awesome-markers/css")
+}
 <h2>Кандидаты</h2>
 
 <p>
@@ -14,6 +16,7 @@
         <th></th>
         <th>@Html.DisplayNameFor(model => model.Person.FullName)</th>
         <th>@Html.DisplayNameFor(model => model.Person.Years)</th>
+        <th>@Html.DisplayNameFor(model => model.Candidate.MarkerType)</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -23,6 +26,7 @@
         </td>
         <td>@item.Person.FullName</td>
         <td>@item.Person.Years</td>
+        <td><ul><li class="awesome-marker awesome-marker-icon-@item.Candidate.MarkerType" style="position:relative"></li></ul></td>
     </tr>
 }
 

@@ -76,70 +76,16 @@ namespace CandidateManager.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var obj = dataManager.Persons.Get(id);
-            var nationalities = new List<SelectListItem> { new SelectListItem() };
-            nationalities.AddRange(from n in dataManager.Nationalities.GetAll()
-                                   select new SelectListItem
-                                   {
-                                       Text = n.Name,
-                                       Value = n.Id.ToString(),
-                                       Selected = obj.NationalityId == n.Id
-                                   });
-            ViewBag.Nationalities = nationalities;
-            var educations = new List<SelectListItem> { new SelectListItem() };
-            educations.AddRange(from n in dataManager.Educations.GetAll()
-                                select new SelectListItem
-                                {
-                                    Text = n.Name,
-                                    Value = n.Id.ToString(),
-                                    Selected = obj.EducationId == n.Id
-                                });
-            ViewBag.Educations = educations;
-            var organizations = new List<SelectListItem> { new SelectListItem() };
-            organizations.AddRange(from n in dataManager.Organizations.GetAll()
-                                   select new SelectListItem
-                                   {
-                                       Text = n.Name,
-                                       Value = n.Id.ToString()
-                                   });
-
-            if(obj.HouseId.HasValue)
-            {
-                var house = dataManager.Houses.Get(obj.HouseId.Value);
-                obj.StreetId = house.StreetId;
-                ViewBag.House = house;
-            }
-            if (obj.StreetId.HasValue)
-            {
-                var street = dataManager.Streets.Get(obj.StreetId.Value);
-                obj.LocalityId = street.LocalityId;
-                obj.DistrictId = street.DistrictId;
-                ViewBag.Street = street;
-            }
-            if (obj.LocalityId.HasValue)
-            {
-                var locality = dataManager.Localities.Get(obj.LocalityId.Value);
-                obj.DistrictId = locality.DistrictId;
-                ViewBag.Locality = locality;
-            }
-            var districts = new List<SelectListItem> { new SelectListItem() };
-            districts.AddRange(from d in dataManager.Districts.GetAll()
-                               select new SelectListItem
-                               {
-                                   Text = d.Name,
-                                   Value = d.Id.ToString(),
-                                   Selected = obj.DistrictId == d.Id
-                               });
-            ViewBag.Districts = districts;
+            var obj = dataManager.Candidates.Get(id);
             return View(obj);
         }
 
         [HttpPost]
-        public ActionResult Edit(Person obj)
+        public ActionResult Edit(Candidate obj)
         {
             if (ModelState.IsValid)
             {
-                dataManager.Persons.Save(obj);
+                dataManager.Candidates.Save(obj);
                 return RedirectToAction("Show", new { Id = obj.Id });
             }
             return View(obj);
@@ -170,7 +116,9 @@ namespace CandidateManager.Controllers
 
         public ActionResult AddRelatedPrecinct(int candidateId)
         {
-            ViewBag.Precincts = from h in dataManager.Precincts.GetAll()
+            var cpRels = dataManager.CandidatePrecinctRelations.GetAll().Select(x => x.PrecinctId).ToList();
+            ViewBag.Precincts = from h in dataManager.Precincts.GetAll().ToList()
+                                where !cpRels.Contains(h.Id)
                                 select new SelectListItem
                                 {
                                     Text = h.Name,

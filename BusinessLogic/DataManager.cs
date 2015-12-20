@@ -41,6 +41,8 @@ namespace BusinessLogic
         private ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository;
         private ITempPersonRepository tempPersonRepository;
         private IGEORepository geoRepository;
+        private IPartyMemberRepository partyMemberRepository;
+        private IPartySupporterRepository partySupporterRepository;
         public DataManager(IDistrictRepository districtRepository,
             ILocalityRepository localityRepository,
             IStreetRepository streetRepository,
@@ -69,7 +71,9 @@ namespace BusinessLogic
             ICandidatePrecinctRelationRepository candidatePrecinctRelationRepository,
             ICandidateMunicipalityRelationRepository candidateMunicipalityRelationRepository,
             ITempPersonRepository tempPersonRepository,
-            IGEORepository geoRepository)
+            IGEORepository geoRepository,
+            IPartyMemberRepository partyMemberRepository,
+            IPartySupporterRepository partySupporterRepository)
         {
             this.districtRepository = districtRepository;
             this.municipalityRepository = municipalityRepository;
@@ -100,6 +104,8 @@ namespace BusinessLogic
             this.candidateMunicipalityRelationRepository = candidateMunicipalityRelationRepository;
             this.tempPersonRepository = tempPersonRepository;
             this.geoRepository = geoRepository;
+            this.partyMemberRepository = partyMemberRepository;
+            this.partySupporterRepository = partySupporterRepository;
         }
 
         public IDistrictRepository Districts { get { return districtRepository; } }
@@ -131,5 +137,7 @@ namespace BusinessLogic
         public ICandidateMunicipalityRelationRepository CandidateMunicipalityRelations { get { return candidateMunicipalityRelationRepository; } }
         public ITempPersonRepository TempPersons { get { return tempPersonRepository; } }
         public IGEORepository GEO { get { return geoRepository; } }
+        public IPartyMemberRepository PartyMembers { get { return partyMemberRepository; } }
+        public IPartySupporterRepository PartySupporters { get { return partySupporterRepository; } }
     }
 }
