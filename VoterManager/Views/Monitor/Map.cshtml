@@ -31,8 +31,9 @@
 
         $.getJSON('@(Url.Action("Markers"))', function (data) {
             $(data).each(function (i2, m) {
-                var marker = L.marker([m.lat, m.lng], { id: m.Id }).bindPopup(L.popup().setContent('Marker Id:' + m.Id)).bindLabel('Marker Id:' + m.Id, {
-                    noHide: true
+                var marker = L.marker([m.lat, m.lng], { id: m.Id }).bindPopup(L.popup().setContent('InfoWindow Marker Id:' + m.Id)).bindLabel('Label Marker Id:' + m.Id, {
+                    noHide: true,
+                    direction: 'auto'
                 }).addTo(map);
                 drawnItems.addLayer(marker);
                 //console.log(marker);
@@ -48,12 +49,14 @@
                 });
                 var polygon = L.polygon(latlngs,
                     {
-                        color: 'red',
+                        color: 'green',
                         weight: 3,
                         opacity: 0.5,
                         smoothFactor: 1,
                         id: p.Id
-                    }).bindPopup(L.popup().setContent('Polygon Id:' + p.Id + '<br/><b>' + p.Name + '</b>')).bindLabel('Polygon Id:' + p.Id + '<br/><b>' + p.Name + '</b>').addTo(map);
+                    }).bindPopup(L.popup().setContent('Polygon Id:' + p.Id + '<br/><b>' + p.Name + '</b>')).bindLabel('Polygon Id:' + p.Id + '<br/><b>' + p.Name + '</b>', {
+                        direction: 'auto'
+                    }).addTo(map);
                 drawnItems.addLayer(polygon);
             });
             map.fitBounds(drawnItems.getBounds());
@@ -83,7 +86,9 @@
                         }
                         else {
                             layer.options.id = data.Id;
-                            layer.bindPopup(L.popup().setContent('Polygon Id:' + data.Id + '<br/><b>' + data.Name + '</b>'));
+                            layer.bindPopup(L.popup().setContent('Polygon Id:' + data.Id + '<br/><b>' + data.Name + '</b>')).bindLabel('Polygon Id:' + data.Id + '<br/><b>' + data.Name + '</b>', {
+                                direction: 'auto'
+                            });
                         }
                     }, 'json');
                 }

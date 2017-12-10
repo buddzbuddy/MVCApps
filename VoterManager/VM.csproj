@@ -368,7 +368,6 @@
     <Content Include="Scripts\jquery.tagsinput.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json3.js" />
-    <None Include="Properties\PublishProfiles\PolitPortal.pubxml" />
     <None Include="Properties\PublishProfiles\VoterManager.pubxml" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\logo.jpg" />

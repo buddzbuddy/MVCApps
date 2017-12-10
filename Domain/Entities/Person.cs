@@ -84,5 +84,9 @@ namespace Domain.Entities
 
         [Display(Name = "Образование")]
         public int? EducationId { get; set; }
+        [Display(Name = "Организация")]
+        public int? OrganizationId { get; set; }
+        [Display(Name = "Политический взгляд")]
+        public int? PartyId { get; set; }
     }
 }

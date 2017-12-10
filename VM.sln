@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26923.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{9E0FFF11-0EA5-4D78-BCB1-94EF3F5D776C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{588CFAC8-6B05-432A-BB08-6C573FCCB253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterManager", "VoterManager\VoterManager.csproj", "{9D39A759-4311-4C68-B01B-E9ADA74E4B83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VM", "VoterManager\VM.csproj", "{9D39A759-4311-4C68-B01B-E9ADA74E4B83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterManger.Tests", "VoterManger.Tests\VoterManger.Tests.csproj", "{A4419FFF-2D80-4891-825A-DF872524088F}"
 EndProject
@@ -36,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F683A818-D754-422F-B09E-57B0031F65E9}
 	EndGlobalSection
 EndGlobal

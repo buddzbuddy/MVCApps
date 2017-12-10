@@ -34,7 +34,7 @@
                             noHide: true
                         }).addTo(map);
                     marker.on('click', function (e) {
-                        $(precinctInfo).html("Вы выбрали УИК № " + e.target.options.precinctName);
+                        $(precinctInfo).html("<h4>Информация по УИК № " + e.target.options.precinctName + "</h4>");
                             $('<img/>').attr('src', e.target.options.chartUrl).appendTo(precinctInfo);
                         //console.log(e.target.options);
                     });

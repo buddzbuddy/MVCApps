@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VoterManager\VoterManager.csproj">
+    <ProjectReference Include="..\VoterManager\VM.csproj">
       <Project>{9d39a759-4311-4c68-b01b-e9ada74e4b83}</Project>
-      <Name>VoterManager</Name>
+      <Name>VM</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
