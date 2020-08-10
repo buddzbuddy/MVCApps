@@ -31,5 +31,7 @@ namespace Domain.Entities
 
         public string IconPath { get; set; }
         #endregion
+
+        public virtual List<House> Houses { get; set; }
     }
 }

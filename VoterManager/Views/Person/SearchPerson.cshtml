@@ -16,12 +16,13 @@
     <div id="SelectedPersonDetail" style="display:none">
         <b>ФИО</b>:<p id="FullName"></p>
         <b>Дата рождения</b>:<p id="BirthDate"></p>
-        <button type="button" onclick="userAction('select')">Выбрать физ. лицо</button>
+        <a href="#" class="button" onclick="userAction('select')">Выбрать физ. лицо</a>
     </div>
 }
 <script type="text/javascript">
     function userAction(actionName) {
         $('#UserAction').val(actionName);
+        //alert($('#UserAction').val());
         $('form').submit();
     }
 

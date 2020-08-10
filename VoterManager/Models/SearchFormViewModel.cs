@@ -28,7 +28,7 @@ namespace VoterManager.Models
             }
         }
 
-        [Display(Name = "Сдал биометрические данные?")]
+        [Display(Name = "Биометрические данные")]
         public GaveBiometricDataType GaveBiometricData { get { return defValue; } set { defValue = value; } }
 
         private GaveBiometricDataType defValue = GaveBiometricDataType.all;

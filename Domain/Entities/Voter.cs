@@ -12,7 +12,7 @@ namespace Domain.Entities
         [Display(Name = "Физ. лицо")]
         public int? PersonId { get; set; }
 
-        [Display(Name = "Сдал биометрические данные?")]
+        [Display(Name = "Биометрические данные")]
         public bool GaveBiometricData { get; set; }
     }
 }

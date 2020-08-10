@@ -59,7 +59,7 @@ namespace VoterManager.Controllers
                 parties.Add(new KeyValuePair<string, int>(party != null ? party.Name : "не указано", v.Count()));
             }
 
-            var myChart = new Chart(width: 160, height: 140)
+            var myChart = new Chart(width: 360, height: 340)
             .AddSeries(
                 name: "Employee",
                 xValue: parties.Select(p => p.Key).ToArray(),

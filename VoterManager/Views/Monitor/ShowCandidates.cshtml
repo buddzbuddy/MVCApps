@@ -24,7 +24,8 @@
         map = new L.Map('map', { layers: [osm], center: new L.LatLng(42.874722, 74.612222), zoom: 13 });
         var latlngs = [];
         $.getJSON('@Url.Action("PrecinctsByCandidates")', function (data) {
-                $(data).each(function (i, item) {
+            $(data).each(function (i, item) {
+                console.log(item);
                     var latlng = L.latLng(item.Precinct.Latitude, item.Precinct.Longitude);
                     var marker = L.marker(latlng, {
                         id: item.Precinct.Id, precinctName: item.Precinct.Name, chartUrl: '@Url.Action("Precinct", "Chart")/' + item.Precinct.Id, icon: L.AwesomeMarkers.icon({
@@ -39,7 +40,8 @@
                         //console.log(e.target.options);
                     });
                     latlngs.push(latlng);
-                });
+            });
+            if (latlngs.length)
                 map.fitBounds(L.latLngBounds(latlngs));
             });
         }

@@ -118,8 +118,8 @@ namespace VoterManager.Controllers
             string longitude = collection["Longitude"];
             if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
             {
-                obj.Latitude = double.Parse(latitude.Replace('.', ','));
-                obj.Longitude = double.Parse(longitude.Replace('.', ','));
+                obj.Latitude = double.Parse(latitude);
+                obj.Longitude = double.Parse(longitude);
             }
             dataManager.Houses.Save(obj);
             return RedirectToAction("Show", new { Id = obj.Id });
@@ -298,8 +298,8 @@ namespace VoterManager.Controllers
             string longitude = collection["Longitude"];
             if (!string.IsNullOrEmpty(latitude) && !string.IsNullOrEmpty(longitude))
             {
-                obj.Latitude = double.Parse(latitude.Replace('.', ','));
-                obj.Longitude = double.Parse(longitude.Replace('.', ','));
+                obj.Latitude = double.Parse(latitude);
+                obj.Longitude = double.Parse(longitude);
             }
             dataManager.Houses.Save(obj);
             return RedirectToAction("Show", new { Id = obj.Id });

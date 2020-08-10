@@ -1,8 +1,8 @@
 /*!
- * jQuery UI Autocomplete 1.11.2
+ * jQuery UI Autocomplete 1.11.4
  * http://jqueryui.com
  *
- * Copyright 2014 jQuery Foundation and other contributors
+ * Copyright jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
@@ -13,10 +13,4 @@
 	top: 0;
 	left: 0;
 	cursor: default;
-    padding:2px;
-}
-.ui-menu-item {
-    /*list-style-type: none;*/
-        list-style: none;
-    padding: 2px;
 }

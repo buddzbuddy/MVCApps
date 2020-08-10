@@ -243,7 +243,7 @@ namespace VoterManager.Controllers
         public ActionResult Create(int? personId)
         {
             if (!personId.HasValue)
-                return RedirectToAction("CreateBase", "Person", new { returnUrl = Request.Url.ToString(), processName = "Создать избирателя" });
+                return RedirectToAction("SearchPerson", "Person", new { returnUrl = Request.Url.ToString(), processName = "Создать избирателя", returnedIdName = "personId" });
             return View(new Voter { PersonId = personId });
         }
 

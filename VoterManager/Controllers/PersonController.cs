@@ -452,6 +452,7 @@ namespace VoterManager.Controllers
             var userAction = collection["UserAction"];
             var returnUrl = collection["ReturnUrl"];
             var returnedIdName = collection["ReturnedIdName"];
+            //throw new Exception("123" + userAction);
             if (userAction == "create")
             {
                 var fullName = "";
@@ -466,6 +467,7 @@ namespace VoterManager.Controllers
             else if (userAction == "select")
             {
                 var selectedPersonId = int.Parse(collection["SelectedPersonId"]);
+                //throw new Exception((returnUrl + (returnUrl.Contains('?') ? "&" : "?") + returnedIdName + "=" + selectedPersonId));
                 return Redirect(returnUrl + (returnUrl.Contains('?') ? "&" : "?") + returnedIdName + "=" + selectedPersonId);
             }
             return View();
